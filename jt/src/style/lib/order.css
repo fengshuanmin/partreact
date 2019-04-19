@@ -1,0 +1,14 @@
+li{
+    list-style: none;
+}
+.orderdetailtitle{
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+.orderdetailtitle li{
+    width: 32%;
+    float: left;
+    margin-left: 1%;
+    padding: 10px 0;
+}

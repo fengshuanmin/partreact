@@ -1,0 +1,27 @@
+.anticon-arrow-left{
+    position: absolute;
+    top: 180px;
+    left: 20px;
+    font-size: 30px;
+}
+.anticon-arrow-right{
+    position: absolute;
+    top:180px;
+    right: 20px;
+    font-size: 30px;
+}
+#image .avatar-uploader{
+    width: 100%;
+}
+#image .avatar-uploader .ant-upload.ant-upload-select-picture-card{
+    width: 100%!important;
+}
+.ant-pagination {
+    text-align: center;
+    margin-top: 15px;
+}
+.ant-table-thead > tr > th, .ant-table-tbody > tr > td{
+    padding: 10px 10px;
+    color: #606266;
+    font-size: 13px;
+}

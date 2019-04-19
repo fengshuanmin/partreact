@@ -1,0 +1,7 @@
+.tzdiv{
+    width: 100%;
+}
+.tzdiv span{
+    width:50%;
+    display:inline-block;
+}
