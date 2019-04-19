@@ -9,13 +9,17 @@ export const loginReq = params =>{
 
     return dispatch=>{
         Net.post({url:URL_login,params},res=>{
-            if(res.result){
-                let {accountId,companyId,appToken} = res;
-                USER_INFO_SAVE({accountId,companyId,appToken})
-                dispatch({type:types.LOGIN_INFO,data:res})
+            console.log(res,'123')
+            if(res.result==false){
+                alert(res.msg)
+            }else{
+                if(res.result){
+                    let {accountId,companyId,appToken} = res;
+                    USER_INFO_SAVE({accountId,companyId,appToken})
+                    dispatch({type:types.LOGIN_INFO,data:res})
+                }
             }
         },err=>{
-
         })
     }
 
