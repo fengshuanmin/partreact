@@ -1,7 +1,7 @@
 
 
 var url='http://139.196.16.229:10000'
-// var url='http://192.168.0.122:10000'
+//吴松接口的地址（在下面的路径前加url例如：export const URL_login = url+ '/api/login';）
 
 //登陆
 export const URL_login = url+ '/api/login';
