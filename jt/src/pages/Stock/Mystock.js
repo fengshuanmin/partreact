@@ -1,7 +1,17 @@
 
 
 import React,{Component} from 'react';
-import {Card,Input,Button,Switch,Table} from 'antd';
+import $ from 'jquery'
+import {Card,Input,Button,Switch,Table,Icon,Carousel,Modal,Pagination} from 'antd';
+import Net from "../../utils/net/Net";
+import {
+    URL_api_parts_sku_delete,
+    URL_id_and_std_search,
+    URL_share_for_me,
+    URL_share_for_other,
+    URL_search_sku
+} from "../../utils/net/Url";
+import {USER_INFO_GET} from "../../utils/storeInfo";
 
 
 export default class Mystock extends Component{
@@ -9,100 +19,193 @@ export default class Mystock extends Component{
     constructor(props){
         super(props)
         this.state={
-
+            flag:false,
+            page:'1',
+            limit:'10',
+            loading:true
         }
         this.orderdetail = this.orderdetail.bind(this);
     }
     orderdetail(){
-        this.props.history.push('/app/orderdetail')
+        this.props.history.push('/abrand/orderdetail')
     }
-    componentWillMount(){
-        this.setState({
-            listdata:[
-                {
-                    key: 1, name: '张三', pjname:"前保险杠", pjh: 'OX1234', pz: '原厂件',pp:'车享配',zbq:'三个月',cprice:'100',bprice:'95',aprice:'90',sxj:'1'
-                },
-                {
-                    key: 2, name: '张三', pjname:"前保险杠", pjh: 'OX1234', pz: '原厂件',pp:'车享配',zbq:'三个月',cprice:'100',bprice:'95',aprice:'90',sxj:'1'
-                },
-                {
-                    key: 3, name: '张三', pjname:"前保险杠", pjh: 'OX1234', pz: '原厂件',pp:'车享配',zbq:'三个月',cprice:'100',bprice:'95',aprice:'90',sxj:'1'
-                },
-                {
-                    key: 4, name: '张三', pjname:"前保险杠", pjh: 'OX1234', pz: '原厂件',pp:'车享配',zbq:'三个月',cprice:'100',bprice:'95',aprice:'90',sxj:'1'
-                },
-                {
-                    key: 5, name: '张三', pjname:"前保险杠", pjh: 'OX1234', pz: '原厂件',pp:'车享配',zbq:'三个月',cprice:'100',bprice:'95',aprice:'90',sxj:'1'
-                },
-                {
-                    key: 6, name: '张三', pjname:"前保险杠", pjh: 'OX1234', pz: '原厂件',pp:'车享配',zbq:'三个月',cprice:'100',bprice:'95',aprice:'90',sxj:'1'
-                },
-                {
-                    key: 7, name: '张三', pjname:"前保险杠", pjh: 'OX1234', pz: '原厂件',pp:'车享配',zbq:'三个月',cprice:'100',bprice:'95',aprice:'90',sxj:'1'
-                },
-                {
-                    key: 8, name: '张三', pjname:"前保险杠", pjh: 'OX1234', pz: '原厂件',pp:'车享配',zbq:'三个月',cprice:'100',bprice:'95',aprice:'90',sxj:'1'
-                },
-                {
-                    key: 9, name: '张三', pjname:"前保险杠", pjh: 'OX1234', pz: '原厂件',pp:'车享配',zbq:'三个月',cprice:'100',bprice:'95',aprice:'90',sxj:'1'
-                },
-                {
-                    key: 10, name: '张三', pjname:"前保险杠", pjh: 'OX1234', pz: '原厂件',pp:'车享配',zbq:'三个月',cprice:'100',bprice:'95',aprice:'90',sxj:'1'
-                },
-                {
-                    key: 11, name: '张三', pjname:"前保险杠", pjh: 'OX1234', pz: '原厂件',pp:'车享配',zbq:'三个月',cprice:'100',bprice:'95',aprice:'90',sxj:'1'
-                },
-                {
-                    key: 12, name: '张三', pjname:"前保险杠", pjh: 'OX1234', pz: '原厂件',pp:'车享配',zbq:'三个月',cprice:'100',bprice:'95',aprice:'90',sxj:'1'
-                },
-                {
-                    key: 13, name: '张三', pjname:"前保险杠", pjh: 'OX1234', pz: '原厂件',pp:'车享配',zbq:'三个月',cprice:'100',bprice:'95',aprice:'90',sxj:'1'
-                },
-                {
-                    key: 14, name: '张三', pjname:"前保险杠", pjh: 'OX1234', pz: '原厂件',pp:'车享配',zbq:'三个月',cprice:'100',bprice:'95',aprice:'90',sxj:'1'
-                }
-            ]
+    pict=(record)=>{
+        console.log(record)
+        if(record.picList){
+            var picdat=record.picList
+            var picarray=picdat.split(",")
+            console.log(picarray)
+            this.setState({
+                picList:picarray,
+                flag:true
+            })
+        }else{
+            alert("当前商品没有可展示的图片")
+        }
+    }
+    contant=(record)=>{
+        const info=Modal.info;
+        var self=this
+        info({
+            title: '联系方式',
+            content: (
+                <div>
+                    <p>{record.contact_seller[0].share_named}</p>
+                    <p>地址：{record.contact_seller[0].address}</p>
+                    <p>电话：{record.contact_seller[0].phone}</p>
+                </div>
+            ),
+            onOk() {},
         });
     }
+    onlinepay=(record)=>{
+        const info=Modal.info;
+        var self=this
+        info({
+            title: '提示',
+            content: (
+                <div>
+                    在线下单正在开发中，请联系工作人员进行线下下单
+                </div>
+            ),
+            onOk() {},
+        });
+    }
+    query=()=>{
+        var lastC=this.refs.partId.value;
+        var lastB=this.refs.partname.value;
+        console.log(this.state.lastC)
+        console.log(this.state.lastB)
+        $.ajax({
+            url:URL_search_sku,
+            type:'post',
+            data:{
+                v_id:USER_INFO_GET()&&USER_INFO_GET().companyId||'',
+                v_oe:lastC,
+                v_part_name:lastB,
+                shared_type:'o'
+            },
+            success:(res)=>{
+                console.log(res)
+                if(res[0].code=='1'){
+                    this.setState({
+                        listdata:res[0].message
+                    })
+                }
+            }
+
+        })
+    }
+    handlepagesize=(val)=>{
+        this.dataajax(val,this.state.limit)
+
+    }
+    dataajax=(page,limit)=>{
+        this.setState({
+            loading:true
+        })
+        $.ajax({
+            url:URL_share_for_me,
+            type:'post',
+            data:{
+                // c_id:USER_INFO_GET().companyId||'',
+                c_id:'000fc79e',
+                page:page,
+                limit:limit
+            },
+            success:(res)=>{
+                console.log(res)
+                console.log(res.message)
+                if(res[0].code=='1'){
+                    this.setState({
+                        loading:false,
+                        listdata:res[0].message,
+                        total:res[0].num,
+                        page:parseInt(res[0].page),
+                    })
+                }
+            }
+        })
+    }
+    componentWillMount(){
+        console.log(USER_INFO_GET())
+        this.dataajax(this.state.page,this.state.limit)
+    }
     render(){
+        console.log(this.state)
+        const lunboSetting = {
+            dots: true,
+            lazyLoad: true,
+            autoplay:true,
+        };
         const columns = [
-            { title: '序号', dataIndex: 'name', key: 'name',align:'center' },
-            { title: '配件名称', dataIndex: 'pjname', key: 'pjname',align:'center' },
-            { title: '零件号', dataIndex: 'pjh', key: 'pjh',align:'center' },
-            { title: '品质', dataIndex: 'pz', key: 'pz',align:'center' },
-            { title: '品牌/产地', dataIndex: 'pp', key: 'pp',align:'center' },
-            { title: '质保期限', dataIndex: 'zbq', key: 'zbq',align:'center' },
-            { title: '调货价格', dataIndex: 'cprice', key: 'cprice',align:'center' },
+            { title: '序号', align:'center',render:(text,record,index)=>`${index+1}`},
+            { title: '配件名称', key: 'stdname',align:'center',render: (text,record,index) =>
+                    <span key={index}>{(record.stdname==''||record.stdname==null)?'-':record.stdname}</span>
+            },
+            { title: '零件号', key: 'stdnameID',align:'center',render: (text,record,index) =>
+                    <span key={index}>{(record.stdnameID==''||record.stdnameID==null)?'-':record.stdnameID}</span>
+            },
+            { title: '品质', key: 'quality',align:'center',render: (text,record,index) =>
+                    <span key={index}>{(record.quality==''||record.quality==null)?'-':record.quality}</span>
+            },
+            { title: '品牌/产地', key: 'brand',align:'center',render: (text,record,index) =>
+                    <span key={index}>{(record.brand==''||record.brand==null)?'-':record.brand}</span>
+            },
+            { title: '质保期限', key: 'warranty',align:'center',render: (text,record,index) =>
+                    <span key={index}>{(record.warranty==''||record.warranty==null)?'-':record.warranty}</span>
+            },
+            { title: '调货价格', key: 'price',align:'center',render: (text,record,index) =>
+                    <span key={index}>{(record.price==''||record.price==null)?'-':record.price}</span>
+            },
             {
-                title: '操作', dataIndex: '', key: 'x',align:'center',
-                render: () =><div>
-                    <span onClick={this.pict} style={{padding:'0 3px',cursor:'pointer',color:'#40a9ff'}}>商品图片</span>
-                    <span onClick={this.delect} style={{padding:'0 3px',cursor:'pointer',color:'#40a9ff'}}>联系卖家</span>
-                    <span onClick={this.updata} style={{padding:'0 3px',cursor:'pointer',color:'#40a9ff'}}>在线下单</span>
-                  </div>,
+                title: '操作', dataIndex: 'x', key: 'x',align:'center', render: (text,record,index) =><div>
+                    <span onClick={this.pict.bind(this,record)} style={{padding:'0 3px',cursor:'pointer',color:'#40a9ff'}}>商品图片</span>
+                    <span onClick={this.contant.bind(this,record)} style={{padding:'0 3px',cursor:'pointer',color:'#40a9ff'}}>联系卖家</span>
+                    <span onClick={this.onlinepay.bind(this,record)} style={{padding:'0 3px',cursor:'pointer',color:'#40a9ff'}}>在线下单</span>
+                </div>,
             },
         ];
         return(
-            <div style={{marginTop:20,minWidth:800,maxWidth:1200}}>
-                <Card style={{minHeight:300}}>
-                    <div style={{
-                        width: '100%',
-                        display:'inline-block'
-                    }}>
-                        <input className='spaninp' onChange={this.pjevent} placeholder='请输入零件号' type="text" value={this.state.pjId}/>
-                        <input className='spaninp' onChange={this.pjevent} placeholder='请输入配件名' type="text" value={this.state.pjId}/>
-                        <Button type="primary" style={{marginBottom: '20px'}}>搜索</Button>
-                        {/*<Button type="primary" style={{marginBottom: '20px',}}>全部禁止共享</Button>
+            <div>
+                {this.state.flag&&this.state.flag?<div style={{width:'100%',minHeight:500,maxHeight:800,marginTop:'20px',background:'#fff'}}>
+                    <div style={{width:'600px',margin:'15px auto 0',position:'relative',paddingTop:'15px'}}>
+                        <Carousel {...lunboSetting} ref={el => (this.slider = el)}>
+                            {this.state.picList&&this.state.picList.map((item,index)=>{
+                                return(
+                                    <div key={index}><img src={item}/></div>
+                                )
+                            })}
+                        </Carousel>
+                        <Icon type="arrow-left" onClick={this.prev}/>
+                        <Icon type="arrow-right" onClick={this.next}/>
+                    </div>
+                    <div style={{width:'600px',margin:'15px auto',textAlign:'right'}}>
+                        <Button type="primary" onClick={this.back}>返回</Button>
+                    </div>
+                </div>:<div style={{marginTop:20,minWidth:800,maxWidth:1200}}>
+                        <Card style={{minHeight:300}}>
+                            <div style={{
+                                width: '100%',
+                                display:'inline-block'
+                            }}>
+                                <input className='spaninp' placeholder='请输入零件号' type="text" ref="partId"/>
+                                <input className='spaninp' placeholder='请输入配件名' type="text" ref="partname"/>
+                                <Button type="primary" style={{marginBottom: '20px'}} onClick={this.query}>搜索</Button>
+                                {/*<Button type="primary" style={{marginBottom: '20px',}}>全部禁止共享</Button>
                         <Button type="primary" style={{marginBottom: '20px',}} >全部开启共享</Button>
                         <Button type="primary" style={{marginBottom: '20px',}}>全部隐藏价格</Button>
                         <Button type="primary" style={{marginBottom: '20px',}}>全部开启价格</Button>*/}
+                            </div>
+                            <Table
+                                columns={columns}
+                                dataSource={this.state.listdata}
+                                loading={this.state.loading}
+                            />
+                            <Pagination onChange={this.handlepagesize} defaultCurrent={this.state.page} total={this.state.total} />,
+                        </Card>
                     </div>
-                    <Table
-                        columns={columns}
-                        dataSource={this.state.listdata}
-                    />
-                </Card>
-
+                }
             </div>
         )
     }

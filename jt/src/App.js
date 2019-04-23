@@ -66,6 +66,7 @@ class App extends Component {
             auth,
             responsive
         } = this.props;
+        console.log(this.props)
         return (
             <Layout>
                 {!responsive.data.isMobile && <SiderCustom collapsed={this.state.collapsed} />}

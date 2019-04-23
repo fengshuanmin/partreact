@@ -2,6 +2,7 @@
  * Created by hao.cheng on 2017/4/16.
  */
 import React from 'react';
+import $ from 'jquery'
 import { Form, Icon, Input, Button, Checkbox } from 'antd';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -11,7 +12,7 @@ import {USER_INFO_SAVE} from '../../utils/storeInfo';
 import Net from '../../utils/net/Net';
 import {loginReq} from '../../action/login';
 import axios from 'axios';
-import baseurl from "../../api/baseurl";
+import {URL_login} from "../../utils/net/Url";
 
 const FormItem = Form.Item;
 
@@ -29,7 +30,7 @@ class Login extends React.Component {
 
          dispatch(receiveData(null, 'login'))
     }
-    componentDidUpdate(prevProps) { // React 16.3+弃用componentWillReceiveProps
+    /*componentDidUpdate(prevProps) { // React 16.3+弃用componentWillReceiveProps
         const {loginInfo,history} = this.props;
 
         console.log(this.props,'1234');
@@ -42,39 +43,37 @@ class Login extends React.Component {
             history.push('/app/smartquotation');
         }
 
-    }
+    }*/
     handleSubmit = (e) => {
         console.log(this.props)
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
             console.log(values)
             if (!err) {
-                /*let baseURL=baseurl+'api/login'
-                axios({
-                    method: 'post',
-                    url: baseURL,
-                    headers: {
-                        'Content-type': 'application/json','appClientType':'VENDOR','appToken':1,
-                        'Access-Control-Allow-Origin':'http://139.196.16.229:10000'
-                    },
-                    params:{
-                        username: values.userName,
-                        password: values.password
-                    },
-                }).then(function(res){
-                    console.log(res);
-                }).catch(function(error){
-                    alert('post失败')
-                    console.log(error);
-                });*/
-                this.setState({
+                var dat={
+                    username:values.userName,password:values.password
+                }
+                $.ajax({
+                    url:URL_login,
+                    type:'post',
+                    data:JSON.stringify(dat),
+                    headers:{"Content-Type":"application/json","appClientType":"VENDOR","appToken":'1'},
+                    success:(res)=>{
+                        console.log(res)
+                        let {accountId,companyId,appToken} = res;
+                        USER_INFO_SAVE({accountId,companyId,appToken})
+                        console.log(this.props)
+                        this.props.history.push('/app/smartquotation')
+                    }
+                })
+               /* this.setState({
                     isRem:values.remember
                 })
                 const {dispatch} = this.props;
                 dispatch(loginReq({username:values.userName,password:values.password}));
 
                 return
-                console.log('Received values of form: ', values);
+                console.log('Received values of form: ', values);*/
             }
         });
     };

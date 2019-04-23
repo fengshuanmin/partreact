@@ -1,8 +1,14 @@
 import React,{Component} from 'react';
 import $ from 'jquery'
-import {Card,Input,Button,Switch,Table} from 'antd';
+import {Card,Input,Button,Switch,Table,Modal} from 'antd';
 import Net from "../../utils/net/Net";
-import {URL_id_and_std_search, URL_share_for_me} from "../../utils/net/Url";
+import {
+    URL_api_parts_sku_delete,
+    URL_api_parts_sku_onlineParts,
+    URL_id_and_std_search,
+    URL_share_for_other,
+    URL_search_sku
+} from "../../utils/net/Url";
 import {USER_INFO_GET} from "../../utils/storeInfo";
 
 export default class Stocklist extends Component{
@@ -13,110 +19,261 @@ export default class Stocklist extends Component{
             pjId:'',
             pjId1:''
         }
-        this.pict = this.pict.bind(this);
-        this.pjevent = this.pjevent.bind(this);
-        this.pjevent1 = this.pjevent1.bind(this);
-        this.change = this.change.bind(this);
-        this.change1 = this.change1.bind(this);
-        this.updata = this.updata.bind(this);
-        this.delect = this.delect.bind(this);
     }
-    pjevent(e){
+    pjevent=(e)=>{
         this.setState({
             pjId:e.target.value
         })
     }
-    pjevent1(e){
+    pjevent1=(e)=>{
         this.setState({
             pjId1:e.target.value
         })
     }
-    change(){
-
+    updata=(record)=>{
+        localStorage.setItem('goodsId',record.id)
+        this.props.history.push('/app/goodsupdate',record.id)
     }
-    change1(){
-
+    delect=(record)=>{
+        console.log(this.state)
+        const confirm=Modal.confirm;
+        var self=this
+        confirm({
+            title: '提示',
+            content: '请否确认删除该数据？',
+            onOk() {
+                $.ajax({
+                    url:URL_api_parts_sku_delete+'/'+record.id,
+                    type:'post',
+                    headers:{appToken : USER_INFO_GET()&&USER_INFO_GET().appToken||''},
+                    success:(res)=>{
+                        console.log(res)
+                        if(res.code==0){
+                            console.log(self.state.page)
+                            self.dataajax(self.state.page,self.state.limit)
+                        }
+                    }
+                })
+            },
+            onCancel() {},
+        });
     }
-    updata(){
-
+    pict=(record)=>{
+        console.log(record)
+        if(record.picList){
+            var picdat=record.picList
+            var picarray=picdat.split(",")
+            console.log(picarray)
+            this.setState({
+                picList:picarray,
+                flag:true
+            })
+        }else{
+            alert("当前商品没有可展示的图片")
+        }
     }
-    pict(){
-        this.props.history.push('/app/rotation')
-    }
-    delect(){
-
-    }
-    componentWillMount(){
+    query=()=>{
+        var lastC=this.refs.partId.value;
+        var lastB=this.refs.partname.value;
+        console.log(this.state.lastC)
+        console.log(this.state.lastB)
         $.ajax({
-            url:URL_share_for_me,
+            url:URL_search_sku,
             type:'post',
-            headers:{appToken:USER_INFO_GET()&&USER_INFO_GET().appToken||''},
+            data:{
+                v_id:USER_INFO_GET()&&USER_INFO_GET().companyId||'',
+                v_oe:lastC,
+                v_part_name:lastB,
+                shared_type:'o'
+            },
             success:(res)=>{
                 console.log(res)
+                if(res.code==0){
+                    this.setState({
+                        listdata:res[0].message
+                    })
+                }
             }
 
         })
-        this.setState({
-            listdata:[
-                {
-                    key: 1, name: '李四', pjname:"中网", pjh: 'OX1234', pz: '原厂件',pp:'车享配',zbq:'三个月',cprice:'100',bprice:'95',aprice:'90',sxj:'1'
-                },
-                {
-                    key: 2, name: '李四', pjname:"中网", pjh: 'OX1234', pz: '原厂件',pp:'车享配',zbq:'三个月',cprice:'100',bprice:'95',aprice:'90',sxj:'1'
-                },
-                {
-                    key: 3, name: '李四', pjname:"中网", pjh: 'OX1234', pz: '原厂件',pp:'车享配',zbq:'三个月',cprice:'100',bprice:'95',aprice:'90',sxj:'1',sxj1:'2',
-                },
-                {
-                    key: 4, name: '李四', pjname:"中网", pjh: 'OX1234', pz: '原厂件',pp:'车享配',zbq:'三个月',cprice:'100',bprice:'95',aprice:'90',sxj:'1',sxj1:'2',
-                },
-                {
-                    key: 5, name: '李四', pjname:"中网", pjh: 'OX1234', pz: '原厂件',pp:'车享配',zbq:'三个月',cprice:'100',bprice:'95',aprice:'90',sxj:'1',sxj1:'2',
-                },
-                {
-                    key: 6, name: '李四', pjname:"中网", pjh: 'OX1234', pz: '原厂件',pp:'车享配',zbq:'三个月',cprice:'100',bprice:'95',aprice:'90',sxj:'1',sxj1:'2',
-                },
-                {
-                    key: 7, name: '李四', pjname:"中网", pjh: 'OX1234', pz: '原厂件',pp:'车享配',zbq:'三个月',cprice:'100',bprice:'95',aprice:'90',sxj:'1',sxj1:'2',
-                },
-                {
-                    key: 8, name: '李四', pjname:"中网", pjh: 'OX1234', pz: '原厂件',pp:'车享配',zbq:'三个月',cprice:'100',bprice:'95',aprice:'90',sxj:'1',sxj1:'2',
-                },
-                {
-                    key: 9, name: '李四', pjname:"中网", pjh: 'OX1234', pz: '原厂件',pp:'车享配',zbq:'三个月',cprice:'100',bprice:'95',aprice:'90',sxj:'1',sxj1:'2',
-                },
-                {
-                    key: 10, name: '李四', pjname:"中网", pjh: 'OX1234', pz: '原厂件',pp:'车享配',zbq:'三个月',cprice:'100',bprice:'95',aprice:'90',sxj:'1',sxj1:'2',
-                },
-                {
-                    key: 11, name: '李四', pjname:"中网", pjh: 'OX1234', pz: '原厂件',pp:'车享配',zbq:'三个月',cprice:'100',bprice:'95',aprice:'90',sxj:'1',sxj1:'2',
-                },
-                {
-                    key: 12, name: '李四', pjname:"中网", pjh: 'OX1234', pz: '原厂件',pp:'车享配',zbq:'三个月',cprice:'100',bprice:'95',aprice:'90',sxj:'1',sxj1:'2',
-                },
-                {
-                    key: 13, name: '李四', pjname:"中网", pjh: 'OX1234', pz: '原厂件',pp:'车享配',zbq:'三个月',cprice:'100',bprice:'95',aprice:'90',sxj:'1',sxj1:'2',
-                },
-                {
-                    key: 14, name: '李四', pjname:"中网", pjh: 'OX1234', pz: '原厂件',pp:'车享配',zbq:'三个月',cprice:'100',bprice:'95',aprice:'90',sxj:'1',sxj1:'2',
+    }
+    allcloseshare=()=>{
+        $.ajax({
+            url:URL_share_for_other,
+            type:'post',
+            data:{
+                v_id:USER_INFO_GET()&&USER_INFO_GET().companyId||'',
+                is_shared:'0'
+            },
+            success:(res)=>{
+                console.log(res)
+                if(res.code==0){
+                    this.dataajax()
                 }
-            ]
-        });
+            }
+
+        })
+    }
+    allopenshare=()=>{
+        $.ajax({
+            url:URL_share_for_other,
+            type:'post',
+            data:{
+                v_id:USER_INFO_GET()&&USER_INFO_GET().companyId||'',
+                is_shared:'0'
+            },
+            success:(res)=>{
+                console.log(res)
+                if(res.code==0){
+                    this.dataajax()
+                }
+            }
+
+        })
+    }
+    allcloseprice=()=>{
+        $.ajax({
+            url:URL_share_for_other,
+            type:'post',
+            data:{
+                v_id:USER_INFO_GET()&&USER_INFO_GET().companyId||'',
+                is_shared_pricevisible:'0'
+            },
+            success:(res)=>{
+                console.log(res)
+                if(res.code==0){
+                    this.dataajax()
+                }
+            }
+
+        })
+    }
+    allopenprice=()=>{
+        $.ajax({
+            url:URL_share_for_other,
+            type:'post',
+            data:{
+                v_id:USER_INFO_GET()&&USER_INFO_GET().companyId||'',
+                is_shared_pricevisible:'1'
+            },
+            success:(res)=>{
+                console.log(res)
+                if(res.code==0){
+                    this.dataajax()
+                }
+            }
+
+        })
+    }
+    change=(record)=>{
+        console.log(record)
+        /*this.setState({
+            isOnline:!record.isOnline
+        })*/
+        var is_shared=''
+        if(record.is_shared==0){
+            is_shared=1
+        }else{
+            is_shared=0
+        }
+        // var isOnline=!(record.isOnline)
+        console.log(is_shared)
+        $.ajax({
+            url:URL_share_for_other,
+            type:'post',
+            data:{
+                v_id:USER_INFO_GET()&&USER_INFO_GET().companyId||'',
+                is_shared:is_shared,
+                part_sku_id:record.id
+            },
+            success:(res)=>{
+                console.log(res)
+                if(res.code==0){
+                    this.dataajax()
+                }
+            }
+
+        })
+    }
+    change1=(record)=>{
+        console.log(record)
+        /*this.setState({
+            isOnline:!record.isOnline
+        })*/
+        var is_shared_pricevisible=''
+        if(record.is_shared_pricevisible==0){
+            is_shared_pricevisible=1
+        }else{
+            is_shared_pricevisible=0
+        }
+        // var isOnline=!(record.isOnline)
+        console.log(is_shared_pricevisible)
+        $.ajax({
+            url:URL_share_for_other,
+            type:'post',
+            data:{
+                v_id:USER_INFO_GET()&&USER_INFO_GET().companyId||'',
+                is_shared:is_shared_pricevisible,
+                part_sku_id:record.id
+            },
+            success:(res)=>{
+                console.log(res)
+                if(res.code==0){
+                    this.dataajax()
+                }
+            }
+
+        })
+    }
+    dataajax=()=>{
+        $.ajax({
+            url:URL_share_for_other,
+            type:'post',
+            data:{
+                v_id:USER_INFO_GET().companyId||''
+            },
+            success:(res)=>{
+                console.log(res)
+                console.log(res.message)
+                if(res[0].code=='1'){
+                    this.setState({
+                        listdata:res[0].message
+                    })
+                }
+            }
+        })
+    }
+    componentWillMount(){
+        this.dataajax()
     }
     render(){
         const columns = [
-            { title: '序号', dataIndex: 'name', key: 'name',align:'center' },
-            { title: '配件名称', dataIndex: 'pjname', key: 'pjname',align:'center' },
-            { title: '零件号', dataIndex: 'pjh', key: 'pjh',align:'center' },
-            { title: '品质', dataIndex: 'pz', key: 'pz',align:'center' },
-            { title: '品牌/产地', dataIndex: 'pp', key: 'pp',align:'center' },
-            { title: '质保期限', dataIndex: 'zbq', key: 'zbq',align:'center' },
-            { title: '调货价格', dataIndex: 'cprice', key: 'cprice',align:'center' },
-            { title: '是否共享', dataIndex: 'sxj', key: 'sxj',align:'center', render: () =><Switch defaultChecked onChange={this.change} /> },
-            { title: '是否显示价格', dataIndex: 'sxj1', key: 'sxj1',align:'center', render: () =><Switch defaultChecked onChange={this.change1} /> },
+            { title: '序号', align:'center',render:(text,record,index)=>`${index+1}`},
+            { title: '配件名称', key: 'vendor_partname',align:'center',render: (text,record,index) =>
+                    <span key={index}>{(record.vendor_partname==''||record.vendor_partname==null)?'-':record.vendor_partname}</span>
+            },
+            { title: '零件号', key: 'vendor_oe',align:'center',render: (text,record,index) =>
+                    <span key={index}>{(record.vendor_oe==''||record.vendor_oe==null)?'-':record.vendor_oe}</span>
+            },
+            { title: '品质', key: 'vendor_partquality',align:'center',render: (text,record,index) =>
+                    <span key={index}>{(record.vendor_partquality==''||record.vendor_partquality==null)?'-':record.vendor_partquality}</span>
+            },
+            { title: '品牌/产地', key: 'vendor_partbrand',align:'center',render: (text,record,index) =>
+                    <span key={index}>{(record.vendor_partbrand==''||record.vendor_partbrand==null)?'-':record.vendor_partbrand}</span>
+            },
+            { title: '质保期限', key: 'vendor_partbrand',align:'center',render: (text,record,index) =>
+                    <span key={index}>{(record.vendor_partbrand==''||record.vendor_partbrand==null)?'-':record.warranty}</span>
+            },
+            { title: '调货价格', key: 'shared_pricestd',align:'center',render: (text,record,index) =>
+                    <span key={index}>{(record.shared_pricestd==''||record.shared_pricestd==null)?'-':record.shared_pricestd}</span>
+            },
+            { title: '是否共享', dataIndex: 'sxj', key: 'sxj',align:'center', render: (text,record,index) =>
+                    <Switch defaultChecked={record.is_shared=='1'?true:false} onChange={this.change.bind(this,record)} />
+            },
+            { title: '是否显示价格', dataIndex: 'sxj1', key: 'sxj1',align:'center',render: (text,record,index) =>
+                    <Switch defaultChecked={record.is_shared_pricevisible=='1'?true:false} onChange={this.change1.bind(this,record)} /> },
             {
-                title: '操作', dataIndex: '', key: 'x',align:'center',
-                render: () =><div>
+                title: '操作', dataIndex: 'x', key: 'x',align:'center', render: (text,record,index) =><div>
                     <span onClick={this.updata} style={{padding:'0 3px',cursor:'pointer',color:'#40a9ff'}}>修改</span>
                     <span onClick={this.delect} style={{padding:'0 3px',cursor:'pointer',color:'#40a9ff'}}>删除</span>
                     <span onClick={this.pict} style={{padding:'0 3px',cursor:'pointer',color:'#40a9ff'}}>商品图片</span>
@@ -130,13 +287,13 @@ export default class Stocklist extends Component{
                         width: '100%',
                         display:'inline-block'
                     }}>
-                        <input className='spaninp' onChange={this.pjevent} placeholder='请输入零件号' type="text" value={this.state.pjId}/>
-                        <input className='spaninp' onChange={this.pjevent1} placeholder='请输入配件名' type="text" value={this.state.pjId1}/>
-                        <Button type="primary" style={{marginBottom: '20px'}}>搜索</Button>
-                        <Button type="primary" style={{marginBottom: '20px',}}>全部禁止共享</Button>
-                        <Button type="primary" style={{marginBottom: '20px',}} >全部开启共享</Button>
-                        <Button type="primary" style={{marginBottom: '20px',}}>全部隐藏价格</Button>
-                        <Button type="primary" style={{marginBottom: '20px',}}>全部开启价格</Button>
+                        <input className='spaninp' placeholder='请输入零件号' type="text" ref="partId"/>
+                        <input className='spaninp' placeholder='请输入配件名' type="text" ref="partname"/>
+                        <Button type="primary" style={{marginBottom: '20px'}} onClick={this.query}>搜索</Button>
+                        <Button type="primary" style={{marginBottom: '20px',}} onClick={this.allcloseshare}>全部禁止共享</Button>
+                        <Button type="primary" style={{marginBottom: '20px',}} onClick={this.allopenshare}>全部开启共享</Button>
+                        <Button type="primary" style={{marginBottom: '20px',}} onClick={this.allcloseprice}>全部隐藏价格</Button>
+                        <Button type="primary" style={{marginBottom: '20px',}} onClick={this.allopenprice}>全部开启价格</Button>
                     </div>
                     <Table
                         columns={columns}

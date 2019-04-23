@@ -1,7 +1,9 @@
 
 
 import React,{Component} from 'react';
+import $ from 'jquery'
 import {Card,Input,Button,Switch,Table} from 'antd';
+import {URL_share_for_me} from "../../utils/net/Url";
 
 
 export default class Offerlist extends Component{
@@ -17,6 +19,24 @@ export default class Offerlist extends Component{
         this.props.history.push('/app/offerdetail')
     }
     componentWillMount(){
+        $.ajax({
+            url:'http://139.196.16.229:9999/offer_record',
+            type:'post',
+            data:{
+                c_id:'595411d4-cf3c-4068-b626-708ccd1fee5',
+                a_id:'8f3ea920-e44d-4d85-ac81-6a493ad72a74'
+            },
+            success:(res)=>{
+                console.log(res)
+                console.log(res.message)
+                if(res[0].code=='1'){
+                    this.setState({
+                        listdata:res[0].message
+                    })
+                }
+            }
+
+        })
         this.setState({
             listdata:[
                 {

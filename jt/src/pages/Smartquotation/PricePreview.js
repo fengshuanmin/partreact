@@ -119,10 +119,10 @@ export default class PricePreview extends Component{
             { title: '品质', dataIndex: 'pz', key: 'pz',align:'center' },
             { title: '图片', dataIndex: 'pp', key: 'pp',align:'center' },
             { title: '售后', dataIndex: 'zbq', key: 'zbq',align:'center' },
-            { title: 'C类价格', key: 'cprice',align:'center',render: (text,record,index) =>
+            /*{ title: 'C类价格', key: 'cprice',align:'center',render: (text,record,index) =>
                     <span></span>
-            },
-            // { title: 'C类价格', dataIndex: 'cprice', key: 'cprice',align:'center' },
+            },*/
+            { title: 'C类价格', dataIndex: 'cprice', key: 'cprice',align:'center' },
             { title: 'B类价格', dataIndex: 'bprice', key: 'bprice',align:'center' },
             { title: 'A类价格', dataIndex: 'aprice', key: 'aprice',align:'center' },
             // {

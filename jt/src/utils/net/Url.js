@@ -1,8 +1,11 @@
 
-
+//吴松接口的port
 var url='http://139.196.16.229:10000'
-//吴松接口的地址（在下面的路径前加url例如：export const URL_login = url+ '/api/login';）
-
+// var url='http://192.168.0.122:10000'
+//陈先虎接口的port
+var url1='http://139.196.16.229:9999'
+var url2='http://139.196.16.229:8989'
+export const URL_test = url2+ '/test';
 //登陆
 export const URL_login = url+ '/api/login';
 
@@ -27,21 +30,25 @@ export const URL_vendor_account_query_company = '/api/vendor/account/query/compa
 
 
 //图片解析
- export const URL_vin_screenshot_analysis =url+'/api/vin/screenshot/analysis'
+export const URL_vin_screenshot_analysis =url+'/api/vin/screenshot/analysis'
 //获取autogroup
 export const URL_vin_find_autogroups =url+'/api/vin/find/autogroups'
 //零件识别接口图片解析
 export const URL_parts_screenshot_analysis =url+'/api/parts/screenshot/analysis'
 //昵称获取标准名:
-export const URL_std_for_stdname ='/std_for_stdname'
+export const URL_std_for_stdname =url1+'/std_for_stdname'
 //订单中心
-export const URL_ai_order_list ='/api/ai/order/list'
+export const URL_ai_order_list =url1+'/api/ai/order/list'
 //获取车型的主要特征
-export const URL_vin_find_auto ='/api/vin/find/auto'
+export const URL_vin_find_auto =url+'/api/vin/find/auto'
 //截屏报价
-export const URL_id_and_std_search ='/id_and_std_search'
+export const URL_id_and_std_search =url1+'/id_and_std_search'
+//共享的查询
+export const URL_search_sku =url1+'/search_sku'
 //对外库存共享
-export const URL_share_for_me ='/share_for_me'
+export const URL_share_for_other =url1+'/share_for_other'
+//向我共享
+export const URL_share_for_me =url1+'/share_for_me'
 //商品列表
 export const URL_api_parts_sku_list=url+'/api/parts/sku/list'
 //商品列表上下架
@@ -75,3 +82,5 @@ export const URL_api_vendor_account_companyInfo=url+'/api/vendor/account/company
 export const URL_api_reset_password=url+'/api/reset_password'
 //短信验证码
 export const URL_api_get_verification_code=url+'/api/get_verification_code'
+//报价详情
+export const URL_0ffer_history = url1+'/offer_history'

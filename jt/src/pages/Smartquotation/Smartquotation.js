@@ -9,7 +9,7 @@ import PartType  from './PartType';
 import PricePreview  from './PricePreview';
 import {Button, Col, Row, Steps} from "antd";
 import Net from "../../utils/net/Net";
-import {URL_id_and_std_search, URL_std_for_stdname} from "../../utils/net/Url";
+import {URL_id_and_std_search, URL_std_for_stdname,URL_test} from "../../utils/net/Url";
 import {USER_INFO_GET} from "../../utils/storeInfo";
 
 const Step = Steps.Step;
@@ -26,6 +26,17 @@ export default  class Smartquotation extends Component {
         this.setState({
             step:this.state.step>=3?1:this.state.step+1
         })
+        /*$.ajax({
+            url:URL_test,
+            type:'post',
+            data:{
+                oe:'L35D807217GRU'
+            },
+            success:(res)=>{
+                console.log(res)
+            }
+
+        })*/
         if(this.state.step==2){
             var groupId=localStorage.getItem('groupId')
             var stdNames=localStorage.getItem('nicknames')
@@ -39,12 +50,11 @@ export default  class Smartquotation extends Component {
             // })
             $.ajax({
                 url:URL_id_and_std_search,
-                type:'post',
+                type:'POST',
                 data:{
                     gid:groupId,
                     std:stdNames
                 },
-                headers:{appToken:USER_INFO_GET()&&USER_INFO_GET().appToken||''},
                 success:(res)=>{
                     console.log(res)
                 }
