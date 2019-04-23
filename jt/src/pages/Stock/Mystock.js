@@ -108,8 +108,8 @@ export default class Mystock extends Component{
             url:URL_share_for_me,
             type:'post',
             data:{
-                // c_id:USER_INFO_GET().companyId||'',
-                c_id:'000fc79e',
+                c_id:USER_INFO_GET().companyId||'',
+                // c_id:'000fc79e',
                 page:page,
                 limit:limit
             },
@@ -200,6 +200,7 @@ export default class Mystock extends Component{
                             <Table
                                 columns={columns}
                                 dataSource={this.state.listdata}
+                                pagination={ false }
                                 loading={this.state.loading}
                             />
                             <Pagination onChange={this.handlepagesize} defaultCurrent={this.state.page} total={this.state.total} />,

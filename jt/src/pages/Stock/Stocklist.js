@@ -1,6 +1,6 @@
 import React,{Component} from 'react';
 import $ from 'jquery'
-import {Card,Input,Button,Switch,Table,Modal} from 'antd';
+import {Card,Input,Button,Switch,Table,Modal,Pagination} from 'antd';
 import Net from "../../utils/net/Net";
 import {
     URL_api_parts_sku_delete,
@@ -17,7 +17,10 @@ export default class Stocklist extends Component{
         super(props)
         this.state={
             pjId:'',
-            pjId1:''
+            pjId1:'',
+            page:'1',
+            limit:'10',
+            loading:true
         }
     }
     pjevent=(e)=>{
@@ -81,14 +84,17 @@ export default class Stocklist extends Component{
             url:URL_search_sku,
             type:'post',
             data:{
-                v_id:USER_INFO_GET()&&USER_INFO_GET().companyId||'',
+                /*v_id:USER_INFO_GET()&&USER_INFO_GET().companyId||'',
                 v_oe:lastC,
-                v_part_name:lastB,
+                v_part_name:lastB,*/
+                v_id:'000fc79e',
+                v_oe:'1',
+                v_part_name:'',
                 shared_type:'o'
             },
             success:(res)=>{
                 console.log(res)
-                if(res.code==0){
+                if(res.code=='1'){
                     this.setState({
                         listdata:res[0].message
                     })
@@ -107,8 +113,8 @@ export default class Stocklist extends Component{
             },
             success:(res)=>{
                 console.log(res)
-                if(res.code==0){
-                    this.dataajax()
+                if(res.code=='1'){
+                    this.dataajax(this.state.page,this.state.limit)
                 }
             }
 
@@ -120,12 +126,12 @@ export default class Stocklist extends Component{
             type:'post',
             data:{
                 v_id:USER_INFO_GET()&&USER_INFO_GET().companyId||'',
-                is_shared:'0'
+                is_shared:'1'
             },
             success:(res)=>{
                 console.log(res)
-                if(res.code==0){
-                    this.dataajax()
+                if(res.code=='1'){
+                    this.dataajax(this.state.page,this.state.limit)
                 }
             }
 
@@ -141,8 +147,8 @@ export default class Stocklist extends Component{
             },
             success:(res)=>{
                 console.log(res)
-                if(res.code==0){
-                    this.dataajax()
+                if(res.code=='1'){
+                    this.dataajax(this.state.page,this.state.limit)
                 }
             }
 
@@ -158,8 +164,8 @@ export default class Stocklist extends Component{
             },
             success:(res)=>{
                 console.log(res)
-                if(res.code==0){
-                    this.dataajax()
+                if(res.code=='1'){
+                    this.dataajax(this.state.page,this.state.limit)
                 }
             }
 
@@ -189,7 +195,7 @@ export default class Stocklist extends Component{
             success:(res)=>{
                 console.log(res)
                 if(res.code==0){
-                    this.dataajax()
+                    this.dataajax(this.state.page,this.state.limit)
                 }
             }
 
@@ -219,34 +225,40 @@ export default class Stocklist extends Component{
             success:(res)=>{
                 console.log(res)
                 if(res.code==0){
-                    this.dataajax()
+                    this.dataajax(this.state.page,this.state.limit)
                 }
             }
 
         })
     }
-    dataajax=()=>{
+    dataajax=(page,limit)=>{
         $.ajax({
             url:URL_share_for_other,
             type:'post',
             data:{
-                v_id:USER_INFO_GET().companyId||''
+                v_id:USER_INFO_GET().companyId||'',
+                page:page,
+                limit:limit
             },
             success:(res)=>{
                 console.log(res)
                 console.log(res.message)
                 if(res[0].code=='1'){
                     this.setState({
-                        listdata:res[0].message
+                        loading:false,
+                        listdata:res[0].message,
+                        total:res[0].num,
+                        page:parseInt(res[0].page),
                     })
                 }
             }
         })
     }
     componentWillMount(){
-        this.dataajax()
+        this.dataajax(this.state.page,this.state.limit)
     }
     render(){
+        console.log(this.state)
         const columns = [
             { title: '序号', align:'center',render:(text,record,index)=>`${index+1}`},
             { title: '配件名称', key: 'vendor_partname',align:'center',render: (text,record,index) =>
@@ -298,7 +310,10 @@ export default class Stocklist extends Component{
                     <Table
                         columns={columns}
                         dataSource={this.state.listdata}
+                        pagination={ false }
+                        loading={this.state.loading}
                     />
+                    <Pagination onChange={this.handlepagesize} defaultCurrent={this.state.page} total={this.state.total} />,
                 </Card>
 
             </div>

@@ -12,7 +12,8 @@ export default {
         {
             key: '/app/goodsmanage', title: '商品管理', icon: 'bars',
             subs:[
-                {key: '/app/goodsmanage', title: '商品管理', component:'GoodsManage'}
+                {key: '/app/goodsmanage', title: '商品管理', component:'GoodsManage'},
+                {key: '/app/goodsaddition', title: '批量添加', component:'Goodsaddition'},
             ]
 
         },

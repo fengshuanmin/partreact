@@ -40,6 +40,7 @@ import Smartquotation from '../pages/Smartquotation/Smartquotation';
 import GoodsManage from '../pages/GoodsManage/GoodsManage';
 import AddGoods from '../pages/GoodsManage/AddGoods';
 import Goodupdate from '../pages/GoodsManage/Goodupdate'
+import Goodsaddition from '../pages/GoodsManage/addition'
 import Rotation from '../pages/GoodsManage/Rotation'
 //商品共享
 import Stocklist from '../pages/Stock/Stocklist'
@@ -71,7 +72,7 @@ export default {
     Cssmodule, MapUi, QueryParams,
     Smartquotation, GoodsManage,
     PwdSetting,PersonSetting,CompanySetting,AccountSetting,OrdersManage,OrderDetail,
-    AddGoods,Goodupdate,Rotation,Offerlist,Stocklist,Mystock,Offerdetail,
+    AddGoods,Goodupdate,Rotation,Offerlist,Stocklist,Mystock,Offerdetail,Goodsaddition,
     TEST
 
 }
