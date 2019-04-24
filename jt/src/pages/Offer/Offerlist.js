@@ -79,7 +79,8 @@ export default class Offerlist extends Component{
         })
     }
 
-    orderdetail(){
+    orderdetail(record){
+        localStorage.setItem('offerid',record.id)
         this.props.history.push('/app/offerdetail')
     }
     componentWillMount(){
@@ -157,7 +158,7 @@ export default class Offerlist extends Component{
             { title: '零件数', dataIndex: 'total_part_quantity', key: 'total_part_quantity',align:'center' },
             { title: '报价金额', dataIndex: 'price', key: 'price',align:'center' },
             // { title: '订单来源', dataIndex: 'cprice', key: 'cprice',align:'center' },
-            { title: '编辑', dataIndex: '', key: 'x',align:'center', render: () =><div><span onClick={this.orderdetail} style={{padding:'0 3px',cursor:'pointer',color:'#40a9ff'}}>查看</span></div>,},
+            { title: '编辑', dataIndex: '', key: 'x',align:'center', render: (text,record,index) =><div><span onClick={this.orderdetail.bind(this,record)} style={{padding:'0 3px',cursor:'pointer',color:'#40a9ff'}}>查看</span></div>,},
             // {
             //     title: '操作', dataIndex: '', key: 'x',align:'center', render: () =><div><span onClick={this.orderdetail} style={{padding:'0 3px',cursor:'pointer',color:'#40a9ff'}}>查看</span></div>,
             // },

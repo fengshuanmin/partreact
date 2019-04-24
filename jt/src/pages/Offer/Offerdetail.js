@@ -57,12 +57,16 @@ export default class Offerdetail extends Component{
     componentWillMount(){
         var ai_offer = localStorage.getItem('ai_offer')
         // const o_id = '09a86354-c741-4e75-9909-1a6feb659cb0'
+        var id=localStorage.getItem('offerid')
         $.ajax({
             url:URL_0ffer_history,
             type:'post',
             data:{
                 // o_id
-                o_id:ai_offer
+                // o_id:ai_offer
+                c_id :USER_INFO_GET()&&USER_INFO_GET().companyId||'',
+                o_id:id
+
             },
             success:(res)=>{
                 console.log(res)
@@ -77,19 +81,6 @@ export default class Offerdetail extends Component{
             }
 
         })
-        this.setState({
-            listdata:[
-                {
-                    key: 1, name: '张三', pjname:"前保险杠", pjh: 'OX1234', pz: '原厂件',pp:'车享配',zbq:'三个月',cprice:'100',bprice:'95',aprice:'90',sxj:'1'
-                },
-                {
-                    key: 2, name: '张三', pjname:"前保险杠", pjh: 'OX1234', pz: '原厂件',pp:'车享配',zbq:'三个月',cprice:'100',bprice:'95',aprice:'90',sxj:'1'
-                },
-                {
-                    key: 3, name: '张三', pjname:"前保险杠", pjh: 'OX1234', pz: '原厂件',pp:'车享配',zbq:'三个月',cprice:'100',bprice:'95',aprice:'90',sxj:'1'
-                }
-            ]
-        });
     }
     handlepagesize=(val)=>{
         this.dataajax(val,this.state.limit)
@@ -104,7 +95,7 @@ export default class Offerdetail extends Component{
             url:URL_0ffer_history,
             type:'post',
             data:{
-                o_id : Ai_offer,
+                o_id :USER_INFO_GET()&&USER_INFO_GET().companyId||'',
                 // c_id:'000fc79e',
                 page:page,
                 limit:limit
@@ -138,41 +129,40 @@ export default class Offerdetail extends Component{
             { title: '备注', dataIndex: 'remark', key: 'remark',align:'center',render: (text,record,index) =>
                     <span>{(record.retailPricemax==''||record.retailPricemax==null)?'-':record.retailPricemax}</span>
             },
-            {
+           /* {
                 title: '操作', dataIndex: '', key: 'x',align:'center', render: () =><div><span onClick={this.orderdetail} style={{padding:'0 3px',cursor:'pointer',color:'#40a9ff'}}>查看</span></div>,
-            },
+            },*/
         ];
         return(
-            <div style={{marginTop:20,minWidth:1400,maxWidth:1400}}>
-                <div style={{width:'100%',background:'#fff',float:'left',paddingBottom:'15px',marginBottom:'15px'}}>
-                    <ul className="orderdetailtitle">
-                        <li>车型:{this.state.cardetail.description}</li>
-                        <li>修理厂:{this.state.cardetail.repair}</li>
-                        <li>订单号:{this.state.cardetail.id}</li>
-                    </ul>
-                    <ul className="orderdetailtitle">
-                        <li>车架号:{this.state.cardetail.vincode}</li>
-                        <li>电话:{this.state.cardetail.phone}</li>
-                        <li>订单金额:{this.state.cardetail.total_part_amount}</li>
-                    </ul>
-                    <ul className="orderdetailtitle">
-                        <li>零件数:{this.state.cardetail.total_part_quantity}</li>
-                        <li>地址:{this.state.cardetail.adress}</li>
-                        <li>订单来源:{this.state.cardetail.source}</li>
-                    </ul>
-                </div>
-                <div style={{width:'100%',float:'left',paddingBottom:'20px',background:'#fff'}}>
-                    <Table
-                        columns={columns}
-                        dataSource={this.state.listdata}
-                        pagination={ false }
-                    />
-                    <div style={{textAlign:'center',float:'left',marginTop:'20px',width:'100%'}}>
+            <div style={{marginTop:20,minWidth:800,maxWidth:1400}}>
+                <Card>
+                    <div style={{width:'100%',background:'#ECF0F5',float:'left',paddingBottom:'15px',marginBottom:'15px'}}>
+                        <ul className="orderdetailtitle">
+                            <li>车型:{this.state.cardetail.description}</li>
+                            <li>报价单号:{this.state.cardetail.id}</li>
+                        </ul>
+                        <ul className="orderdetailtitle">
+                            <li>车架号:{this.state.cardetail.vincode}</li>
+                            <li>报价金额:{this.state.cardetail.total_part_amount}</li>
+                        </ul>
+                        <ul className="orderdetailtitle">
+                            <li>零件数:{this.state.cardetail.total_part_quantity}</li>
+                            <li>报价来源:{this.state.cardetail.source}</li>
+                        </ul>
+                    </div>
+                    <div style={{width:'100%',float:'left',paddingBottom:'20px',background:'#fff'}}>
+                        <Table
+                            columns={columns}
+                            dataSource={this.state.listdata}
+                            pagination={ false }
+                        />
+                        <Pagination onChange={this.handlepagesize} defaultCurrent={this.state.page} total={this.state.total} />
+                    </div>
+                    <div style={{textAlign:'center',float:'left',width:'100%'}}>
                         <Button type="primary" onClick={this.back}>返回</Button>
                     </div>
-                </div>
-                <Pagination onChange={this.handlepagesize} defaultCurrent={this.state.page} total={this.state.total} />
-                {/*<div style={{
+                </Card>
+               {/*<div style={{
                     display:'flex',flexDirection:'column'
                 }}>
                     <div style={{display:'flex',flexDirection:'row'}}>

@@ -41,6 +41,7 @@ export default class Stocklist extends Component{
         this.props.history.push('/app/goodsupdate',record.id)
     }
     delect=(record)=>{
+        console.log(record)
         console.log(this.state)
         const confirm=Modal.confirm;
         var self=this
@@ -49,12 +50,16 @@ export default class Stocklist extends Component{
             content: '请否确认删除该数据？',
             onOk() {
                 $.ajax({
-                    url:URL_api_parts_sku_delete+'/'+record.id,
+                    url:URL_share_for_other,
                     type:'post',
-                    headers:{appToken : USER_INFO_GET()&&USER_INFO_GET().appToken||''},
+                    data:{
+                        part_sku_id:record.id,
+                        v_id:USER_INFO_GET()&&USER_INFO_GET().companyId||'',
+                        rm:'1'
+                    },
                     success:(res)=>{
                         console.log(res)
-                        if(res.code==0){
+                        if(res[0].code=='1'){
                             console.log(self.state.page)
                             self.dataajax(self.state.page,self.state.limit)
                         }
@@ -305,8 +310,8 @@ export default class Stocklist extends Component{
             {
                 title: '操作', dataIndex: 'x', key: 'x',align:'center', render: (text,record,index) =><div key="audit">
                     {/*<span onClick={this.updata} style={{padding:'0 3px',cursor:'pointer',color:'#40a9ff'}}>修改</span>*/}
-                    <span onClick={this.delect} style={{padding:'0 3px',cursor:'pointer',color:'#40a9ff'}}>删除</span>
-                    <span onClick={this.pict} style={{padding:'0 3px',cursor:'pointer',color:'#40a9ff'}}>商品图片</span>
+                    <span onClick={this.pict.bind(this,record)} style={{padding:'0 3px',cursor:'pointer',color:'#40a9ff'}}>商品图片</span>
+                    <span onClick={this.delect.bind(this,record)} style={{padding:'0 3px',cursor:'pointer',color:'#40a9ff'}}>删除</span>
                 </div>,
             },
         ];

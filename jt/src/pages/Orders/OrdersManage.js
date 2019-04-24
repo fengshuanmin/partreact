@@ -62,7 +62,8 @@ export default class OrdersManage extends Component{
         })
         // console.log(this.state.listdata,'11111111111111111111111143243');
     }
-    orderdetail(){
+    orderdetail(record){
+        localStorage.setItem('ordeid',record.id)
         this.props.history.push('/app/orderdetail')
     }
     handlepagesize=(val)=>{
@@ -78,8 +79,8 @@ export default class OrdersManage extends Component{
             url:URL_Order_list,
             type:'post',
             data:{
-                // a_o_id :USER_INFO_GET()&&USER_INFO_GET().companyId||'',
-                c_id :'595411d4-cf3c-4068-b626-708ccd1fee5f',
+                c_id :USER_INFO_GET()&&USER_INFO_GET().companyId||'',
+                // c_id :'595411d4-cf3c-4068-b626-708ccd1fee5f',
                 // c_id:'000fc79e',
                 page:page,
                 limit:limit
@@ -140,7 +141,7 @@ export default class OrdersManage extends Component{
             },
             // { title: '编辑', dataIndex: 'bprice', key: 'bprice',align:'center' },
             {
-                title: '操作', dataIndex: '', key: 'x',align:'center', render: () =><div><span onClick={this.orderdetail} style={{padding:'0 3px',cursor:'pointer',color:'#40a9ff'}}>查看</span></div>,
+                title: '操作', dataIndex: '', key: 'x',align:'center', render: (text,record,index) =><div><span onClick={this.orderdetail.bind(this,record)} style={{padding:'0 3px',cursor:'pointer',color:'#40a9ff'}}>查看</span></div>,
             },
         ];
         return(
