@@ -155,7 +155,10 @@ export default  class VehicleType extends Component {
             },
         };
         const uploadButton = (
-            <img src={this.state.imageUrl?this.state.imageUrl:beauty2} alt="" style={{height: 100,width:"100%"}}/>
+            <div>
+                <Icon type={this.state.loading ? 'loading' : 'plus'} />
+                <div className="ant-upload-text">点击上传车架号图片</div>
+            </div>
         );
         const imageUrl = this.state.imageUrl;
         return (
@@ -190,7 +193,7 @@ export default  class VehicleType extends Component {
                                         <div style={{textAlign:"left",marginTop:30}}>
 
                                             <div>
-                                                <Button type="primary" onClick={this.canver.bind(this)}>车架号截屏</Button>
+                                                {/*<Button type="primary" onClick={this.canver.bind(this)}>车架号截屏</Button>*/}
                                                 <Button type="primary" onClick={this.vinocr}>车型解析</Button>
 
                                             </div>

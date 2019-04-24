@@ -29,10 +29,11 @@ export default class  GoodsManage extends Component{
     }
     query=()=>{
         console.log(USER_INFO_GET())
+        var lastC=this.refs.partId.value;
         $.ajax({
             url:URL_api_parts_sku_list,
             type:'post',
-            data:{page:this.state.page,limit:this.state.limit,stdNameId:this.state.pjId},
+            data:{page:this.state.page,limit:this.state.limit,vendorOe:lastC},
             headers:{appToken : USER_INFO_GET()&&USER_INFO_GET().appToken||''},
             success:(res)=>{
                 console.log(res)
@@ -190,26 +191,39 @@ console.log(record)
             autoplay:true,
         };
         const columns = [
-            { title: '序号',render:(text,record,index)=>`${index+1}`,align:'center'},
-            { title: '汽车制造商', dataIndex: 'vendorPartmaker', key: 'stdname',align:'center' },
-            { title: '配件名称', dataIndex: 'stdname', key: 'stdname',align:'center' },
-            { title: '零件号', dataIndex: 'vendorOe', key: 'vendorOe',align:'center' },
-            { title: '品质', dataIndex: 'vendorPartquality', key: 'vendorPartquality',align:'center' },
-            { title: '品牌', dataIndex: 'vendorAutobrand', key: 'vendorPartbrand',align:'center' },
+            { title: '序号',key:'text',render:(text,record,index)=>`${index+1}`,align:'center'},
+            { title: '汽车制造商', dataIndex: 'vendorPartmaker', key: 'vendorPartmaker',align:'center' ,render: (text,record,index) =>
+                    <span key="Partmaker">{(record.vendorPartmaker==''||record.vendorPartmaker==null)?'-':record.vendorPartmaker}</span>
+            },
+            { title: '配件名称', dataIndex: 'stdname', key: 'stdname',align:'center' ,render: (text,record,index) =>
+                    <span key="pjname">{(record.stdname==''||record.stdname==null)?'-':record.stdname}</span>
+            },
+            { title: '零件号', dataIndex: 'vendorOe', key: 'vendorOe',align:'center' ,render: (text,record,index) =>
+                    <span key="partid">{(record.vendorOe==''||record.vendorOe==null)?'-':record.vendorOe}</span>
+            },
+            { title: '品质', dataIndex: 'vendorPartquality', key: 'vendorPartquality',align:'center' ,render: (text,record,index) =>
+                    <span key="Partquality">{(record.vendorPartquality==''||record.vendorPartquality==null)?'-':record.vendorPartquality}</span>
+            },
+            { title: '品牌', dataIndex: 'vendorAutobrand', key: 'vendorPartbrand',align:'center' ,render: (text,record,index) =>
+                    <span key="autobrand">{(record.vendorAutobrand==''||record.vendorAutobrand==null)?'-':record.vendorAutobrand}</span>
+            },
             // { title: '产地', dataIndex: 'vendorPartmaker', key: 'vendorPartmaker',align:'center' },
-            { title: '质保期限', dataIndex: 'vendorPartwarranty', key: 'vendorPartwarranty',align:'center' },
+            { title: '质保期限', dataIndex: 'vendorPartwarranty', key: 'vendorPartwarranty',align:'center',render: (text,record,index) =>
+                    <span key="Partwarranty">{(record.vendorPartwarranty==''||record.vendorPartwarranty==null)?'-':record.vendorPartwarranty}</span>
+            },
             { title: '最高售价', key: 'retailPricemax',align:'center',render: (text,record,index) =>
-                    <span>{(record.retailPricemax==''||record.retailPricemax==null)?'-':record.retailPricemax}</span>
+                    <span key="Pricemax">{(record.retailPricemax==''||record.retailPricemax==null)?'-':record.retailPricemax}</span>
             },
             { title: '中等售价', key: 'retailPricemid',align:'center',render: (text,record,index) =>
-                    <span>{(record.retailPricemid==''||record.retailPricemid==null)?'-':record.retailPricemid}</span>
+                    <span key="Pricemid">{(record.retailPricemid==''||record.retailPricemid==null)?'-':record.retailPricemid}</span>
             },
             { title: '最低售价', key: 'retailPricemin',align:'center',render: (text,record,index) =>
-                    <span>{(record.retailPricemin==''||record.retailPricemin==null)?'-':record.retailPricemin}</span>
+                    <span key="Pricemin">{(record.retailPricemin==''||record.retailPricemin==null)?'-':record.retailPricemin}</span>
             },
-            { title: '上下架', key: 'sxj',align:'center', render: (text,record,index) =><Switch defaultChecked={record.isOnline=='1'?true:false} onChange={this.change.bind(this,record)} /> },
+            { title: '上下架', key: 'sxj',align:'center', render: (text,record,index) =>
+                    <Switch key="isline" checked={record.isOnline=='1'?true:false} onChange={this.change.bind(this,record)} /> },
             {
-                title: '操作', dataIndex: 'x', key: 'x',align:'center', render: (text,record,index) =><div>
+                title: '操作', dataIndex: 'x', key: 'x',align:'center', render: (text,record,index) =><div key="audit">
                     <span onClick={this.updata.bind(this,record)} style={{padding:'0 3px',cursor:'pointer',color:'#40a9ff'}}>修改</span>
                     <span onClick={this.delect.bind(this,record)} style={{padding:'0 3px',cursor:'pointer',color:'#40a9ff'}}>删除</span>
                     <span onClick={this.pict.bind(this,record)} style={{padding:'0 3px',cursor:'pointer',color:'#40a9ff'}}>图片</span>
@@ -243,13 +257,14 @@ console.log(record)
                         }}>
                             <div className="spantotal">
                                 <span className="spanlabel1" style={{lineHeight:'34px'}}>按零件号</span>
-                                <input className="spaninput" onChange={this.pjevent} type="text" value={this.state.pjId}/>
+                                <input className="spaninput" ref="partId" type="text"/>
                             </div>
                         </div>
                         <Button type="primary" onClick={this.query}>查询</Button>
                         <Button style={{float:'right',marginTop:'10px',marginBottom:'15px'}} onClick={this.add} type="primary">添加</Button>
                     </div>
                     <Table
+                        rowKey="id"
                         columns={columns}
                         dataSource={this.state.listdata}
                         pagination={ false }

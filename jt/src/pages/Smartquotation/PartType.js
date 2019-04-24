@@ -39,13 +39,13 @@ export default class PartType extends Component{
             array=this.state.textvalue
         }
         // // var array=this.state.textvalue
-        var dat={stdnames:array}
+        var arr=array.join(',')
+        var dat={stdnames:arr}
         $.ajax({
             url:URL_std_for_stdname,
             // url:'http://139.196.16.229:9999/std_for_stdname',
             type:'post',
             data:JSON.stringify(dat),
-            headers:{appToken:USER_INFO_GET()&&USER_INFO_GET().appToken||''},
             success:(res)=>{
                 console.log(res)
                 if(res[0].code==1){
@@ -99,11 +99,17 @@ export default class PartType extends Component{
 
     render() {
         const uploadButton = (
-            <img src={this.state.imageUrl?this.state.imageUrl:beauty} alt="" style={{height: 180,width:"100%"}}/>
+            <div style={{height: 180,width:"100%"}}>
+                <div style={{paddingTop:'60px'}}><Icon type={this.state.loading ? 'loading' : 'plus'} /></div>
+                <div className="ant-upload-text">点击上传配件图片</div>
+            </div>
         );
+        /*const uploadButton = (
+            <img src={this.state.imageUrl?this.state.imageUrl:beauty} alt="" style={{height: 180,width:"100%"}}/>
+        );*/
         const imageUrl = this.state.imageUrl;
         return (
-            <div >
+            <div className='partTypes'>
                 <Row >
                     <Col span={8}>
                         <Card bordered={false} bodyStyle={{minHeight: 400,maxHeight:600}}>
@@ -119,9 +125,9 @@ export default class PartType extends Component{
                                 {imageUrl ? <img src={imageUrl} style={{height: 180,width:"100%"}} alt="avatar" /> : uploadButton}
                             </Upload>
                             {/*<img src={beauty} alt="" style={{height: 180,width:"100%"}} />*/}
-                            <div style={{marginTop:30}}>
-                                <Button type="primary">配件截屏</Button>
-                            </div>
+                            {/*<div style={{marginTop:30}}>*/}
+                                {/*<Button type="primary">配件截屏</Button>*/}
+                            {/*</div>*/}
                         </Card>
                     </Col>
                     <Col span={2}>{'>>>'}</Col>

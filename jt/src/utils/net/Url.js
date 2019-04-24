@@ -1,7 +1,7 @@
 
 //吴松接口的port
-var url='http://139.196.16.229:10000'
-// var url='http://192.168.0.122:10000'
+// var url='http://139.196.16.229:10000'
+var url='http://192.168.0.122:10000'
 //陈先虎接口的port
 var url1='http://139.196.16.229:9999'
 var url2='http://139.196.16.229:8989'
@@ -43,6 +43,8 @@ export const URL_ai_order_list =url1+'/api/ai/order/list'
 export const URL_vin_find_auto =url+'/api/vin/find/auto'
 //截屏报价
 export const URL_id_and_std_search =url1+'/id_and_std_search'
+//修改报价
+export const URL_modify_price=url1+'/modify_price'
 //共享的查询
 export const URL_search_sku =url1+'/search_sku'
 //对外库存共享
@@ -73,7 +75,6 @@ export const URL_api_parts_sku_getPicId=url+'/api/parts/sku/getPicId'
 export const URL_api_parts_sku_info=url+'/api/parts/sku/info'
 //提交修改
 export const URL_api_parts_sku_update=url+'/api/parts/sku/update'
-export const URL_Brand_models='/brand_maker'
 //个人设置页面
 export const URL_api_vendor_account_info=url+'/api/vendor/account/info'
 //公司设置
@@ -82,5 +83,25 @@ export const URL_api_vendor_account_companyInfo=url+'/api/vendor/account/company
 export const URL_api_reset_password=url+'/api/reset_password'
 //短信验证码
 export const URL_api_get_verification_code=url+'/api/get_verification_code'
+
+//品牌车型
+export const URL_Brand_models =url2+'/brand_maker';
+
+export const URL_Model_Stdoe =url2+'/model_stdoe';
+
+export const URL_Price_cube = url2+'/price_cube';
+
+export const URL_Part_Adaper = url2+'/part_adapter'
+
+//报价中心
+
+export const URL_Offer_record = url1+'/offer_record'
+
 //报价详情
 export const URL_0ffer_history = url1+'/offer_history'
+
+//订单中心
+
+export const URL_Order_list = url1+'/order_list'
+
+export const URL_Order_center = url1+'/order_center'

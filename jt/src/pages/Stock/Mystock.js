@@ -20,7 +20,7 @@ export default class Mystock extends Component{
         super(props)
         this.state={
             flag:false,
-            page:'1',
+            page:1,
             limit:'10',
             loading:true
         }
@@ -83,7 +83,7 @@ export default class Mystock extends Component{
                 v_id:USER_INFO_GET()&&USER_INFO_GET().companyId||'',
                 v_oe:lastC,
                 v_part_name:lastB,
-                shared_type:'o'
+                shared_type:'m'
             },
             success:(res)=>{
                 console.log(res)
@@ -117,12 +117,16 @@ export default class Mystock extends Component{
                 console.log(res)
                 console.log(res.message)
                 if(res[0].code=='1'){
-                    this.setState({
-                        loading:false,
-                        listdata:res[0].message,
-                        total:res[0].num,
-                        page:parseInt(res[0].page),
-                    })
+                    var {listdata=[]}=this.state
+                    listdata=res[0].message
+                    if(res[0].code=='1'){
+                        this.setState({
+                            loading:false,
+                            listdata,
+                            total:res[0].num,
+                            page:parseInt(res[0].page),
+                        })
+                    }
                 }
             }
         })
@@ -139,27 +143,27 @@ export default class Mystock extends Component{
             autoplay:true,
         };
         const columns = [
-            { title: '序号', align:'center',render:(text,record,index)=>`${index+1}`},
+            { title: '序号',key:'text', align:'center',render:(text,record,index)=>`${index+1}`},
             { title: '配件名称', key: 'stdname',align:'center',render: (text,record,index) =>
-                    <span key={index}>{(record.stdname==''||record.stdname==null)?'-':record.stdname}</span>
+                    <span key='partname'>{(record.stdname==''||record.stdname==null)?'-':record.stdname}</span>
             },
             { title: '零件号', key: 'stdnameID',align:'center',render: (text,record,index) =>
-                    <span key={index}>{(record.stdnameID==''||record.stdnameID==null)?'-':record.stdnameID}</span>
+                    <span key='partId'>{(record.stdnameID==''||record.stdnameID==null)?'-':record.stdnameID}</span>
             },
             { title: '品质', key: 'quality',align:'center',render: (text,record,index) =>
-                    <span key={index}>{(record.quality==''||record.quality==null)?'-':record.quality}</span>
+                    <span key='quali'>{(record.quality==''||record.quality==null)?'-':record.quality}</span>
             },
             { title: '品牌/产地', key: 'brand',align:'center',render: (text,record,index) =>
-                    <span key={index}>{(record.brand==''||record.brand==null)?'-':record.brand}</span>
+                    <span key='brands'>{(record.brand==''||record.brand==null)?'-':record.brand}</span>
             },
             { title: '质保期限', key: 'warranty',align:'center',render: (text,record,index) =>
-                    <span key={index}>{(record.warranty==''||record.warranty==null)?'-':record.warranty}</span>
+                    <span key='warrantys'>{(record.warranty==''||record.warranty==null)?'-':record.warranty}</span>
             },
             { title: '调货价格', key: 'price',align:'center',render: (text,record,index) =>
-                    <span key={index}>{(record.price==''||record.price==null)?'-':record.price}</span>
+                    <span key='prices'>{(record.price==''||record.price==null)?'-':record.price}</span>
             },
             {
-                title: '操作', dataIndex: 'x', key: 'x',align:'center', render: (text,record,index) =><div>
+                title: '操作', dataIndex: 'x', key: 'x',align:'center', render: (text,record,index) =><div key='editor'>
                     <span onClick={this.pict.bind(this,record)} style={{padding:'0 3px',cursor:'pointer',color:'#40a9ff'}}>商品图片</span>
                     <span onClick={this.contant.bind(this,record)} style={{padding:'0 3px',cursor:'pointer',color:'#40a9ff'}}>联系卖家</span>
                     <span onClick={this.onlinepay.bind(this,record)} style={{padding:'0 3px',cursor:'pointer',color:'#40a9ff'}}>在线下单</span>
@@ -198,6 +202,7 @@ export default class Mystock extends Component{
                         <Button type="primary" style={{marginBottom: '20px',}}>全部开启价格</Button>*/}
                             </div>
                             <Table
+                                rowKey="stdnameID"
                                 columns={columns}
                                 dataSource={this.state.listdata}
                                 pagination={ false }

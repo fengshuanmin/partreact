@@ -1,5 +1,6 @@
 import React,{Component} from 'react';
 import $ from 'jquery'
+import _ from 'lodash';
 import {Card,Input,Button,Switch,Table,Modal,Pagination} from 'antd';
 import Net from "../../utils/net/Net";
 import {
@@ -18,9 +19,11 @@ export default class Stocklist extends Component{
         this.state={
             pjId:'',
             pjId1:'',
-            page:'1',
+            page:1,
             limit:'10',
-            loading:true
+            loading:true,
+            listdata: [],
+            count: 0
         }
     }
     pjevent=(e)=>{
@@ -78,24 +81,28 @@ export default class Stocklist extends Component{
     query=()=>{
         var lastC=this.refs.partId.value;
         var lastB=this.refs.partname.value;
-        console.log(this.state.lastC)
-        console.log(this.state.lastB)
+        this.setState({
+            loading:true
+        })
         $.ajax({
             url:URL_search_sku,
             type:'post',
             data:{
-                /*v_id:USER_INFO_GET()&&USER_INFO_GET().companyId||'',
+                v_id:USER_INFO_GET()&&USER_INFO_GET().companyId||'',
                 v_oe:lastC,
-                v_part_name:lastB,*/
-                v_id:'000fc79e',
+                v_part_name:lastB,
+                /*v_id:'000fc79e',
                 v_oe:'1',
-                v_part_name:'',
+                v_part_name:'',*/
                 shared_type:'o'
             },
             success:(res)=>{
-                console.log(res)
-                if(res.code=='1'){
+                // console.log(res)
+                // console.log(res[0].message)
+                if(res[0].code=='1'){
+                    console.log('123')
                     this.setState({
+                        loading:false,
                         listdata:res[0].message
                     })
                 }
@@ -113,7 +120,7 @@ export default class Stocklist extends Component{
             },
             success:(res)=>{
                 console.log(res)
-                if(res.code=='1'){
+                if(res[0].code=='1'){
                     this.dataajax(this.state.page,this.state.limit)
                 }
             }
@@ -130,7 +137,7 @@ export default class Stocklist extends Component{
             },
             success:(res)=>{
                 console.log(res)
-                if(res.code=='1'){
+                if(res[0].code=='1'){
                     this.dataajax(this.state.page,this.state.limit)
                 }
             }
@@ -147,7 +154,7 @@ export default class Stocklist extends Component{
             },
             success:(res)=>{
                 console.log(res)
-                if(res.code=='1'){
+                if(res[0].code=='1'){
                     this.dataajax(this.state.page,this.state.limit)
                 }
             }
@@ -164,7 +171,7 @@ export default class Stocklist extends Component{
             },
             success:(res)=>{
                 console.log(res)
-                if(res.code=='1'){
+                if(res[0].code=='1'){
                     this.dataajax(this.state.page,this.state.limit)
                 }
             }
@@ -194,7 +201,7 @@ export default class Stocklist extends Component{
             },
             success:(res)=>{
                 console.log(res)
-                if(res.code==0){
+                if(res[0].code==0){
                     this.dataajax(this.state.page,this.state.limit)
                 }
             }
@@ -224,7 +231,7 @@ export default class Stocklist extends Component{
             },
             success:(res)=>{
                 console.log(res)
-                if(res.code==0){
+                if(res[0].code==0){
                     this.dataajax(this.state.page,this.state.limit)
                 }
             }
@@ -232,6 +239,9 @@ export default class Stocklist extends Component{
         })
     }
     dataajax=(page,limit)=>{
+        this.setState({
+            loading:true
+        })
         $.ajax({
             url:URL_share_for_other,
             type:'post',
@@ -241,14 +251,22 @@ export default class Stocklist extends Component{
                 limit:limit
             },
             success:(res)=>{
-                console.log(res)
-                console.log(res.message)
+                // console.log(res)
+                // console.log(res.message)
+                // var {listdata=[]}=this.state
+                // listdata=res[0].message
                 if(res[0].code=='1'){
+                    console.log('list', res[0].message);
                     this.setState({
                         loading:false,
-                        listdata:res[0].message,
+                        listdata: res[0].message || [],
                         total:res[0].num,
                         page:parseInt(res[0].page),
+                    }, () => {
+                        const { count } = this.state;
+                        this.setState({
+                            count: count + 1
+                        })
                     })
                 }
             }
@@ -258,35 +276,35 @@ export default class Stocklist extends Component{
         this.dataajax(this.state.page,this.state.limit)
     }
     render(){
-        console.log(this.state)
+
         const columns = [
-            { title: '序号', align:'center',render:(text,record,index)=>`${index+1}`},
+            { title: '序号', key: 'text',  align:'center',render:(text,record,index)=>`${index+1}`},
             { title: '配件名称', key: 'vendor_partname',align:'center',render: (text,record,index) =>
-                    <span key={index}>{(record.vendor_partname==''||record.vendor_partname==null)?'-':record.vendor_partname}</span>
+                    <span key='vendor_partname'>{(record.vendor_partname==''||record.vendor_partname==null)?'-':record.vendor_partname}</span>
             },
             { title: '零件号', key: 'vendor_oe',align:'center',render: (text,record,index) =>
-                    <span key={index}>{(record.vendor_oe==''||record.vendor_oe==null)?'-':record.vendor_oe}</span>
+                    <span key='vendor_oe'>{(record.vendor_oe==''||record.vendor_oe==null)?'-':record.vendor_oe}</span>
             },
             { title: '品质', key: 'vendor_partquality',align:'center',render: (text,record,index) =>
-                    <span key={index}>{(record.vendor_partquality==''||record.vendor_partquality==null)?'-':record.vendor_partquality}</span>
+                    <span key="vendor_partquality">{(record.vendor_partquality==''||record.vendor_partquality==null)?'-':record.vendor_partquality}</span>
             },
             { title: '品牌/产地', key: 'vendor_partbrand',align:'center',render: (text,record,index) =>
-                    <span key={index}>{(record.vendor_partbrand==''||record.vendor_partbrand==null)?'-':record.vendor_partbrand}</span>
+                    <span key='vendor_partbrand'>{(record.vendor_partbrand==''||record.vendor_partbrand==null)?'-':record.vendor_partbrand}</span>
             },
-            { title: '质保期限', key: 'vendor_partbrand',align:'center',render: (text,record,index) =>
-                    <span key={index}>{(record.vendor_partbrand==''||record.vendor_partbrand==null)?'-':record.warranty}</span>
+            { title: '质保期限', key: 'vendor_partwarranty',align:'center',render: (text,record,index) =>
+                    <span key='vendor_partwarranty'>{(record.vendor_partwarranty==''||record.vendor_partwarranty==null)?'-':record.vendor_partwarranty}</span>
             },
             { title: '调货价格', key: 'shared_pricestd',align:'center',render: (text,record,index) =>
-                    <span key={index}>{(record.shared_pricestd==''||record.shared_pricestd==null)?'-':record.shared_pricestd}</span>
+                    <span key="price">{(record.shared_pricestd==''||record.shared_pricestd==null)?'-':record.shared_pricestd}</span>
             },
-            { title: '是否共享', dataIndex: 'sxj', key: 'sxj',align:'center', render: (text,record,index) =>
-                    <Switch defaultChecked={record.is_shared=='1'?true:false} onChange={this.change.bind(this,record)} />
+            { title: '是否共享', dataIndex: 'sxj', key: 'is_shared',align:'center', render: (text,record,index) =>
+                    <Switch key='isShare' checked={record.is_shared=='0'?false:true} onChange={this.change.bind(this,record)} />
             },
             { title: '是否显示价格', dataIndex: 'sxj1', key: 'sxj1',align:'center',render: (text,record,index) =>
-                    <Switch defaultChecked={record.is_shared_pricevisible=='1'?true:false} onChange={this.change1.bind(this,record)} /> },
+                    <Switch key="isShowPrice" checked={record.is_shared_pricevisible=='0'?false:true} onChange={this.change1.bind(this,record)} /> },
             {
-                title: '操作', dataIndex: 'x', key: 'x',align:'center', render: (text,record,index) =><div>
-                    <span onClick={this.updata} style={{padding:'0 3px',cursor:'pointer',color:'#40a9ff'}}>修改</span>
+                title: '操作', dataIndex: 'x', key: 'x',align:'center', render: (text,record,index) =><div key="audit">
+                    {/*<span onClick={this.updata} style={{padding:'0 3px',cursor:'pointer',color:'#40a9ff'}}>修改</span>*/}
                     <span onClick={this.delect} style={{padding:'0 3px',cursor:'pointer',color:'#40a9ff'}}>删除</span>
                     <span onClick={this.pict} style={{padding:'0 3px',cursor:'pointer',color:'#40a9ff'}}>商品图片</span>
                 </div>,
@@ -309,6 +327,7 @@ export default class Stocklist extends Component{
                     </div>
                     <Table
                         columns={columns}
+                        rowKey="id"
                         dataSource={this.state.listdata}
                         pagination={ false }
                         loading={this.state.loading}

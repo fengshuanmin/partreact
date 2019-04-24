@@ -37,30 +37,6 @@ export default  class Smartquotation extends Component {
             }
 
         })*/
-        if(this.state.step==2){
-            var groupId=localStorage.getItem('groupId')
-            var stdNames=localStorage.getItem('nicknames')
-            console.log(groupId,stdNames)
-            var dat={
-                gid:groupId,
-                std:stdNames
-            }
-            // Net.post({url:URL_id_and_std_search,params:dat},res=>{
-            //     console.log(res)
-            // })
-            $.ajax({
-                url:URL_id_and_std_search,
-                type:'POST',
-                data:{
-                    gid:groupId,
-                    std:stdNames
-                },
-                success:(res)=>{
-                    console.log(res)
-                }
-
-            })
-        }
     }
     componentWillMount(){
 

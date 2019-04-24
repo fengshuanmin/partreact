@@ -1,0 +1,53 @@
+[
+    code:’1’,
+    data:[
+        {
+            on:{
+            "skuoe": "L35D807217GRU",
+              "stdname": "前保险杠皮",
+              "Description": null
+            },
+            message:[
+                {
+                   "skuoe": "L35D807217GRU",
+                   "stdname": "前保险杠皮",
+                   "description": "数据库没有信息",
+                   "quality": "原厂件",
+                   "retail_pricemax": 52,
+                   "warranty": "三个月质保",
+                   "retail_pricemid": 0,
+                   "retail_pricemin": 0
+                },
+                {
+                   "skuoe": "L35D807217GRU",
+                   "stdname": "前保险杠皮",
+                   "description": "数据库没有信息",
+                   "quality": "认证件",
+                   "retail_pricemax": 52,
+                   "warranty": "三个月质保",
+                   "retail_pricemid": 0,
+                   "retail_pricemin": 0
+                }
+            ]
+        },
+        {
+             on:{
+                    "skuoe": "L35D807217GRU",
+                    "stdname": "前保险杠皮",
+                    "Description": null
+                 },
+             message:[
+                    {
+                         "skuoe": "L35D807217GRU",
+                         "stdname": "前保险杠皮",
+                         "description": "数据库没有信息",
+                         "quality": "原厂件",
+                         "retail_pricemax": 52,
+                         "warranty": "三个月质保",
+                         "retail_pricemid": 0,
+                         "retail_pricemin": 0
+                    },
+             ]
+        }
+    ]
+]

@@ -48,6 +48,7 @@
     "kscreenshot": "^1.2.0",
     "less": "2.7.2",
     "less-loader": "^4.1.0",
+    "lodash": "^4.17.11",
     "mini-css-extract-plugin": "0.4.3",
     "nprogress": "^0.2.0",
     "optimize-css-assets-webpack-plugin": "5.0.1",
