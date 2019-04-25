@@ -84,7 +84,7 @@ class Login extends React.Component {
             <div className="login" style={{background:'#d2d6de'}}>
                 <div className="login-form" >
                     <div className="login-logo">
-                        <span>松果AI智能</span>
+                        <span>天鲲Ai</span>
                     </div>
                     <Form onSubmit={this.handleSubmit} style={{maxWidth: '300px'}}>
                         <FormItem>

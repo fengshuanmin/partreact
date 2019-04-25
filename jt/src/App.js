@@ -69,19 +69,19 @@ class App extends Component {
         console.log(this.props)
         return (
             <Layout>
-                {!responsive.data.isMobile && <SiderCustom collapsed={this.state.collapsed} />}
-                {/*<ThemePicker />*/}
-                <Layout style={{flexDirection: 'column'}}>
-                    <HeaderCustom toggle={this.toggle} collapsed={this.state.collapsed} user={auth.data || {}} />
-                    <Content style={{ margin: '0 16px', overflow: 'initial', flex: '1 1 0' }}>
-                        <Routes auth={auth} />
-                    </Content>
-                    <Footer style={{ textAlign: 'center' }}>
-                      松果数据  {new Date().getFullYear()}
-                    </Footer>
-                </Layout>
-                
-                {/* {
+            {!responsive.data.isMobile && <SiderCustom collapsed={this.state.collapsed} />}
+        {/*<ThemePicker />*/}
+    <Layout style={{flexDirection: 'column'}}>
+    <HeaderCustom toggle={this.toggle} collapsed={this.state.collapsed} user={auth.data || {}} />
+        <Content style={{ margin: '0 16px', overflow: 'initial', flex: '1 1 0' }}>
+    <Routes auth={auth} />
+        </Content>
+        <Footer style={{ textAlign: 'center' }}>
+        天鲲Ai   {new Date().getFullYear()}
+    </Footer>
+        </Layout>
+
+        {/* {
                     responsive.data.isMobile && (   // 手机端对滚动很慢的处理
                         <style>
                         {`
@@ -92,8 +92,8 @@ class App extends Component {
                         </style>
                     )
                 } */}
-            </Layout>
-        );
+    </Layout>
+    );
     }
 }
 

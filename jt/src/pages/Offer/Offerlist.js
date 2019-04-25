@@ -68,14 +68,14 @@ export default class Offerlist extends Component{
                 console.log(res)
                 if(res[0].code=='1'){
                     that.setState({
-                        listtext:res[0].messages
+                        listdata:res[0].messages
                     })
                 }
             }
 
         })
         this.setState({
-            listtext: []
+            listdata: []
         })
     }
 
@@ -87,35 +87,35 @@ export default class Offerlist extends Component{
         this.dataajax(this.state.page,this.state.limit)
         // const c_id = '595411d4-cf3c-4068-b626-708ccd1fee5'
         // const a_id = '8f3ea920-e44d-4d85-ac81-6a493ad72a74'
-       /* $.ajax({
-            url:URL_Offer_record,
-            type:'post',
-            data:{
-                c_id:ai_offer
-                // a_id:'8f3ea920-e44d-4d85-ac81-6a493ad72a74'
-            },
-            success:(res)=>{
-                console.log(res)
-                console.log(res[0].messages)
-                if (res[0]){
-                    this.setState({
-                        listtext:res[0].messages
-                        }
-                    )
-                }
-                /!* if(res[0].code=='1'){
+        /* $.ajax({
+             url:URL_Offer_record,
+             type:'post',
+             data:{
+                 c_id:ai_offer
+                 // a_id:'8f3ea920-e44d-4d85-ac81-6a493ad72a74'
+             },
+             success:(res)=>{
+                 console.log(res)
+                 console.log(res[0].messages)
+                 if (res[0]){
                      this.setState({
-                         listdata:res[0].message
-                     })
-                 }*!/
-                // nums=res;
-            }
+                         listtext:res[0].messages
+                         }
+                     )
+                 }
+                 /!* if(res[0].code=='1'){
+                      this.setState({
+                          listdata:res[0].message
+                      })
+                  }*!/
+                 // nums=res;
+             }
 
-        })
+         })
 
-        this.setState({
-            listtext:[]
-        });*/
+         this.setState({
+             listtext:[]
+         });*/
     }
     handlepagesize=(val)=>{
         this.dataajax(val,this.state.limit)
@@ -129,7 +129,7 @@ export default class Offerlist extends Component{
             url:URL_Offer_record,
             type:'post',
             data:{
-                 // c_id :USER_INFO_GET()&&USER_INFO_GET().companyId||'',
+                // c_id :USER_INFO_GET()&&USER_INFO_GET().companyId||'',
                 c_id:'595411d4-cf3c-4068-b626-708ccd1fee5f',
                 page:page,
                 limit:limit
@@ -159,37 +159,37 @@ export default class Offerlist extends Component{
             { title: '报价金额', dataIndex: 'price', key: 'price',align:'center' },
             // { title: '订单来源', dataIndex: 'cprice', key: 'cprice',align:'center' },
             { title: '编辑', dataIndex: '', key: 'x',align:'center', render: (text,record,index) =><div><span onClick={this.orderdetail.bind(this,record)} style={{padding:'0 3px',cursor:'pointer',color:'#40a9ff'}}>查看</span></div>,},
-            // {
-            //     title: '操作', dataIndex: '', key: 'x',align:'center', render: () =><div><span onClick={this.orderdetail} style={{padding:'0 3px',cursor:'pointer',color:'#40a9ff'}}>查看</span></div>,
-            // },
-        ];
+        // {
+        //     title: '操作', dataIndex: '', key: 'x',align:'center', render: () =><div><span onClick={this.orderdetail} style={{padding:'0 3px',cursor:'pointer',color:'#40a9ff'}}>查看</span></div>,
+        // },
+    ];
         return(
             <div style={{marginTop:20,minWidth:800,maxWidth:1200}}>
-                <Card>
-                    <div>
-                        <div style={{
-                            width: '40%',
-                            marginLeft: '1%',
-                            marginBottom: '20px',
-                            display:'inline-block'
-                        }}>
-                            <div className="spantotal">
-                                <span className="spanlabel1" onChange={this.pjevent}>按车架号</span>
-                                <input className="spaninput" placeholder='请输入车架号' type="text"  ref="partId"/>
-                            </div>
-                        </div>
-                        <Button type="primary" onClick={this.query}>查询</Button>
-                    </div>
-                    <Table
-                        rowKey="id"
-                        columns={columns}
-                        dataSource={this.state.listdata}
-                        pagination={ false }
-                        loading={this.state.loading}
-                    />
-                    <Pagination onChange={this.handlepagesize} defaultCurrent={this.state.page} total={this.state.total} />
-                </Card>
+    <Card>
+        <div>
+        <div style={{
+            width: '40%',
+                marginLeft: '1%',
+                marginBottom: '20px',
+                display:'inline-block'
+        }}>
+    <div className="spantotal">
+            <span className="spanlabel1" onChange={this.pjevent}>按车架号</span>
+            <input className="spaninput" placeholder='请输入车架号' type="text"  ref="partId"/>
             </div>
-        )
+            </div>
+            <Button type="primary" onClick={this.query}>查询</Button>
+            </div>
+            <Table
+        rowKey="id"
+        columns={columns}
+        dataSource={this.state.listdata}
+        pagination={ false }
+        loading={this.state.loading}
+        />
+        <Pagination onChange={this.handlepagesize} defaultCurrent={this.state.page} total={this.state.total} />
+        </Card>
+        </div>
+    )
     }
 }
