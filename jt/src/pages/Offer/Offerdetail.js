@@ -60,28 +60,15 @@ export default class Offerdetail extends Component {
     componentWillMount() {
         var ai_offer = localStorage.getItem('ai_offer')
         // const o_id = '09a86354-c741-4e75-9909-1a6feb659cb0'
-<<<<<<< HEAD
         var id = localStorage.getItem('offerid')
-=======
-        var id=localStorage.getItem('offerid')
-        var page= page
-        var limit = limit
->>>>>>> 89667dba76c8c870b9ad264e988947ea41b84c6d
         $.ajax({
             url: URL_0ffer_history,
             type: 'post',
             data: {
                 // o_id
                 // o_id:ai_offer
-<<<<<<< HEAD
                 c_id: USER_INFO_GET() && USER_INFO_GET().companyId || '',
                 o_id: id
-=======
-                c_id :USER_INFO_GET()&&USER_INFO_GET().companyId||'',
-                o_id:id,
-                page:page,
-                limit:limit
->>>>>>> 89667dba76c8c870b9ad264e988947ea41b84c6d
 
             },
             success: (res) => {
@@ -90,15 +77,8 @@ export default class Offerdetail extends Component {
                 console.log(res[0].on)
                 if (res[0].code == '1') {
                     this.setState({
-<<<<<<< HEAD
                         listdata: res[0].messages,
                         cardetail: res[0].on
-=======
-                        listdata:res[0].messages,
-                        cardetail:res[0].on,
-                        total:res[0].num,
-                        page:parseInt(res[0].page),
->>>>>>> 89667dba76c8c870b9ad264e988947ea41b84c6d
                     })
                 }
             }
@@ -115,9 +95,7 @@ export default class Offerdetail extends Component {
             loading: true
         })
         var Ai_offer = localStorage.getItem('Ai_offer')
-        var id=localStorage.getItem('offerid')
         $.ajax({
-<<<<<<< HEAD
             url: URL_0ffer_history,
             type: 'post',
             data: {
@@ -125,16 +103,6 @@ export default class Offerdetail extends Component {
                 // c_id:'000fc79e',
                 page: page,
                 limit: limit
-=======
-            url:URL_0ffer_history,
-            type:'post',
-            data:{
-                o_id :id,
-                // c_id:'000fc79e',
-                // id:id,
-                page:page,
-                limit:limit
->>>>>>> 89667dba76c8c870b9ad264e988947ea41b84c6d
             },
             success: (res) => {
                 console.log(res)

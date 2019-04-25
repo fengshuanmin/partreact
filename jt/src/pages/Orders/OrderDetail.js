@@ -44,28 +44,16 @@ export default class OrderDetail extends Component {
 
     componentWillMount() {
         var ai_offer = localStorage.getItem('ai_offer')
-<<<<<<< HEAD
         var id = localStorage.getItem('ordeid')
-=======
-        var id=localStorage.getItem('ordeid')
-        var page = page
-        var limit = limit
->>>>>>> 89667dba76c8c870b9ad264e988947ea41b84c6d
         // const a_d_id = '1'
         $.ajax({
             url: URL_Order_center,
             type: 'post',
             data: {
                 // a_d_id
-<<<<<<< HEAD
                 a_d_id: USER_INFO_GET() && USER_INFO_GET().companyId || '',
-=======
-                // a_d_id:USER_INFO_GET()&&USER_INFO_GET().companyId||'',
->>>>>>> 89667dba76c8c870b9ad264e988947ea41b84c6d
                 // o_id:id
-                id: id,
-                page:page,
-                limit:limit
+                id: id
             },
             success: (res) => {
                 console.log(res)
@@ -73,15 +61,8 @@ export default class OrderDetail extends Component {
                 console.log(res[0].on)
                 if (res[0].code == '1') {
                     this.setState({
-<<<<<<< HEAD
                         listdata: res[0].messages,
                         cardetail: res[0].on
-=======
-                        listdata:res[0].messages,
-                        cardetail:res[0].on,
-                        total:res[0].num,
-                        page:parseInt(res[0].page),
->>>>>>> 89667dba76c8c870b9ad264e988947ea41b84c6d
                     })
                 }
             }
@@ -93,27 +74,17 @@ export default class OrderDetail extends Component {
         this.dataajax(val, this.state.limit)
 
     }
-<<<<<<< HEAD
     dataajax = (page, limit) => {
-=======
-
-    dataajax=(page,limit)=>{
->>>>>>> 89667dba76c8c870b9ad264e988947ea41b84c6d
         this.setState({
             loading: true
         })
-        var id=localStorage.getItem('ordeid')
         var ai_offer = localStorage.getItem('ai_offer')
         $.ajax({
             url: URL_Order_center,
             type: 'post',
             data: {
                 // o_id :USER_INFO_GET()&&USER_INFO_GET().companyId||'',
-<<<<<<< HEAD
                 id: USER_INFO_GET() && USER_INFO_GET().companyId || '',
-=======
-                id: id,
->>>>>>> 89667dba76c8c870b9ad264e988947ea41b84c6d
                 // c_id:'000fc79e',
                 page: page,
                 limit: limit
