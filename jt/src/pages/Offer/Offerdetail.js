@@ -123,46 +123,45 @@ export default class Offerdetail extends Component{
             { title: '特征', dataIndex: 'description', key: 'description',align:'center' },
             { title: '品质', dataIndex: 'quality', key: 'quality',align:'center' },
             { title: '质保', dataIndex: 'warranty', key: 'warranty',align:'center' },
-            { title: '价格', dataIndex: 'price', key: 'price',align:'center',render: (text,record,index) =>
-                    <span>{(record.retailPricemax==''||record.retailPricemax==null)?'-':record.retailPricemax}</span>
+            { title: '价格', dataIndex: 'price', key: 'price',align:'center'
             },
             { title: '备注', dataIndex: 'remark', key: 'remark',align:'center',render: (text,record,index) =>
-                    <span>{(record.retailPricemax==''||record.retailPricemax==null)?'-':record.retailPricemax}</span>
-            },
-           /* {
-                title: '操作', dataIndex: '', key: 'x',align:'center', render: () =><div><span onClick={this.orderdetail} style={{padding:'0 3px',cursor:'pointer',color:'#40a9ff'}}>查看</span></div>,
-            },*/
-        ];
+            <span>{(record.retailPricemax==''||record.retailPricemax==null)?'-':record.retailPricemax}</span>
+    },
+        /* {
+             title: '操作', dataIndex: '', key: 'x',align:'center', render: () =><div><span onClick={this.orderdetail} style={{padding:'0 3px',cursor:'pointer',color:'#40a9ff'}}>查看</span></div>,
+         },*/
+    ];
         return(
             <div style={{marginTop:20,minWidth:800,maxWidth:1400}}>
-                <Card>
-                    <div style={{width:'100%',background:'#ECF0F5',float:'left',paddingBottom:'15px',marginBottom:'15px'}}>
-                        <ul className="orderdetailtitle">
-                            <li>车型:{this.state.cardetail.description}</li>
-                            <li>报价单号:{this.state.cardetail.id}</li>
-                        </ul>
-                        <ul className="orderdetailtitle">
-                            <li>车架号:{this.state.cardetail.vincode}</li>
-                            <li>报价金额:{this.state.cardetail.total_part_amount}</li>
-                        </ul>
-                        <ul className="orderdetailtitle">
-                            <li>零件数:{this.state.cardetail.total_part_quantity}</li>
-                            <li>报价来源:{this.state.cardetail.source}</li>
-                        </ul>
-                    </div>
-                    <div style={{width:'100%',float:'left',paddingBottom:'20px',background:'#fff'}}>
-                        <Table
-                            columns={columns}
-                            dataSource={this.state.listdata}
-                            pagination={ false }
-                        />
-                        <Pagination onChange={this.handlepagesize} defaultCurrent={this.state.page} total={this.state.total} />
-                    </div>
-                    <div style={{textAlign:'center',float:'left',width:'100%'}}>
-                        <Button type="primary" onClick={this.back}>返回</Button>
-                    </div>
-                </Card>
-               {/*<div style={{
+    <Card>
+        <div style={{width:'100%',background:'#ECF0F5',float:'left',paddingBottom:'15px',marginBottom:'15px'}}>
+    <ul className="orderdetailtitle">
+            <li>车型:{this.state.cardetail.description}</li>
+        <li>报价单号:{this.state.cardetail.id}</li>
+        </ul>
+        <ul className="orderdetailtitle">
+            <li>车架号:{this.state.cardetail.vincode}</li>
+        <li>报价金额:{this.state.cardetail.total_part_amount}</li>
+        </ul>
+        <ul className="orderdetailtitle">
+            <li>零件数:{this.state.cardetail.total_part_quantity}</li>
+        <li>报价来源:{this.state.cardetail.source}</li>
+        </ul>
+        </div>
+        <div style={{width:'100%',float:'left',paddingBottom:'20px',background:'#fff'}}>
+    <Table
+        columns={columns}
+        dataSource={this.state.listdata}
+        pagination={ false }
+        />
+        <Pagination onChange={this.handlepagesize} defaultCurrent={this.state.page} total={this.state.total} />
+        </div>
+        <div style={{textAlign:'center',float:'left',width:'100%'}}>
+    <Button type="primary" onClick={this.back}>返回</Button>
+            </div>
+            </Card>
+        {/*<div style={{
                     display:'flex',flexDirection:'column'
                 }}>
                     <div style={{display:'flex',flexDirection:'row'}}>
@@ -199,7 +198,7 @@ export default class Offerdetail extends Component{
                     </div>
                 </Card>
 */}
-            </div>
-        )
+    </div>
+    )
     }
 }

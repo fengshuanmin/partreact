@@ -74,7 +74,7 @@ class SiderCustom extends Component {
                 collapsed={this.props.collapsed}
                 style={{ overflowY: 'auto' }}
             >
-                <div className="logo" style={{textAlign:'center',lineHeight:'32px'}}>{this.props.collapsed?'Parts':'SG_AiParts'}</div>
+                <div className="logo" style={{textAlign:'center',lineHeight:'32px'}}>{this.props.collapsed?'Parts':'PartAi.cn'}</div>
                 <SiderMenu
                     menus={routes.menus}
                     onClick={this.menuClick}

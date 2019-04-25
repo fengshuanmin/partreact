@@ -11,7 +11,7 @@ export default class OrdersManage extends Component{
     constructor(props){
         super(props)
         this.state={
-        listdata:[],
+            listdata:[],
             v_code:'',
             pjId:'',
             // step:'1',
@@ -137,40 +137,40 @@ export default class OrdersManage extends Component{
             { title: '订单金额', dataIndex: 'total_amount', key: 'total_amount',align:'center', },
             {title:'车架号',dataIndex:'v_code',key:'v_code',align:'center',},
             { title: '订单来源', dataIndex: 'cprice', key: 'cprice',align:'center',render: (text,record,index) =>
-                    <span>{(record.retailPricemax==''||record.retailPricemax==null)?'微信机器人':record.retailPricemax}</span>
-            },
-            // { title: '编辑', dataIndex: 'bprice', key: 'bprice',align:'center' },
-            {
-                title: '操作', dataIndex: '', key: 'x',align:'center', render: (text,record,index) =><div><span onClick={this.orderdetail.bind(this,record)} style={{padding:'0 3px',cursor:'pointer',color:'#40a9ff'}}>查看</span></div>,
-            },
-        ];
+            <span>{(record.retailPricemax==''||record.retailPricemax==null)?'微信机器人':record.retailPricemax}</span>
+    },
+        // { title: '编辑', dataIndex: 'bprice', key: 'bprice',align:'center' },
+        {
+            title: '操作', dataIndex: '', key: 'x',align:'center', render: (text,record,index) =><div><span onClick={this.orderdetail.bind(this,record)} style={{padding:'0 3px',cursor:'pointer',color:'#40a9ff'}}>查看</span></div>,
+        },
+    ];
         return(
             <div style={{marginTop:20,minWidth:800,maxWidth:1200}}>
-                <Card>
-                    <div>
-                        <div style={{
-                            width: '40%',
-                            marginLeft: '1%',
-                            marginBottom: '20px',
-                            display:'inline-block'
-                        }}>
-                            <div className="spantotal">
-                                <span className="spanlabel1" onChange={this.pjevent}>按车架号</span>
-                                <input className="spaninput" placeholder='请输入车架号' type="text"  ref="partId" />
-                            </div>
-                        </div>
-                        <Button type="primary" onClick={this.query}>查询</Button>
-                    </div>
-                    <Table
-                        rowKey="id"
-                        columns={columns}
-                        dataSource={this.state.listdata}
-                        pagination={ false }
-                        loading={this.state.loading}
-                    />
-                    <Pagination onChange={this.handlepagesize} defaultCurrent={this.state.page} total={this.state.total} />
-                </Card>
+    <Card>
+        <div>
+        <div style={{
+            width: '40%',
+                marginLeft: '1%',
+                marginBottom: '20px',
+                display:'inline-block'
+        }}>
+    <div className="spantotal">
+            <span className="spanlabel1" onChange={this.pjevent}>按车架号</span>
+            <input className="spaninput" placeholder='请输入车架号' type="text"  ref="partId" />
             </div>
-        )
+            </div>
+            <Button type="primary" onClick={this.query}>查询</Button>
+            </div>
+            <Table
+        rowKey="id"
+        columns={columns}
+        dataSource={this.state.listdata}
+        pagination={ false }
+        loading={this.state.loading}
+        />
+        <Pagination onChange={this.handlepagesize} defaultCurrent={this.state.page} total={this.state.total} />
+        </Card>
+        </div>
+    )
     }
 }
