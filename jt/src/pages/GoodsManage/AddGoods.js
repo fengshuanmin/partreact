@@ -208,7 +208,10 @@ export default class  AddGoods extends Component{
                 })
             }
         },err=>{
-            console.log(err)
+            if(err.status=='500'){
+                alert('登陆失效，请重新登录')
+                this.props.history.push('/login')
+            }
         })
     }
     onDrop1=(file)=>{
@@ -228,7 +231,10 @@ export default class  AddGoods extends Component{
                 })
             }
         },err=>{
-            console.log(err)
+            if(err.status=='500'){
+                alert('登陆失效，请重新登录')
+                this.props.history.push('/login')
+            }
         })
     }
     onDrop2=(file)=>{
@@ -249,7 +255,10 @@ export default class  AddGoods extends Component{
                 })
             }
         },err=>{
-            console.log(err)
+            if(err.status=='500'){
+                alert('登陆失效，请重新登录')
+                this.props.history.push('/login')
+            }
         })
     }
     onDrop3=(file)=>{
@@ -270,7 +279,10 @@ export default class  AddGoods extends Component{
                 })
             }
         },err=>{
-            console.log(err)
+            if(err.status=='500'){
+                alert('登陆失效，请重新登录')
+                this.props.history.push('/login')
+            }
         })
     }
     handleChange = (info) => {
@@ -340,35 +352,44 @@ export default class  AddGoods extends Component{
         })
         console.log(this.state.partList)
         if(!this.state.partList.stdname){
-            const confirm=Modal.confirm;
-            var self=this
-            confirm({title: '提示',
-                content: '请否确认删除该数据？'})
-        }
-        $.ajax({
-            url:URL_api_parts_sku_save,
-            type:'post',
-            data:JSON.stringify(this.state.partList),
-            headers:{appToken:USER_INFO_GET()&&USER_INFO_GET().appToken||'','Content-Type':'application/json;charset=UTF-8'},
-            success:(res)=>{
-                console.log(res)
-                if(res.code==0){
-                    this.picevent()
-                    var {partList={}}=this.state
-                    partList={}
-                    this.setState({
-                        partList,
-                        partlistname:'',
-                        partnameflag:false,
-                        imageUrl:'',
-                        imageUrl1:'',
-                        imageUrl2:'',
-                        imageUrl3:''
-                    })
+            alert('请填写配件名称')
+        }else if(!this.state.partList.vendorOe){
+            alert('请填写零件号')
+        }else if(!this.state.partList.vendorPartquality){
+            alert('请选择配件品质')
+        }else{
+            $.ajax({
+                url:URL_api_parts_sku_save,
+                type:'post',
+                data:JSON.stringify(this.state.partList),
+                headers:{appToken:USER_INFO_GET()&&USER_INFO_GET().appToken||'','Content-Type':'application/json;charset=UTF-8'},
+                success:(res)=>{
+                    console.log(res)
+                    if(res.code==0){
+                        alert('商品新增成功')
+                        this.picevent()
+                        var {partList={}}=this.state
+                        partList={}
+                        this.setState({
+                            partList,
+                            partlistname:'',
+                            partnameflag:false,
+                            imageUrl:'',
+                            imageUrl1:'',
+                            imageUrl2:'',
+                            imageUrl3:''
+                        })
+                    }
+                },
+                error:(err)=>{
+                    if(err.status=='500'){
+                        alert('登陆失效，请重新登录')
+                        this.props.history.push('/login')
+                    }
                 }
-            }
 
-        })
+            })
+        }
     }
     comfir=()=>{
         $.ajax({
@@ -382,6 +403,12 @@ export default class  AddGoods extends Component{
                     window.history.back()
                 }
 
+            },
+            error:(err)=>{
+                if(err.status=='500'){
+                    alert('登陆失效，请重新登录')
+                    this.props.history.push('/login')
+                }
             }
 
         })
@@ -400,41 +427,58 @@ export default class  AddGoods extends Component{
                         partList
                     })
                 }
+            },
+            error:(err)=>{
+                if(err.status=='500'){
+                    alert('登陆失效，请重新登录')
+                    this.props.history.push('/login')
+                }
+            }
+        })
+    }
+    componentDidMount(){
+        this.picevent()
+        $.ajax({
+            url:URL_api_parts_sku_getConfigQualitys,
+            type:'get',
+            headers:{appToken:USER_INFO_GET()&&USER_INFO_GET().appToken||''},
+            success:(res)=>{
+                console.log(res)
+                if(res.code==0){
+                    this.setState({
+                        qualityList:res.qualityList
+                    })
+                }
+            },
+            error:(err)=>{
+                if(err.status=='500'){
+                    alert('登陆失效，请重新登录')
+                    this.props.history.push('/login')
+                }
+            }
+
+        })
+        $.ajax({
+            url:URL_api_parts_sku_getConfigWarrantys,
+            type:'get',
+            headers:{appToken:USER_INFO_GET()&&USER_INFO_GET().appToken||''},
+            success:(res)=>{
+                console.log(res)
+                if(res.code==0){
+                    this.setState({
+                        partwarrantyList:res.warrantyList
+                    })
+                }
+            },
+            error:(err)=>{
+                if(err.status=='500'){
+                    alert('登陆失效，请重新登录')
+                    this.props.history.push('/login')
+                }
             }
 
         })
     }
-componentDidMount(){
-    this.picevent()
-    $.ajax({
-        url:URL_api_parts_sku_getConfigQualitys,
-        type:'get',
-        headers:{appToken:USER_INFO_GET()&&USER_INFO_GET().appToken||''},
-        success:(res)=>{
-            console.log(res)
-            if(res.code==0){
-                this.setState({
-                    qualityList:res.qualityList
-                })
-            }
-        }
-
-    })
-    $.ajax({
-        url:URL_api_parts_sku_getConfigWarrantys,
-        type:'get',
-        headers:{appToken:USER_INFO_GET()&&USER_INFO_GET().appToken||''},
-        success:(res)=>{
-            console.log(res)
-            if(res.code==0){
-                this.setState({
-                    partwarrantyList:res.warrantyList
-                })
-            }
-        }
-
-    })
-}
 
     render(){
         console.log(this.state)

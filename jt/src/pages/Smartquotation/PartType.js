@@ -45,7 +45,7 @@ export default class PartType extends Component{
             url:URL_std_for_stdname,
             // url:'http://139.196.16.229:9999/std_for_stdname',
             type:'post',
-            data:JSON.stringify(dat),
+            data:{stdnames:arr},
             success:(res)=>{
                 console.log(res)
                 if(res[0].code==1){
@@ -145,7 +145,15 @@ export default class PartType extends Component{
                         <Card bordered={false} bodyStyle={{minHeight: 400,maxHeight:600}}>
                             <p>标准件名称</p>
                             <div>
-                                {this.state.nickname}
+                                <ul>
+                                    {this.state.nickname&&this.state.nickname.map((item,index)=>{
+                                        return(
+                                            <li key={index}>
+                                                {item}
+                                            </li>
+                                        )
+                                    })}
+                                </ul>
                             </div>
                         </Card>
                     </Col>

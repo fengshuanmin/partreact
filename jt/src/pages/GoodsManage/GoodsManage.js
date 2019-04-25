@@ -47,6 +47,12 @@ export default class  GoodsManage extends Component{
                         limit:res.page.pageSize
                     })
                 }
+            },
+            error:(err)=>{
+                if(err.status=='500'){
+                    alert('登陆失效，请重新登录')
+                    this.props.history.push('/login')
+                }
             }
 
         })
@@ -67,7 +73,7 @@ export default class  GoodsManage extends Component{
         this.slider.slick.slickPrev();
     }
     change=(record)=>{
-console.log(record)
+        console.log(record)
         /*this.setState({
             isOnline:!record.isOnline
         })*/
@@ -87,6 +93,12 @@ console.log(record)
                 console.log(res)
                 if(res.code==0){
                     this.dataajax(this.state.page,this.state.limit)
+                }
+            },
+            error:(err)=>{
+                if(err.status=='500'){
+                    alert('登陆失效，请重新登录')
+                    this.props.history.push('/login')
                 }
             }
 
@@ -174,6 +186,14 @@ console.log(record)
                         limit:res.page.pageSize
                     })
                 }
+            },
+            error:(err)=>{
+                console.log(err)
+                console.log(err.status)
+                if(err.status=='500'){
+                    // alert('登陆失效，请重新登录')
+                    // this.props.history.push('/login')
+                }
             }
 
         })
@@ -239,7 +259,7 @@ console.log(record)
                                 return(
                                     <div key={index}><img src={item}/></div>
                                 )
-                        })}
+                            })}
                         </Carousel>
                         <Icon type="arrow-left" onClick={this.prev}/>
                         <Icon type="arrow-right" onClick={this.next}/>

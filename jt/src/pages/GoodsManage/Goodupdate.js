@@ -12,7 +12,7 @@ import {
     URL_api_parts_sku_uploadPartImg,
     URL_api_parts_sku_getPicId,
     URL_api_parts_sku_info,
-    URL_api_parts_sku_update
+    URL_api_parts_sku_update, URL_api_parts_sku_save
 } from "../../utils/net/Url";
 import Net from '../../utils/net/Net';
 import {USER_INFO_GET} from '../../utils/storeInfo';
@@ -197,69 +197,93 @@ export default class  Goodupdate extends Component{
         }));
         let f = new FormData();
         f.append('part-image-file',file)
-        Net.upload({url:URL_api_parts_sku_uploadPartImg+'?type=1&&picId='+this.state.picId,data:f},res=>{
+        Net.upload({url:URL_api_parts_sku_uploadPartImg+'?type=1&&picId='+this.state.partList.picId,data:f},res=>{
             console.log(res)
             if(res.code==0){
+                var {picList=[]}=this.state
+                picList.push(res.pictureMerchandise.id)
                 this.setState({
-                    imageUrl:res.url
+                    picList,
+                    imageUrl:res.pictureMerchandise.url
                 })
             }
         },err=>{
-            console.log(err)
+            if(err.status=='500'){
+                alert('登陆失效，请重新登录')
+                this.props.history.push('/login')
+            }
         })
     }
     onDrop1=(file)=>{
-        this.getBase64(file, imageUrl => this.setState({
-            imageUrl,
+        this.getBase64(file, imageUrl1 => this.setState({
+            imageUrl1,
             loading: false,
         }));
         let f = new FormData();
         f.append('part-image-file',file)
-        Net.upload({url:URL_api_parts_sku_uploadPartImg+'?type=1&&picId='+this.state.picId,data:f},res=>{
+        Net.upload({url:URL_api_parts_sku_uploadPartImg+'?type=1&&picId='+this.state.partList.picId,data:f},res=>{
             console.log(res)
             if(res.code==0){
+                var {picList=[]}=this.state
+                picList.push(res.pictureMerchandise.id)
                 this.setState({
-                    imageUrl1:res.url
+                    picList,
+                    imageUrl1:res.pictureMerchandise.url
                 })
             }
         },err=>{
-            console.log(err)
+            if(err.status=='500'){
+                alert('登陆失效，请重新登录')
+                this.props.history.push('/login')
+            }
         })
     }
     onDrop2=(file)=>{
-        this.getBase64(file, imageUrl => this.setState({
-            imageUrl,
+        this.getBase64(file, imageUrl2=> this.setState({
+            imageUrl2,
             loading: false,
         }));
         let f = new FormData();
         f.append('part-image-file',file)
-        Net.upload({url:URL_api_parts_sku_uploadPartImg+'?type=1&&picId='+this.state.picId,data:f},res=>{
+        Net.upload({url:URL_api_parts_sku_uploadPartImg+'?type=1&&picId='+this.state.partList.picId,data:f},res=>{
             console.log(res)
             if(res.code==0){
+                var {picList=[]}=this.state
+                picList.push(res.pictureMerchandise.id)
                 this.setState({
-                    imageUrl2:res.url
+                    picList,
+                    imageUrl2:res.pictureMerchandise.url
                 })
             }
         },err=>{
-            console.log(err)
+            if(err.status=='500'){
+                alert('登陆失效，请重新登录')
+                this.props.history.push('/login')
+            }
         })
     }
     onDrop3=(file)=>{
-        this.getBase64(file, imageUrl => this.setState({
-            imageUrl,
+        this.getBase64(file, imageUrl3 => this.setState({
+            imageUrl3,
             loading: false,
         }));
         let f = new FormData();
         f.append('part-image-file',file)
-        Net.upload({url:URL_api_parts_sku_uploadPartImg+'?type=1&&picId='+this.state.picId,data:f},res=>{
+        Net.upload({url:URL_api_parts_sku_uploadPartImg+'?type=1&&picId='+this.state.partList.picId,data:f},res=>{
             console.log(res)
             if(res.code==0){
+                var {picList=[]}=this.state
+                picList.push(res.pictureMerchandise.id)
                 this.setState({
-                    imageUrl3:res.url
+                    picList,
+                    imageUrl3:res.pictureMerchandise.url
                 })
             }
         },err=>{
-            console.log(err)
+            if(err.status=='500'){
+                alert('登陆失效，请重新登录')
+                this.props.history.push('/login')
+            }
         })
     }
     handleChange = (info) => {
@@ -316,41 +340,73 @@ export default class  Goodupdate extends Component{
     }
     loadcomfir=()=>{
         console.log(this.state.partList)
-        $.ajax({
-            url:URL_api_parts_sku_update,
-            type:'post',
-            data:JSON.stringify(this.state.partList),
-            headers:{appToken:USER_INFO_GET()&&USER_INFO_GET().appToken||'','Content-Type':'application/json;charset=UTF-8'},
-            success:(res)=>{
-                console.log(res)
-                if(res.code==0){
-                    this.picevent()
-                    const {partList={}}=this.state
-                    this.setState({
-                        partList,
-                        partlistname:'',
-                        partnameflag:false
-                    })
+        if(!this.state.partList.stdname){
+            alert('请填写配件名称')
+        }else if(!this.state.partList.vendorOe){
+            alert('请填写零件号')
+        }else if(!this.state.partList.vendorPartquality){
+            alert('请选择配件品质')
+        }else{
+            $.ajax({
+                url:URL_api_parts_sku_update,
+                type:'post',
+                data:JSON.stringify(this.state.partList),
+                headers:{appToken:USER_INFO_GET()&&USER_INFO_GET().appToken||'','Content-Type':'application/json;charset=UTF-8'},
+                success:(res)=>{
+                    console.log(res)
+                    if(res.code==0){
+                        alert('商品修改成功')
+                        this.picevent()
+                        const {partList={}}=this.state
+                        this.setState({
+                            partList,
+                            partlistname:'',
+                            partnameflag:false,
+                            imageUrl:'',
+                            imageUrl1:'',
+                            imageUrl2:'',
+                            imageUrl3:''
+                        })
+                    }
+                },
+                error:(err)=>{
+                    if(err.status=='500'){
+                        alert('登陆失效，请重新登录')
+                        this.props.history.push('/login')
+                    }
                 }
-            }
 
-        })
+            })
+        }
     }
     comfir=()=>{
-        $.ajax({
-            url:URL_api_parts_sku_update,
-            type:'post',
-            data:JSON.stringify(this.state.partList),
-            headers:{appToken:USER_INFO_GET()&&USER_INFO_GET().appToken||'','Content-Type':'application/json;charset=UTF-8'},
-            success:(res)=>{
-                console.log(res)
-                if(res.code==0){
-                    window.history.back()
+        if(!this.state.partList.stdname){
+            alert('请填写配件名称')
+        }else if(!this.state.partList.vendorOe){
+            alert('请填写零件号')
+        }else if(!this.state.partList.vendorPartquality){
+            alert('请选择配件品质')
+        }else{
+            $.ajax({
+                url:URL_api_parts_sku_update,
+                type:'post',
+                data:JSON.stringify(this.state.partList),
+                headers:{appToken:USER_INFO_GET()&&USER_INFO_GET().appToken||'','Content-Type':'application/json;charset=UTF-8'},
+                success:(res)=>{
+                    console.log(res)
+                    if(res.code==0){
+                        alert('商品修改成功')
+                        window.history.back()
+                    }
+                },
+                error:(err)=>{
+                    if(err.status=='500'){
+                        alert('登陆失效，请重新登录')
+                        this.props.history.push('/login')
+                    }
                 }
-
-            }
-
-        })
+            })
+        }
     }
     picevent=()=>{
         $.ajax({
@@ -366,6 +422,12 @@ export default class  Goodupdate extends Component{
                         partList
                     })
                 }
+            },
+            error:(err)=>{
+                if(err.status=='500'){
+                    alert('登陆失效，请重新登录')
+                    this.props.history.push('/login')
+                }
             }
 
         })
@@ -373,7 +435,7 @@ export default class  Goodupdate extends Component{
     componentDidMount(){
         console.log(this.props)
         var goodsId=localStorage.getItem('goodsId')
-        this.picevent()
+        // this.picevent()
         $.ajax({
             url:URL_api_parts_sku_getConfigQualitys,
             type:'get',
@@ -384,6 +446,12 @@ export default class  Goodupdate extends Component{
                     this.setState({
                         qualityList:res.qualityList
                     })
+                }
+            },
+            error:(err)=>{
+                if(err.status=='500'){
+                    alert('登陆失效，请重新登录')
+                    this.props.history.push('/login')
                 }
             }
 
@@ -398,6 +466,12 @@ export default class  Goodupdate extends Component{
                     this.setState({
                         partwarrantyList:res.warrantyList
                     })
+                }
+            },
+            error:(err)=>{
+                if(err.status=='500'){
+                    alert('登陆失效，请重新登录')
+                    this.props.history.push('/login')
                 }
             }
 
@@ -416,6 +490,41 @@ export default class  Goodupdate extends Component{
                         partList:res.infoMap.partsSku,
                         partlistname:res.infoMap.partsSku.stdname
                     })
+                    var imglis=res.infoMap.imgList
+                    console.log(imglis)
+                    imglis.map((item,index)=>{
+                        if(item.lable=='1'){
+                            console.log('1')
+                            this.setState({
+                                imageUrl:item.url
+                            })
+                        }
+                        if(item.lable=='2'){
+                            console.log('2')
+                            this.setState({
+                                imageUrl1:item.url
+                            })
+                        }
+                        if(item.lable=='3'){
+                            console.log('3')
+                            this.setState({
+                                imageUrl2:item.url
+                            })
+                        }
+                        if(item.lable=='4'){
+                            console.log('4')
+                            this.setState({
+                                imageUrl3:item.url
+                            })
+                        }
+                    })
+                    console.log(this.state.imageUrl)
+                }
+            },
+            error:(err)=>{
+                if(err.status=='500'){
+                    alert('登陆失效，请重新登录')
+                    this.props.history.push('/login')
                 }
             }
 
