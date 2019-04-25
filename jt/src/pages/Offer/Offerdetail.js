@@ -58,6 +58,8 @@ export default class Offerdetail extends Component{
         var ai_offer = localStorage.getItem('ai_offer')
         // const o_id = '09a86354-c741-4e75-9909-1a6feb659cb0'
         var id=localStorage.getItem('offerid')
+        var page= page
+        var limit = limit
         $.ajax({
             url:URL_0ffer_history,
             type:'post',
@@ -65,7 +67,9 @@ export default class Offerdetail extends Component{
                 // o_id
                 // o_id:ai_offer
                 c_id :USER_INFO_GET()&&USER_INFO_GET().companyId||'',
-                o_id:id
+                o_id:id,
+                page:page,
+                limit:limit
 
             },
             success:(res)=>{
@@ -75,7 +79,9 @@ export default class Offerdetail extends Component{
                 if(res[0].code=='1'){
                     this.setState({
                         listdata:res[0].messages,
-                        cardetail:res[0].on
+                        cardetail:res[0].on,
+                        total:res[0].num,
+                        page:parseInt(res[0].page),
                     })
                 }
             }
@@ -91,12 +97,14 @@ export default class Offerdetail extends Component{
             loading:true
         })
         var Ai_offer = localStorage.getItem('Ai_offer')
+        var id=localStorage.getItem('offerid')
         $.ajax({
             url:URL_0ffer_history,
             type:'post',
             data:{
-                o_id :USER_INFO_GET()&&USER_INFO_GET().companyId||'',
+                o_id :id,
                 // c_id:'000fc79e',
+                // id:id,
                 page:page,
                 limit:limit
             },

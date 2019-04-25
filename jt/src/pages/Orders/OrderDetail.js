@@ -44,15 +44,19 @@ export default class OrderDetail extends Component{
     componentWillMount(){
         var ai_offer = localStorage.getItem('ai_offer')
         var id=localStorage.getItem('ordeid')
+        var page = page
+        var limit = limit
         // const a_d_id = '1'
         $.ajax({
             url:URL_Order_center,
             type:'post',
             data:{
                 // a_d_id
-                a_d_id:USER_INFO_GET()&&USER_INFO_GET().companyId||'',
+                // a_d_id:USER_INFO_GET()&&USER_INFO_GET().companyId||'',
                 // o_id:id
-                id: id
+                id: id,
+                page:page,
+                limit:limit
             },
             success:(res)=>{
                 console.log(res)
@@ -61,7 +65,9 @@ export default class OrderDetail extends Component{
                 if (res[0].code=='1'){
                     this.setState({
                         listdata:res[0].messages,
-                        cardetail:res[0].on
+                        cardetail:res[0].on,
+                        total:res[0].num,
+                        page:parseInt(res[0].page),
                     })
                 }
             }
@@ -72,17 +78,19 @@ export default class OrderDetail extends Component{
         this.dataajax(val,this.state.limit)
 
     }
+
     dataajax=(page,limit)=>{
         this.setState({
             loading:true
         })
+        var id=localStorage.getItem('ordeid')
         var ai_offer = localStorage.getItem('ai_offer')
         $.ajax({
             url:URL_Order_center,
             type:'post',
             data:{
                 // o_id :USER_INFO_GET()&&USER_INFO_GET().companyId||'',
-                id:USER_INFO_GET()&&USER_INFO_GET().companyId||'',
+                id: id,
                 // c_id:'000fc79e',
                 page:page,
                 limit:limit
