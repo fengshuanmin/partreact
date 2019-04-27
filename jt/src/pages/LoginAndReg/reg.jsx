@@ -73,7 +73,7 @@ class Reg extends React.Component {
             <div className="login">
                 <div className="login-form" style={{height:600}}>
                     <div className="login-logo">
-                        <span>松果AI智能</span>
+                        <span>天鲲Ai</span>
                         <PwaInstaller />
                     </div>
                     <Form onSubmit={this.handleSubmit} style={{maxWidth: '300px'}}>

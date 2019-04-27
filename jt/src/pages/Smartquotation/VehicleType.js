@@ -167,7 +167,7 @@ export default  class VehicleType extends Component {
                     <div style={{minWidth:900}}>
                         <Row gutter={10}>
                             <Col span={12}>
-                                <Card bordered={false} bodyStyle={{height: 600}}>
+                                <Card bordered={false} bodyStyle={{height: 570}}>
                                     <div style={{textAlign: 'center',width:'100%'}}>
                                         <div id="image" style={{height: 100,width:"100%"}}>
                                             {/*<div id="caver" style={{height: 100,width:"100%",lineHeight:'100px'}}>*/}
@@ -176,7 +176,7 @@ export default  class VehicleType extends Component {
                                             <Upload
                                                 name="avatar"
                                                 listType="picture-card"
-                                                className="avatar-uploader"
+                                                className="avatar-uploader1"
                                                 showUploadList={false}
                                                 action={this.onDrop}
                                                 onChange={this.handleChange}
@@ -189,8 +189,8 @@ export default  class VehicleType extends Component {
                                         {/*<div id="caver">*/}
                                             {/*<p id="caver1" style={{display:'inline-block'}}>{this.state.inutval}</p>*/}
                                         {/*</div>*/}
-                                        <Input size="large" id="ipt" maxLength={17} value={this.state.vincode} onChange={this.vinclick} placeholder="输入17位车架号" style={{marginTop:30,width:"100%"}}/>
-                                        <div style={{textAlign:"left",marginTop:30}}>
+                                        <Input size="large" id="ipt" maxLength={17} value={this.state.vincode} onChange={this.vinclick} placeholder="输入17位车架号" style={{marginTop:10,width:"100%"}}/>
+                                        <div style={{textAlign:"left",marginTop:5}}>
 
                                             <div>
                                                 {/*<Button type="primary" onClick={this.canver.bind(this)}>车架号截屏</Button>*/}
@@ -229,9 +229,9 @@ export default  class VehicleType extends Component {
                                 </Card>
                             </Col>
                             <Col span={12}>
-                                <Card bordered={false} bodyStyle={{height: 600}}>
+                                <Card bordered={false} bodyStyle={{height: 570}}>
                                     <div style={{textAlign:'center'}}>
-                                        <img src={this.state.brandimg} alt="" style={{height: 400,width:440}} />
+                                        <img src={this.state.brandimg} alt="" style={{minHeight: 500,maxHeight:700,width:'100%'}} />
                                         <p>以上信息准确性请核对</p>
                                     </div>
 

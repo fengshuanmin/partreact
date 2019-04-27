@@ -3,6 +3,8 @@ import $ from 'jquery'
 import {Modal,Row, Col,Button, Card, List, Checkbox,Input,Table} from 'antd';
 import {URL_id_and_std_search,URL_modify_price} from "../../utils/net/Url";
 import {USER_INFO_GET} from "../../utils/storeInfo";
+import VehicleType from "./VehicleType";
+import PartType from "./PartType";
 
 
 export default class PricePreview extends Component{
@@ -153,7 +155,9 @@ export default class PricePreview extends Component{
             onChange: this.onSelectChange,
         };
         const columns = [
+
             // { dataIndex: 'check', key: 'check',align:'center',render: () =><Checkbox  defaultChecked onChange={this.change} /> },
+
             { title: '序号',key:'text',render:(text,record,index)=>`${index+1}`,align:'center'},
             { title: '标准件名称', dataIndex: 'stdname', key: 'stdname',align:'center' ,render: (text,record,index) =>
                     <span key="pjname">{(record.stdname==''||record.stdname==null)?'-':record.stdname}</span>
@@ -188,6 +192,7 @@ export default class PricePreview extends Component{
                     <span key="Pricemin">{(record.retail_pricemin==''||record.retail_pricemin==null)?'0':record.retail_pricemin}
                         <Checkbox onChange={this.change2.bind(this,record)}></Checkbox>
                     </span>
+
             }
             // {
             //     title: '操作', dataIndex: '', key: 'x',align:'center', render: () =><div><span onClick={this.updata} style={{padding:'0 3px',cursor:'pointer',color:'#40a9ff'}}>修改</span><span onClick={this.delect} style={{padding:'0 3px',cursor:'pointer',color:'#40a9ff'}}>删除</span><span onClick={this.pict} style={{padding:'0 3px',cursor:'pointer',color:'#40a9ff'}}>图片</span></div>,
@@ -223,19 +228,17 @@ export default class PricePreview extends Component{
                             <input style={{height:'25px',margin:'10px 0',border:'1px solid #ccc',borderRadius:'5px',outline:'none'}} ref="partId2" type="text"/>
                             <Button size="small" onClick={()=>{this.setState({changCstate:false})}}>取消</Button>
                             <Button size="small" onClick={this.sureC}>确定</Button>
+
                         </div>
+
                         }
                     </div>
-                <div style={{marginTop:30}}>
-                    <Button type="primary">TXT文本</Button>
-                    <Button type="primary">JPG图片</Button>
-                    <Button type="primary">PDF文件</Button>
-                    {/*<Button type="primary">H5网页</Button>*/}
+
 
 
                 </div>
 
-            </div>
+
         );
     }
 

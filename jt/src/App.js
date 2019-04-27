@@ -76,7 +76,7 @@ class App extends Component {
         <Content style={{ margin: '0 16px', overflow: 'initial', flex: '1 1 0' }}>
     <Routes auth={auth} />
         </Content>
-        <Footer style={{ textAlign: 'center' }}>
+        <Footer style={{ textAlign: 'center',paddingBottom:0,paddingTop:12 }}>
         天鲲Ai   {new Date().getFullYear()}
     </Footer>
         </Layout>
