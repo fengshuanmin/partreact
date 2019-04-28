@@ -126,6 +126,7 @@ export default class PricePreview extends Component{
             success:(res)=>{
                 console.log(res)
                 if(res[0].code=='1'){
+                    console.log('a1b2')
                     var data=res[0].date,arr=[]
                     data.map((item,index)=>{
                         console.log(item)
@@ -144,6 +145,8 @@ export default class PricePreview extends Component{
     }
     componentWillMount(){
         this.dataajax()
+        localStorage.removeItem('groupId','')
+        localStorage.removeItem('nicknames','')
     }
 
     render() {

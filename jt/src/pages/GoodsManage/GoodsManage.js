@@ -49,7 +49,7 @@ export default class  GoodsManage extends Component{
                 }
             },
             error:(err)=>{
-                if(err.status=='500'){
+                if(err.status=='401'){
                     alert('登陆失效，请重新登录')
                     this.props.history.push('/login')
                 }
@@ -96,7 +96,7 @@ export default class  GoodsManage extends Component{
                 }
             },
             error:(err)=>{
-                if(err.status=='500'){
+                if(err.status=='401'){
                     alert('登陆失效，请重新登录')
                     this.props.history.push('/login')
                 }
@@ -131,19 +131,6 @@ export default class  GoodsManage extends Component{
             },
             onCancel() {},
         });
-        /*confirm('请否确认删除该数据？',function(){
-            $.ajax({
-                url:URL_api_parts_sku_delete+'/'+record.id,
-                type:'post',
-                headers:{appToken : USER_INFO_GET()&&USER_INFO_GET().appToken||''},
-                success:(res)=>{
-                    console.log(res)
-                    if(res.code==0){
-                        this.dataajax(this.state.page,this.state.limit)
-                    }
-                }
-            })
-        })*/
     }
     pict=(record)=>{
         console.log(record)
@@ -190,9 +177,9 @@ export default class  GoodsManage extends Component{
             error:(err)=>{
                 console.log(err)
                 console.log(err.status)
-                if(err.status=='500'){
-                    // alert('登陆失效，请重新登录')
-                    // this.props.history.push('/login')
+                if(err.status=='401'){
+                    alert('登陆失效，请重新登录')
+                    this.props.history.push('/login')
                 }
             }
 
@@ -252,7 +239,7 @@ export default class  GoodsManage extends Component{
         ];
         return(
             <div>
-                {this.state.flag&&this.state.flag?<div style={{width:'100%',minHeight:500,maxHeight:800,marginTop:'20px',background:'#fff'}}>
+                {this.state.flag&&this.state.flag?<div style={{width:'100%',minHeight:401,maxHeight:800,marginTop:'20px',background:'#fff'}}>
                     <div style={{width:'600px',margin:'15px auto 0',position:'relative',paddingTop:'15px'}}>
                         <Carousel {...lunboSetting} ref={el => (this.slider = el)}>
                             {this.state.picList&&this.state.picList.map((item,index)=>{

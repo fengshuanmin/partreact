@@ -208,7 +208,7 @@ export default class  Goodupdate extends Component{
                 })
             }
         },err=>{
-            if(err.status=='500'){
+            if(err.status=='401'){
                 alert('登陆失效，请重新登录')
                 this.props.history.push('/login')
             }
@@ -232,7 +232,7 @@ export default class  Goodupdate extends Component{
                 })
             }
         },err=>{
-            if(err.status=='500'){
+            if(err.status=='401'){
                 alert('登陆失效，请重新登录')
                 this.props.history.push('/login')
             }
@@ -256,7 +256,7 @@ export default class  Goodupdate extends Component{
                 })
             }
         },err=>{
-            if(err.status=='500'){
+            if(err.status=='401'){
                 alert('登陆失效，请重新登录')
                 this.props.history.push('/login')
             }
@@ -280,7 +280,7 @@ export default class  Goodupdate extends Component{
                 })
             }
         },err=>{
-            if(err.status=='500'){
+            if(err.status=='401'){
                 alert('登陆失效，请重新登录')
                 this.props.history.push('/login')
             }
@@ -370,7 +370,7 @@ export default class  Goodupdate extends Component{
                     }
                 },
                 error:(err)=>{
-                    if(err.status=='500'){
+                    if(err.status=='401'){
                         alert('登陆失效，请重新登录')
                         this.props.history.push('/login')
                     }
@@ -400,7 +400,7 @@ export default class  Goodupdate extends Component{
                     }
                 },
                 error:(err)=>{
-                    if(err.status=='500'){
+                    if(err.status=='401'){
                         alert('登陆失效，请重新登录')
                         this.props.history.push('/login')
                     }
@@ -424,7 +424,7 @@ export default class  Goodupdate extends Component{
                 }
             },
             error:(err)=>{
-                if(err.status=='500'){
+                if(err.status=='401'){
                     alert('登陆失效，请重新登录')
                     this.props.history.push('/login')
                 }
@@ -449,7 +449,7 @@ export default class  Goodupdate extends Component{
                 }
             },
             error:(err)=>{
-                if(err.status=='500'){
+                if(err.status=='401'){
                     alert('登陆失效，请重新登录')
                     this.props.history.push('/login')
                 }
@@ -469,7 +469,7 @@ export default class  Goodupdate extends Component{
                 }
             },
             error:(err)=>{
-                if(err.status=='500'){
+                if(err.status=='401'){
                     alert('登陆失效，请重新登录')
                     this.props.history.push('/login')
                 }
@@ -522,7 +522,7 @@ export default class  Goodupdate extends Component{
                 }
             },
             error:(err)=>{
-                if(err.status=='500'){
+                if(err.status=='401'){
                     alert('登陆失效，请重新登录')
                     this.props.history.push('/login')
                 }
@@ -563,7 +563,7 @@ export default class  Goodupdate extends Component{
         const imageUrl2 = this.state.imageUrl2;
         const imageUrl3 = this.state.imageUrl3;
         return(
-            <div style={{width:'100%',minHeight:500,maxHeight:800,marginTop:'20px',background:'#fff'}}>
+            <div style={{width:'100%',minHeight:401,maxHeight:800,marginTop:'20px',background:'#fff'}}>
                 <div style={{width:'100%',float:'left'}}>
                     <div style={{
                         display: 'inline-block',

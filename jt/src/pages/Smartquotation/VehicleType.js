@@ -2,9 +2,11 @@
  * Created by 叶子 on 2017/7/31.
  */
 import React, { Component } from 'react';
+import $ from 'jquery'
 import {Row, Col, Card, Steps, Input, Button, List ,Upload, Icon, message, Checkbox,Radio } from 'antd';
 
 import html2canvas from 'html2canvas';
+import PropTypes from 'prop-types';
 
 import AuthWidget from '@/components/widget/AuthWidget';
 import beauty from '@/style/imgs/beauty.jpg';
@@ -13,7 +15,13 @@ import InfiniteScroll from 'react-infinite-scroller';
 import Dropzone from 'react-dropzone';
 
 import Net from '../../utils/net/Net';
-import {URL_vin_screenshot_analysis,URL_vin_find_autogroups,URL_vin_find_auto} from '../../utils/net/Url';
+import {
+    URL_vin_screenshot_analysis,
+    URL_vin_find_autogroups,
+    URL_vin_find_auto,
+    URL_api_parts_sku_list
+} from '../../utils/net/Url';
+import {USER_INFO_GET} from "../../utils/storeInfo";
 require('../../style/lib/vehicle.css');
 
 
@@ -21,41 +29,34 @@ const Dragger  = Upload.Dragger;
 export default  class VehicleType extends Component {
     constructor(props){
         super(props)
+        console.log(props)
         this.state = {
             imageUrl:'',
             imgUrl:'',
             vincode:''
         }
 
-        this.onDrop = this.onDrop.bind(this);
-        this.canver = this.canver.bind(this);
-        this.handleChange = this.handleChange.bind(this);
-        this.actions = this.actions.bind(this);
-        this.getBase64 = this.getBase64.bind(this);
-        this.vinclick = this.vinclick.bind(this);
-        this.vinocr = this.vinocr.bind(this);
-        this.onChange = this.onChange.bind(this);
-
     }
-    vinclick(e){
+    vinclick=(e)=>{
         console.log(e.target.value)
         this.setState({
             vincode:e.target.value
         })
         console.log(this.state.vincode)
     }
-    actions(){
+    actions=(e)=>{
 
     }
-    handleChange(){
+    handleChange=(e)=>{
 
     }
-    getBase64(img, callback) {
+    getBase64=(img, callback)=>{
         const reader = new FileReader();
         reader.addEventListener('load', () => callback(reader.result));
         reader.readAsDataURL(img);
     }
-    onDrop(file){
+    onDrop=(file)=>{
+        var history = this.context.router.history
         console.log(file);
         this.getBase64(file, imageUrl => this.setState({
             imageUrl,
@@ -73,29 +74,64 @@ export default  class VehicleType extends Component {
             if(res.resultContent.length==17){
                 Net.get({url:URL_vin_find_autogroups+'?vinCode='+res.resultContent},res1=>{
                     console.log(res1)
-                    this.setState({
-                        groupdata:res1
-                    })
+                    console.log(res1.length==0)
+                    if(res1.length==0){
+                        alert('抱歉，您尚未开通该车型的报价权限，智能报价失败')
+                    }else{
+                        this.setState({
+                            groupdata:res1
+                        })
+                    }
+
+                },err=>{
+                    if(err.request.status=='401'){
+                        alert('登陆失效，请重新登录')
+                        history.push('/login')
+                    }
                 })
             }else{
                 alert('请补全车架号')
             }
-
         },err=>{
-            console.log(err)
+            if(err.request.status=='401'){
+                console.log(this.props)
+                alert('登陆失效，请重新登录')
+                history.push('/login')
+            }
         })
     }
-    vinocr(){
+    vinocr=()=>{
         console.log(this.state.vincode)
-        Net.get({url:URL_vin_find_autogroups+'?vinCode='+this.state.vincode},res=>{
-            console.log(res)
-            this.setState({
-                groupdata:res
-            })
+        console.log(this.props)
+        var history = this.context.router.history
+        $.ajax({
+            url:URL_vin_find_autogroups,
+            type:'post',
+            data:{vinCode:this.state.vincode},
+            headers:{appToken : USER_INFO_GET()&&USER_INFO_GET().appToken||''},
+            success:(res)=>{
+                console.log(res)
+                console.log(res)
+                if(res.length==0){
+                    alert('抱歉，您尚未开通该车型的报价权限，智能报价失败')
+                }else{
+                    this.setState({
+                        groupdata:res
+                    })
+                }
+            },
+            error:(err)=>{
+                console.log(err)
+                console.log(this.props)
+                if(err.status=='401'){
+                    alert('登陆失效，请重新登录')
+                    history.push('/login')
+                }
+            }
 
         })
     }
-    renderItem(item){
+    renderItem=(item)=>{
         console.log(item)
         return(
             <List.Item key={item+""}>
@@ -107,7 +143,7 @@ export default  class VehicleType extends Component {
             </List.Item>
         )
     }
-    onChange(item){
+    onChange=(item)=>{
         console.log(item)
         this.setState({
             brandimg:item.picLink45
@@ -116,11 +152,16 @@ export default  class VehicleType extends Component {
         Net.get({url:URL_vin_find_auto+'?modelId='+item.autoId},res=>{
             console.log(res)
             this.setState({
-               brandmodel:res
+                brandmodel:res
             })
+        },err=>{
+            if(err.request.status=='401'){
+                alert('登陆失效，请重新登录')
+                this.props.history.push('/login')
+            }
         })
     }
-    canver(){
+    canver=()=>{
         /*console.log(document.getElementById('ipt').value)
         this.setState({
             inutval:document.getElementById('ipt').value
@@ -135,7 +176,11 @@ export default  class VehicleType extends Component {
             console.log(html_canvas)
         })*/
     }
-
+componentWillMount(){
+        console.log(this.state)
+        console.log(this.props)
+        console.log(this.context)
+}
     render(){
         console.log(this.state.imageUrl)
         const props = {
@@ -171,7 +216,7 @@ export default  class VehicleType extends Component {
                                     <div style={{textAlign: 'center',width:'100%'}}>
                                         <div id="image" style={{height: 100,width:"100%"}}>
                                             {/*<div id="caver" style={{height: 100,width:"100%",lineHeight:'100px'}}>*/}
-                                                {/*{this.state.inutval?<div style={{height: 100,width:"100%"}}>{this.state.inutval}</div>:<img src={this.state.imageUrl?this.state.imageUrl:beauty2} alt="" style={{height: 100,width:"100%"}}/>}*/}
+                                            {/*{this.state.inutval?<div style={{height: 100,width:"100%"}}>{this.state.inutval}</div>:<img src={this.state.imageUrl?this.state.imageUrl:beauty2} alt="" style={{height: 100,width:"100%"}}/>}*/}
                                             {/*</div>*/}
                                             <Upload
                                                 name="avatar"
@@ -187,7 +232,7 @@ export default  class VehicleType extends Component {
                                         </div>
 
                                         {/*<div id="caver">*/}
-                                            {/*<p id="caver1" style={{display:'inline-block'}}>{this.state.inutval}</p>*/}
+                                        {/*<p id="caver1" style={{display:'inline-block'}}>{this.state.inutval}</p>*/}
                                         {/*</div>*/}
                                         <Input size="large" id="ipt" maxLength={17} value={this.state.vincode} onChange={this.vinclick} placeholder="输入17位车架号" style={{marginTop:30,width:"100%"}}/>
                                         <div style={{textAlign:"left",marginTop:30}}>
@@ -241,11 +286,11 @@ export default  class VehicleType extends Component {
 
 
                         {/*<Dragger {...props}>*/}
-                            {/*<p className="ant-upload-drag-icon">*/}
-                                {/*<Icon type="inbox" />*/}
-                            {/*</p>*/}
-                            {/*<p className="ant-upload-text">Click or drag file to this area to upload</p>*/}
-                            {/*<p className="ant-upload-hint">Support for a single or bulk upload. Strictly prohibit from uploading company data or other band files</p>*/}
+                        {/*<p className="ant-upload-drag-icon">*/}
+                        {/*<Icon type="inbox" />*/}
+                        {/*</p>*/}
+                        {/*<p className="ant-upload-text">Click or drag file to this area to upload</p>*/}
+                        {/*<p className="ant-upload-hint">Support for a single or bulk upload. Strictly prohibit from uploading company data or other band files</p>*/}
                         {/*</Dragger>*/}
                     </div>
                 )}
@@ -258,3 +303,6 @@ export default  class VehicleType extends Component {
 
 }
 
+VehicleType.contextTypes = {
+    router: PropTypes.object.isRequired
+}

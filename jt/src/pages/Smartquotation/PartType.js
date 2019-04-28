@@ -1,11 +1,13 @@
 import React,{Component} from 'react';
 import $ from 'jquery'
+import PropTypes from 'prop-types';
 import {Row, Col, Card, Button,Input,Upload, Icon, message,} from 'antd'
 import beauty from '@/style/imgs/beauty.jpg';
 import Net from "../../utils/net/Net";
 import {URL_api_parts_sku_save, URL_parts_screenshot_analysis, URL_std_for_stdname} from "../../utils/net/Url";
 import {USER_INFO_GET} from "../../utils/storeInfo";
 import {post} from "../../axios/tools";
+import VehicleType from "./VehicleType";
 
 const { TextArea } = Input;
 
@@ -45,7 +47,7 @@ export default class PartType extends Component{
             url:URL_std_for_stdname,
             // url:'http://139.196.16.229:9999/std_for_stdname',
             type:'post',
-            data:{stdnames:arr},
+            data:{stdnames: arr},
             success:(res)=>{
                 console.log(res)
                 if(res[0].code==1){
@@ -57,13 +59,13 @@ export default class PartType extends Component{
             }
 
         })
-       /* Net.post({url:URL_std_for_stdname,params:dat},res=>{
-            console.log(res)
-            this.setState({
-                nickname:res.resultContent
-            })
-            localStorage.setItem('nicknames',res.resultContent)
-        })*/
+        /* Net.post({url:URL_std_for_stdname,params:dat},res=>{
+             console.log(res)
+             this.setState({
+                 nickname:res.resultContent
+             })
+             localStorage.setItem('nicknames',res.resultContent)
+         })*/
     }
     textchange(e){
         this.setState({
@@ -77,6 +79,7 @@ export default class PartType extends Component{
     }
     onDrop(file){
         console.log(file);
+        var history = this.context.router.history
         this.getBase64(file, imageUrl => this.setState({
             imageUrl,
             loading: false,
@@ -91,7 +94,10 @@ export default class PartType extends Component{
                 textvalue:res.resultContent
             })
         },err=>{
-            console.log(err)
+            if(err.request.status=='401'){
+                alert('登陆失效，请重新登录')
+                history.push('/login')
+            }
         })
 
 
@@ -126,7 +132,7 @@ export default class PartType extends Component{
                             </Upload>
                             {/*<img src={beauty} alt="" style={{height: 180,width:"100%"}} />*/}
                             {/*<div style={{marginTop:30}}>*/}
-                                {/*<Button type="primary">配件截屏</Button>*/}
+                            {/*<Button type="primary">配件截屏</Button>*/}
                             {/*</div>*/}
                         </Card>
                     </Col>
@@ -163,4 +169,7 @@ export default class PartType extends Component{
         );
     }
 
+}
+PartType.contextTypes = {
+    router: PropTypes.object.isRequired
 }

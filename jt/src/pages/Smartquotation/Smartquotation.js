@@ -23,9 +23,18 @@ export default  class Smartquotation extends Component {
         this.nextstep=this.nextstep.bind(this)
     }
     nextstep(){
-        this.setState({
-            step:this.state.step>=3?1:this.state.step+1
-        })
+        var groupid=localStorage.getItem('groupId')
+        var nickname=localStorage.getItem('nicknames')
+        console.log(this.state.step=='2'&&!localStorage.getItem('nicknames'))
+        if(this.state.step=='1'&&!localStorage.getItem('groupId')){
+            alert('groupId不存在，请重新填写vin码')
+        }else if(this.state.step=='2'&&!localStorage.getItem('nicknames')){
+            alert('零件名不存在，请重新填写零件名')
+        }else{
+            this.setState({
+                step:this.state.step>=3?1:this.state.step+1
+            })
+        }
         /*$.ajax({
             url:URL_test,
             type:'post',
@@ -39,7 +48,10 @@ export default  class Smartquotation extends Component {
         })*/
     }
     componentWillMount(){
-
+console.log(this.props)
+        this.setState({
+            props:this.props
+        })
     }
     render() {
         return (

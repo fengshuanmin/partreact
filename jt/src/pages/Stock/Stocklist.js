@@ -243,6 +243,9 @@ export default class Stocklist extends Component{
 
         })
     }
+    handlepagesize=(val)=>{
+        this.dataajax(val,this.state.limit)
+    }
     dataajax=(page,limit)=>{
         this.setState({
             loading:true

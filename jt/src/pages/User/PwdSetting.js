@@ -59,6 +59,12 @@ class  PwdSetting extends Component{
                 }else{
 
                 }
+            },
+            error:(err)=>{
+                if(err.status=='401'){
+                    alert('登陆失效，请重新登录')
+                    this.props.history.push('/login')
+                }
             }
         })
     }
@@ -103,6 +109,12 @@ class  PwdSetting extends Component{
                             password:''
                         })
                     }
+                },
+                error:(err)=>{
+                    if(err.status=='401'){
+                        alert('登陆失效，请重新登录')
+                        this.props.history.push('/login')
+                    }
                 }
             })
         }else{
@@ -126,6 +138,12 @@ class  PwdSetting extends Component{
                     this.setState({
                         vendorAccount
                     })
+                }
+            },
+            error:(err)=>{
+                if(err.status=='401'){
+                    alert('登陆失效，请重新登录')
+                    this.props.history.push('/login')
                 }
             }
         })

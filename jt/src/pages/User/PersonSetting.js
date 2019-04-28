@@ -38,6 +38,12 @@ console.log(res)
                         vendorAccount:res.vendorAccount
                     })
                 }
+            },
+            error:(err)=>{
+                if(err.status=='401'){
+                    alert('登陆失效，请重新登录')
+                    this.props.history.push('/login')
+                }
             }
         })
     }

@@ -34,6 +34,12 @@ class  CompanySetting extends Component{
                         listdata:res.companyInfoMap.accountList
                     })
                 }
+            },
+            error:(err)=>{
+                if(err.status=='401'){
+                    alert('登陆失效，请重新登录')
+                    this.props.history.push('/login')
+                }
             }
         })
     }
