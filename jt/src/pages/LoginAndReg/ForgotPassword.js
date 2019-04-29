@@ -66,7 +66,7 @@ const FormItem = Form.Item;
             <div className="login" style={{background:'#d2d6de'}}>
                 <div className="login-form" style={{height:500}}>
                     <div className="login-logo">
-                        <span>松果AI智能</span>
+                        <span>天鲲Ai</span>
                     </div>
                     <Form onSubmit={this.handleSubmit} style={{maxWidth: '300px'}}>
                         <FormItem>

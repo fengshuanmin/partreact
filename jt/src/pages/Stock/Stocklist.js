@@ -8,7 +8,8 @@ import {
     URL_api_parts_sku_onlineParts,
     URL_id_and_std_search,
     URL_share_for_other,
-    URL_search_sku
+    URL_search_sku,
+    URL_share_for_price
 } from "../../utils/net/Url";
 import {USER_INFO_GET} from "../../utils/storeInfo";
 
@@ -108,7 +109,9 @@ export default class Stocklist extends Component{
                     console.log('123')
                     this.setState({
                         loading:false,
-                        listdata:res[0].message
+                        listdata: res[0].message || [],
+                        total:res[0].num,
+                        page:parseInt(res[0].page),
                     })
                 }
             }
@@ -151,7 +154,7 @@ export default class Stocklist extends Component{
     }
     allcloseprice=()=>{
         $.ajax({
-            url:URL_share_for_other,
+            url:URL_share_for_price,
             type:'post',
             data:{
                 v_id:USER_INFO_GET()&&USER_INFO_GET().companyId||'',
@@ -168,7 +171,7 @@ export default class Stocklist extends Component{
     }
     allopenprice=()=>{
         $.ajax({
-            url:URL_share_for_other,
+            url:URL_share_for_price,
             type:'post',
             data:{
                 v_id:USER_INFO_GET()&&USER_INFO_GET().companyId||'',
@@ -227,11 +230,11 @@ export default class Stocklist extends Component{
         // var isOnline=!(record.isOnline)
         console.log(is_shared_pricevisible)
         $.ajax({
-            url:URL_share_for_other,
+            url:URL_share_for_price,
             type:'post',
             data:{
                 v_id:USER_INFO_GET()&&USER_INFO_GET().companyId||'',
-                is_shared:is_shared_pricevisible,
+                is_shared_pricevisible:is_shared_pricevisible,
                 part_sku_id:record.id
             },
             success:(res)=>{

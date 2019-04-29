@@ -44,19 +44,33 @@ export default class Mystock extends Component{
         }
     }
     contant=(record)=>{
+        console.log(record)
         const info=Modal.info;
         var self=this
-        info({
-            title: '联系方式',
-            content: (
-                <div>
-                    <p>{record.contact_seller[0].share_named}</p>
-                    <p>地址：{record.contact_seller[0].address}</p>
-                    <p>电话：{record.contact_seller[0].phone}</p>
-                </div>
-            ),
-            onOk() {},
-        });
+        $.ajax({
+            url:URL_share_for_me,
+            type:'post',
+            data:{
+                c_id:USER_INFO_GET().companyId||'',
+                connect_seller:record.connect_seller
+            },
+            success:(res)=>{
+                console.log(res)
+                // var res=[]
+                var res=[{'address': "VendorCompany没找到", 'share_named': "VendorCompany没找到", 'phone': "VendorCompany没找到"}]
+                info({
+                    title: '联系方式',
+                    content: (
+                        <div>
+                            <p>{res[0].share_named}</p>
+                            <p>地址：{res[0].address}</p>
+                            <p>电话：{res[0].phone}</p>
+                        </div>
+                    ),
+                    onOk() {},
+                });
+            }
+        })
     }
     onlinepay=(record)=>{
         const info=Modal.info;
@@ -87,9 +101,14 @@ export default class Mystock extends Component{
             },
             success:(res)=>{
                 console.log(res)
+                var {listdata=[]}=this.state
+                listdata=res[0].message
                 if(res[0].code=='1'){
                     this.setState({
-                        listdata:res[0].message
+                        loading:false,
+                        listdata,
+                        total:res[0].num,
+                        page:parseInt(res[0].page),
                     })
                 }
             }

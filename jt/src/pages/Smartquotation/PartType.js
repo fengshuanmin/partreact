@@ -105,9 +105,10 @@ export default class PartType extends Component{
 
     render() {
         const uploadButton = (
-            <div style={{height: 180,width:"100%"}}>
-                <div style={{paddingTop:'60px'}}><Icon type={this.state.loading ? 'loading' : 'plus'} /></div>
+            <div style={{minHeight:430,maxHeight:700,width:"100%"}}>
+                <div style={{paddingTop:'200px'}}><Icon type={this.state.loading ? 'loading' : 'plus'} /></div>
                 <div className="ant-upload-text">点击上传配件图片</div>
+
             </div>
         );
         /*const uploadButton = (
@@ -115,55 +116,50 @@ export default class PartType extends Component{
         );*/
         const imageUrl = this.state.imageUrl;
         return (
-            <div className='partTypes'>
+            <div>
                 <Row >
-                    <Col span={8}>
-                        <Card bordered={false} bodyStyle={{minHeight: 400,maxHeight:600}}>
+
+                    <Card bordered={false} bodyStyle={{minHeight: 400,maxHeight:700}}>
+                        <Col span={8}>
                             <p>截屏识别</p>
                             <Upload
                                 name="avatar"
                                 listType="picture-card"
-                                className="avatar-uploader"
+                                // className="avatar-uploader"
                                 showUploadList={false}
                                 action={this.onDrop}
                                 onChange={this.handleChange}
                             >
                                 {imageUrl ? <img src={imageUrl} style={{height: 180,width:"100%"}} alt="avatar" /> : uploadButton}
                             </Upload>
+                            <div style={{marginTop:30,textAlign:'right'}}>
+                                <Button type="primary" >截屏</Button>
+                            </div>
                             {/*<img src={beauty} alt="" style={{height: 180,width:"100%"}} />*/}
                             {/*<div style={{marginTop:30}}>*/}
                             {/*<Button type="primary">配件截屏</Button>*/}
                             {/*</div>*/}
-                        </Card>
-                    </Col>
-                    <Col span={2}>{'>>>'}</Col>
-                    <Col span={6}>
-                        <Card bordered={false} bodyStyle={{minHeight: 400,maxHeight:600}}>
+                        </Col>
+                        <Col span={2} style={{textAlign:'center',marginTop:280}}><Icon type="caret-right" /></Col>
+                        <Col span={6}>
+
                             <p>手动修改</p>
-                            <TextArea value={this.state.textvalue} onChange={this.textchange} rows={10} />
-                            <div style={{marginTop:30}}>
-                                <Button type="primary" onClick={this.Nc}>确定</Button>
+                            <TextArea style={{minHeight:446,maxHeight:900,}} value={this.state.textvalue} onChange={this.textchange} rows={10} />
+                            <div style={{marginTop:30,textAlign:'right'}}>
+                                <Button type="primary" onClick={this.Nc}>启动标准化</Button>
                             </div>
-                        </Card>
-                    </Col>
-                    <Col span={2}>{'>>>'}</Col>
-                    <Col span={6}>
-                        <Card bordered={false} bodyStyle={{minHeight: 400,maxHeight:600}}>
+
+                        </Col>
+                        <Col span={2} style={{textAlign:'center',marginTop:280}}><Icon type="caret-right" /></Col>
+                        <Col span={6}>
+
                             <p>标准件名称</p>
                             <div>
-                                <ul>
-                                    {this.state.nickname&&this.state.nickname.map((item,index)=>{
-                                        return(
-                                            <li key={index}>
-                                                {item}
-                                            </li>
-                                        )
-                                    })}
-                                </ul>
-                            </div>
-                        </Card>
-                    </Col>
+                                <TextArea style={{minHeight:446,maxHeight:700,}} disabled={true}  value={this.state.nickname}/>
 
+                            </div>
+                        </Col>
+                    </Card>
                 </Row>
             </div>
         );

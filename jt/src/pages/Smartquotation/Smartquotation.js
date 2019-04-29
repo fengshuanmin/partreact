@@ -47,6 +47,10 @@ export default  class Smartquotation extends Component {
 
         })*/
     }
+    prev(){
+        const step = this.state.step - 1;
+        this.setState({step})
+    };
     componentWillMount(){
 console.log(this.props)
         this.setState({
@@ -54,6 +58,8 @@ console.log(this.props)
         })
     }
     render() {
+        const { step } = this.state;
+
         return (
             <div style={{marginTop:'30px'}}>
                 {/*<BreadcrumbCustom first="智能报价"  />*/}
@@ -69,20 +75,51 @@ console.log(this.props)
                 {this.state.step == 1?<VehicleType/>:null}
                 {this.state.step == 2?<PartType/>:null}
                 {this.state.step == 3?<PricePreview/>:null}
-                <div style={{textAlign:'right',marginTop:20}}>
+
+
+                <div style={{display:'inline-block',textAlign:'right',marginTop:10,width:'100%'}}>
+                    {
+                        step>2
+                        &&(
+                            <Button type="primary" style={{float:'left'}}>TXT文本</Button>
+
+                        )
+                    }
+                    {
+                        step>2
+                        &&(
+                            <Button type="primary" style={{float:'left'}}>JPG图片</Button>
+
+                        )
+                    }
+                    {
+                        step>2
+                        &&(
+                            <Button type="primary" style={{float:'left'}}>PDF文件</Button>
+
+                        )
+                    }
+                    {
+                        step > 1
+                        && (
+                            <Button style={{ marginLeft: 8 }} type="primary" onClick={() => this.prev()}>
+                                上一步
+                            </Button>
+                        )
+                    }
                     {this.state.step==3?<Button onClick={()=>{
-                        this.setState({
-                            step:1
-                        })
-                    }} type="primary">关闭</Button>:
-                    <Button onClick={this.nextstep} type="primary">下一步</Button>}
+                            this.setState({
+                                step:1
+                            })
+                        }} type="primary" style={{float:'right'}}>关闭</Button>:
+                        <Button  onClick={this.nextstep} type="primary">下一步</Button>}
+
+
                 </div>
+
             </div>
 
         )
     }
-
-
-
 }
 
