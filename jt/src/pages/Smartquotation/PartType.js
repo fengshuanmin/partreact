@@ -90,9 +90,10 @@ export default class PartType extends Component{
         console.log(f)
         Net.upload({url:URL_parts_screenshot_analysis,data:f},res=>{
             console.log(res)
-
+            var str=res.resultContent.join(',')
+            var newstr=str.replace(/,/g,'\n');
             this.setState({
-                textvalue:res.resultContent
+                textvalue:newstr
             })
         },err=>{
             if(err.request.status=='401'){
