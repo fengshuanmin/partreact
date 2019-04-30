@@ -34,6 +34,8 @@ export default  class Smartquotation extends Component {
             this.setState({
                 step:this.state.step>=3?1:this.state.step+1
             })
+            localStorage.removeItem('groupId','')
+            localStorage.removeItem('nicknames','')
         }
         /*$.ajax({
             url:URL_test,

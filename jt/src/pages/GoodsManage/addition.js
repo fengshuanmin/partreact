@@ -5,16 +5,13 @@ import {Card,Button,List, Switch, Avatar, Spin,Upload, Icon, Modal,message,Selec
 import InfiniteScroll from 'react-infinite-scroller';
 
 import CustomInput from '../../components/input/CustomInput';
+import PropTypes from 'prop-types';
 import {
-    URL_api_parts_sku_getStdNameList,
-    URL_api_parts_sku_getConfigQualitys,
-    URL_api_parts_sku_getConfigWarrantys,
-    URL_api_parts_sku_uploadPartImg,
-    URL_api_parts_sku_getPicId,
-    URL_api_parts_sku_save, URL_api_parts_sku_update
+    URL_api_parts_sku_importPartSKu
 } from "../../utils/net/Url";
 import Net from '../../utils/net/Net';
 import {USER_INFO_GET} from '../../utils/storeInfo';
+import VehicleType from "../Smartquotation/VehicleType";
 
 
 /*function getBase64(img, callback) {
@@ -44,7 +41,26 @@ export default class  Addition extends Component{
         }
     }
     downfile=()=>{
-        window.open('');
+        window.open('http://139.196.16.229/excel/template_partsku.xlsx');
+    }
+    onDrop=(file)=>{
+        var history = this.context.router.history
+        let f = new FormData();
+        f.append('file',file)
+        Net.upload({url:URL_api_parts_sku_importPartSKu,data:f},res=>{
+            console.log(res)
+            if(res.code==0){
+                alert('上传成功')
+            }else{
+                alert('上传失败')
+            }
+        },err=>{
+            if(err.request.status=='401'){
+                console.log(this.props)
+                alert('登陆失效，请重新登录')
+                history.push('/login')
+            }
+        })
     }
     handleChange=()=>{
 
@@ -53,8 +69,9 @@ export default class  Addition extends Component{
 
     }
     render(){
+        const Dragger = Upload.Dragger;
         const props = {
-            action: '//jsonplaceholder.typicode.com/posts/',
+            action: this.onDrop,
             onChange: this.handleChange,
             multiple: true,
         };
@@ -67,14 +84,18 @@ export default class  Addition extends Component{
                 </div>
                 <div style={{display:'inline-block',width:'20%',height:'160px',border:'1px solid #ccc',
                     margin:'10%',textAlign:'center',float:'left'}}>
-                    <Upload {...props} fileList={this.state.fileList}>
-                        <Button>
-                            <Icon type="upload" /> Upload
-                        </Button>
-                    </Upload>
+                    <Dragger {...props} showUploadList={false}>
+                        <p className="ant-upload-drag-icon">
+                            <Icon type="inbox" />
+                        </p>
+                        <p className="ant-upload-text">点击或将文件拖到此处上传</p>
+                    </Dragger>,
                 </div>
             </div>
         )
     }
 
+}
+Addition.contextTypes = {
+    router: PropTypes.object.isRequired
 }

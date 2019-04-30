@@ -22,7 +22,8 @@ export default class Mystock extends Component{
             flag:false,
             page:1,
             limit:'10',
-            loading:true
+            loading:true,
+            connect:{}
         }
         this.orderdetail = this.orderdetail.bind(this);
     }
@@ -56,15 +57,14 @@ export default class Mystock extends Component{
             },
             success:(res)=>{
                 console.log(res)
-                // var res=[]
-                var res=[{'address': "VendorCompany没找到", 'share_named': "VendorCompany没找到", 'phone': "VendorCompany没找到"}]
+                console.log(res[0].messages)
                 info({
                     title: '联系方式',
                     content: (
                         <div>
-                            <p>{res[0].share_named}</p>
-                            <p>地址：{res[0].address}</p>
-                            <p>电话：{res[0].phone}</p>
+                            <p>{res[0].messages.share_named}</p>
+                            <p>地址：{res[0].messages.address}</p>
+                            <p>电话：{res[0].messages.phone}</p>
                         </div>
                     ),
                     onOk() {},
@@ -88,13 +88,18 @@ export default class Mystock extends Component{
     query=()=>{
         var lastC=this.refs.partId.value;
         var lastB=this.refs.partname.value;
-        console.log(this.state.lastC)
-        console.log(this.state.lastB)
+        this.setState({
+            loading:true,
+            partIds:lastC,
+            partNames:lastB,
+        })
         $.ajax({
-            url:URL_search_sku,
+            url:URL_share_for_me,
             type:'post',
             data:{
-                v_id:USER_INFO_GET()&&USER_INFO_GET().companyId||'',
+                v_id:USER_INFO_GET().companyId||'',
+                page:1,
+                limit:this.state.limit,
                 v_oe:lastC,
                 v_part_name:lastB,
                 shared_type:'m'
@@ -116,8 +121,36 @@ export default class Mystock extends Component{
         })
     }
     handlepagesize=(val)=>{
-        this.dataajax(val,this.state.limit)
-
+        this.setState({
+            loading:true
+        })
+        $.ajax({
+            url:URL_share_for_me,
+            type:'post',
+            data:{
+                v_id:USER_INFO_GET().companyId||'',
+                page:val,
+                limit:this.state.limit,
+                v_oe:this.state.partIds,
+                v_part_name:this.state.partNames,
+                shared_type:'m'
+            },
+            success:(res)=>{
+                console.log(res)
+                console.log(res.message)
+                // var {listdata=[]}=this.state
+                // listdata=res[0].message
+                if(res[0].code=='1'){
+                    console.log('list', res[0].message);
+                    this.setState({
+                        loading:false,
+                        listdata: res[0].message || [],
+                        total:res[0].num,
+                        page:parseInt(res[0].page),
+                    })
+                }
+            }
+        })
     }
     dataajax=(page,limit)=>{
         this.setState({
@@ -221,7 +254,7 @@ export default class Mystock extends Component{
                         <Button type="primary" style={{marginBottom: '20px',}}>全部开启价格</Button>*/}
                             </div>
                             <Table
-                                rowKey="stdnameID"
+                                rowKey="connect_seller"
                                 columns={columns}
                                 dataSource={this.state.listdata}
                                 pagination={ false }

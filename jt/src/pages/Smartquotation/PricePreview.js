@@ -145,8 +145,6 @@ export default class PricePreview extends Component{
     }
     componentWillMount(){
         this.dataajax()
-        localStorage.removeItem('groupId','')
-        localStorage.removeItem('nicknames','')
     }
 
     render() {

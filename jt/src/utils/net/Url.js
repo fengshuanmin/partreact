@@ -63,6 +63,8 @@ export const URL_api_parts_sku_onlineParts=url+'/api/parts/sku/onlineParts'
 export const URL_api_parts_sku_delete=url+'/api/parts/sku/delete'
 //商品新增
 export const URL_api_parts_sku_getMarker=url+'/api/parts/sku/getMarker'
+//商品上传excel
+export const URL_api_parts_sku_importPartSKu=url+'/api/parts/sku/importPartSKu'
 //模糊查询零件
 export const URL_api_parts_sku_getStdNameList=url+'/api/parts/sku/getStdNameList'
 //获取配件品质

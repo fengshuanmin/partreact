@@ -146,7 +146,8 @@ export default  class VehicleType extends Component {
     onChange=(item)=>{
         console.log(item)
         this.setState({
-            brandimg:item.picLink45
+            brandimg:item.picLink45,
+            groupId:item.groupId
         })
         localStorage.setItem('groupId',item.groupId)
         Net.get({url:URL_vin_find_auto+'?modelId='+item.autoId},res=>{
@@ -176,13 +177,22 @@ export default  class VehicleType extends Component {
             console.log(html_canvas)
         })*/
     }
-componentWillMount(){
-        console.log(this.state)
-        console.log(this.props)
-        console.log(this.context)
-}
+    componentWillMount(){
+            console.log(this.state)
+            console.log(this.props)
+            console.log(this.context)
+        if(localStorage.getItem('stateList')) {
+            var stateList = localStorage.getItem('stateList')
+            var stateLists = JSON.parse(stateList)
+            this.state = stateLists
+        }
+    }
+    componentWillUnmount(){
+            localStorage.setItem('stateList',JSON.stringify(this.state))
+            localStorage.setItem('groupId',this.state.groupId)
+    }
     render(){
-        console.log(this.state.imageUrl)
+        console.log(this.state)
         const props = {
             name: 'file',
             multiple: false,

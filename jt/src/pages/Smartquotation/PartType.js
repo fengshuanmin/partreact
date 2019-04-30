@@ -90,6 +90,7 @@ export default class PartType extends Component{
         console.log(f)
         Net.upload({url:URL_parts_screenshot_analysis,data:f},res=>{
             console.log(res)
+
             this.setState({
                 textvalue:res.resultContent
             })
