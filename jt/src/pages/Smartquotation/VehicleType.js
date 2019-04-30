@@ -138,7 +138,8 @@ export default  class VehicleType extends Component {
                 <div style={{position:'relative',width:'100%'}}>
                     {/*上海通用别克  君威  2014款  涡轮增压  自动挡*/}
                     <span>{item.brand}  {item.model}  {item.yearRange}   {item.capacity}   {item.transType}</span>
-                    <span style={{position:'absolute',right:'3px'}}><Radio onChange={this.onChange.bind(this,item)}/></span>
+                    {/*<span style={{position:'absolute',right:'3px'}}><Radio name="checkbrand" onChange={this.onChange.bind(this,item)}/></span>*/}
+                    <span style={{position:'absolute',right:'3px'}}><input name="checkbrand" type="radio" onChange={this.onChange.bind(this,item)}/></span>
                 </div>
             </List.Item>
         )

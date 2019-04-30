@@ -89,11 +89,11 @@ export default class PartType extends Component{
         f.append('editormd-image-file',file)
         console.log(f)
         Net.upload({url:URL_parts_screenshot_analysis,data:f},res=>{
-            console.log(res)
-            var str=res.resultContent.join(',')
-            var newstr=str.replace(/,/g,'\n');
+            // console.log(res)
+            // var str=res.resultContent.join(',')
+            // var newstr=str.replace(/,/g,'\n');
             this.setState({
-                textvalue:newstr
+                textvalue:res.resultContent
             })
         },err=>{
             if(err.request.status=='401'){
@@ -154,12 +154,20 @@ export default class PartType extends Component{
                         </Col>
                         <Col span={2} style={{textAlign:'center',marginTop:280}}><Icon type="caret-right" /></Col>
                         <Col span={6}>
-
-                            <p>标准件名称</p>
-                            <div>
-                                <TextArea style={{minHeight:446,maxHeight:700,}} disabled={true}  value={this.state.nickname}/>
-
-                            </div>
+                            <Card bordered={false} bodyStyle={{minHeight: 400,maxHeight:600}}>
+                                <p>标准件名称</p>
+                                <div>
+                                    <ul>
+                                        {this.state.nickname&&this.state.nickname.map((item,index)=>{
+                                            return(
+                                                <li key={index}>
+                                                    {item}
+                                                </li>
+                                            )
+                                        })}
+                                    </ul>
+                                </div>
+                            </Card>
                         </Col>
                     </Card>
                 </Row>

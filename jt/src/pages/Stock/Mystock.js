@@ -125,7 +125,7 @@ export default class Mystock extends Component{
             loading:true
         })
         $.ajax({
-            url:URL_share_for_me,
+            url:URL_share_for_other,
             type:'post',
             data:{
                 v_id:USER_INFO_GET().companyId||'',
