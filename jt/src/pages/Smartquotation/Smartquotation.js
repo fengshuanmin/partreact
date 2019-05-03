@@ -7,7 +7,7 @@ import BreadcrumbCustom from '@/components/BreadcrumbCustom';
 import VehicleType  from './VehicleType';
 import PartType  from './PartType';
 import PricePreview  from './PricePreview';
-import {Button, Col, Row, Steps,Card} from "antd";
+import {Button, Col, Row, Steps} from "antd";
 import Net from "../../utils/net/Net";
 import {URL_id_and_std_search, URL_std_for_stdname,URL_test} from "../../utils/net/Url";
 import {USER_INFO_GET} from "../../utils/storeInfo";
@@ -23,19 +23,20 @@ export default  class Smartquotation extends Component {
         this.nextstep=this.nextstep.bind(this)
     }
     nextstep(){
-        const step = this.state.step+1;
-        this.setState({
-            step
-        });
-    }
-    prev(){
-    const step = this.state.step - 1;
-    this.setState({step})
-};
-
-
-
-
+        var groupid=localStorage.getItem('groupId')
+        var nickname=localStorage.getItem('nicknames')
+        console.log(this.state.step=='2'&&!localStorage.getItem('nicknames'))
+        if(this.state.step=='1'&&!localStorage.getItem('groupId')){
+            alert('groupId不存在，请重新填写vin码')
+        }else if(this.state.step=='2'&&!localStorage.getItem('nicknames')){
+            alert('零件名不存在，请重新填写零件名')
+        }else{
+            this.setState({
+                step:this.state.step>=3?1:this.state.step+1
+            })
+            localStorage.removeItem('groupId','')
+            localStorage.removeItem('nicknames','')
+        }
         /*$.ajax({
             url:URL_test,
             type:'post',
@@ -47,9 +48,18 @@ export default  class Smartquotation extends Component {
             }
 
         })*/
+    }
+    prev(){
 
+
+        const step = this.state.step - 1;
+        this.setState({step})
+    };
     componentWillMount(){
-
+console.log(this.props)
+        this.setState({
+            props:this.props
+        })
     }
     render() {
         const { step } = this.state;
@@ -72,51 +82,49 @@ export default  class Smartquotation extends Component {
 
 
                 <div style={{display:'inline-block',textAlign:'right',marginTop:10,width:'100%'}}>
-        {
-            step>2
-            &&(
-            <Button type="primary" style={{float:'left'}}>TXT文本</Button>
+                    {
+                        step>2
+                        &&(
+                            <Button type="primary" style={{float:'left'}}>TXT文本</Button>
 
-        )
-        }
-        {
-            step>2
-            &&(
-            <Button type="primary" style={{float:'left'}}>JPG图片</Button>
+                        )
+                    }
+                    {
+                        step>2
+                        &&(
+                            <Button type="primary" style={{float:'left'}}>JPG图片</Button>
 
-        )
-        }
-        {
-            step>2
-            &&(
-            <Button type="primary" style={{float:'left'}}>PDF文件</Button>
+                        )
+                    }
+                    {
+                        step>2
+                        &&(
+                            <Button type="primary" style={{float:'left'}}>PDF文件</Button>
 
-        )
-        }
-        {
-            step > 1
-            && (
-            <Button style={{ marginLeft: 8 }} type="primary" onClick={() => this.prev()}>
-            上一步
-            </Button>
-        )
-        }
+                        )
+                    }
+                    {
+                        step > 1
+                        && (
+                            <Button style={{ marginLeft: 8 }}  type="primary" onClick={() => this.prev()}>
+                                上一步
+                            </Button>
+                        )
+                    }
                     {this.state.step==3?<Button onClick={()=>{
-                        this.setState({
-                            step:1
-                        })
-                    }} type="primary" style={{float:'right'}}>关闭</Button>:
-                    <Button  onClick={this.nextstep} type="primary">下一步</Button>}
+                            this.setState({
+                                step:1
+                            })
 
+                        }} type="primary" style={{float:'right'}}>关闭</Button>:
+                        <Button  onClick={this.nextstep} type="primary">下一步</Button>}
+
+
+                </div>
 
             </div>
 
-                        </div>
-
         )
     }
-
-
-
-
 }
+
