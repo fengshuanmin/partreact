@@ -3,8 +3,6 @@ import $ from 'jquery'
 import {Modal,Row, Col,Button, Card, List, Checkbox,Input,Table} from 'antd';
 import {URL_id_and_std_search,URL_modify_price} from "../../utils/net/Url";
 import {USER_INFO_GET} from "../../utils/storeInfo";
-import VehicleType from "./VehicleType";
-import PartType from "./PartType";
 
 
 export default class PricePreview extends Component{
@@ -127,7 +125,8 @@ export default class PricePreview extends Component{
             },
             success:(res)=>{
                 console.log(res)
-                if(res[0].code=='1'){
+                if(res[0]){
+                    console.log('a1b2')
                     var data=res[0].date,arr=[]
                     data.map((item,index)=>{
                         console.log(item)
@@ -159,87 +158,86 @@ export default class PricePreview extends Component{
             // { dataIndex: 'check', key: 'check',align:'center',render: () =><Checkbox  defaultChecked onChange={this.change} /> },
 
             { title: '序号',key:'text',render:(text,record,index)=>`${index+1}`,align:'center'},
-            { title: '标准件名称', dataIndex: 'stdname', key: 'stdname',align:'center' ,render: (text,record,index) =>
-                    <span key="pjname">{(record.stdname==''||record.stdname==null)?'-':record.stdname}</span>
-            },
-            { title: '标准零件名', dataIndex: 'skuoe', key: 'skuoe',align:'center' ,render: (text,record,index) =>
-                    <span key="partid">{(record.skuoe==''||record.skuoe==null)?'-':record.skuoe}</span>
-            },
-            { title: '配件特征', dataIndex: 'description', key: 'description',align:'center' ,render: (text,record,index) =>
-                    <span key="Partquality">{(record.description==''||record.description==null)?'-':record.description}</span>
-            },
-            { title: '品质', dataIndex: 'quality', key: 'quality',align:'center' ,render: (text,record,index) =>
-                    <span key="Partquality">{(record.quality==''||record.quality==null)?'-':record.quality}</span>
-            },
-           /* { title: '图片', dataIndex: 'vendorAutobrand', key: 'vendorPartbrand',align:'center' ,render: (text,record,index) =>
-                    <span key="autobrand">{(record.vendorAutobrand==''||record.vendorAutobrand==null)?'-':record.vendorAutobrand}</span>
-            },*/
-            // { title: '产地', dataIndex: 'vendorPartmaker', key: 'vendorPartmaker',align:'center' },
-           /* { title: '售后', dataIndex: 'vendorPartwarranty', key: 'vendorPartwarranty',align:'center',render: (text,record,index) =>
-                    <span key="Partwarranty">{(record.vendorPartwarranty==''||record.vendorPartwarranty==null)?'-':record.vendorPartwarranty}</span>
-            },*/
-            { title: 'C类价格', key: 'retail_pricemax',align:'center',render: (text,record,index) =>
-                    <span key="Pricemax">{(record.retail_pricemax==''||record.retail_pricemax==null)?'0':record.retail_pricemax}
-                        <Checkbox onChange={this.change.bind(this,record)}></Checkbox>
-                    </span>
-            },
-            { title: 'B类价格', key: 'retail_pricemid',align:'center',render: (text,record,index) =>
-                    <span key="Pricemid">{(record.retail_pricemid==''||record.retail_pricemid==null)?'0':record.retail_pricemid}
-                        <Checkbox onChange={this.change1.bind(this,record)}></Checkbox>
-                    </span>
-            },
-            { title: 'A类价格', key: 'retail_pricemin',align:'center',render: (text,record,index) =>
-                    <span key="Pricemin">{(record.retail_pricemin==''||record.retail_pricemin==null)?'0':record.retail_pricemin}
-                        <Checkbox onChange={this.change2.bind(this,record)}></Checkbox>
-                    </span>
+            { title: '标准名称', dataIndex: 'stdname', key: 'stdname',align:'center' ,render: (text,record,index) =>
+            <span key="pjname">{(record.stdname==''||record.stdname==null)?'-':record.stdname}</span>
+    },
+        { title: '标准OE号', dataIndex: 'skuoe', key: 'skuoe',align:'center' ,render: (text,record,index) =>
+        <span key="partid">{(record.skuoe==''||record.skuoe==null)?'-':record.skuoe}</span>
+        },
+        { title: '配件特征', dataIndex: 'description', key: 'description',align:'center' ,render: (text,record,index) =>
+        <span key="Partquality">{(record.description==''||record.description==null)?'-':record.description}</span>
+        },
+        { title: '品质', dataIndex: 'quality', key: 'quality',align:'center' ,render: (text,record,index) =>
+        <span key="Partquality">{(record.quality==''||record.quality==null)?'-':record.quality}</span>
+        },
+        /* { title: '图片', dataIndex: 'vendorAutobrand', key: 'vendorPartbrand',align:'center' ,render: (text,record,index) =>
+                 <span key="autobrand">{(record.vendorAutobrand==''||record.vendorAutobrand==null)?'-':record.vendorAutobrand}</span>
+         },*/
+        // { title: '产地', dataIndex: 'vendorPartmaker', key: 'vendorPartmaker',align:'center' },
+        /* { title: '售后', dataIndex: 'vendorPartwarranty', key: 'vendorPartwarranty',align:'center',render: (text,record,index) =>
+                 <span key="Partwarranty">{(record.vendorPartwarranty==''||record.vendorPartwarranty==null)?'-':record.vendorPartwarranty}</span>
+         },*/
+        { title: '最高零售价', key: 'retail_pricemax',align:'center',render: (text,record,index) =>
+        <span key="Pricemax">{(record.retail_pricemax==''||record.retail_pricemax==null)?'0':record.retail_pricemax}
+        <Checkbox onChange={this.change.bind(this,record)}></Checkbox>
+            </span>
+        },
+        { title: '中间零售价', key: 'retail_pricemid',align:'center',render: (text,record,index) =>
+        <span key="Pricemid">{(record.retail_pricemid==''||record.retail_pricemid==null)?'0':record.retail_pricemid}
+        <Checkbox onChange={this.change1.bind(this,record)}></Checkbox>
+            </span>
+        },
+        { title: '最低零售价', key: 'retail_pricemin',align:'center',render: (text,record,index) =>
+        <span key="Pricemin">{(record.retail_pricemin==''||record.retail_pricemin==null)?'0':record.retail_pricemin}
+        <Checkbox onChange={this.change2.bind(this,record)}></Checkbox>
+            </span>
 
-            }
-            // {
-            //     title: '操作', dataIndex: '', key: 'x',align:'center', render: () =><div><span onClick={this.updata} style={{padding:'0 3px',cursor:'pointer',color:'#40a9ff'}}>修改</span><span onClick={this.delect} style={{padding:'0 3px',cursor:'pointer',color:'#40a9ff'}}>删除</span><span onClick={this.pict} style={{padding:'0 3px',cursor:'pointer',color:'#40a9ff'}}>图片</span></div>,
-            // },
-        ];
+        }
+        // {
+        //     title: '操作', dataIndex: '', key: 'x',align:'center', render: () =><div><span onClick={this.updata} style={{padding:'0 3px',cursor:'pointer',color:'#40a9ff'}}>修改</span><span onClick={this.delect} style={{padding:'0 3px',cursor:'pointer',color:'#40a9ff'}}>删除</span><span onClick={this.pict} style={{padding:'0 3px',cursor:'pointer',color:'#40a9ff'}}>图片</span></div>,
+        // },
+    ];
         return (
             <div style={{minWidth:900}}>
-                    <div style={{width:'100%',background:'#fff',border:'1px solid #ccc',padding:'20px 0',position:'relative'}}>
-                        <Table
-                            columns={columns}
-                            dataSource={this.state.listdata}
-                            pagination={false}
-                        />
-                        {this.state.changAstate&&
-                            <div style={{position:'absolute',top:'30%',left:'40%',textAlign:'center',background:'#fff',width:'20%',height:'120px'}}>
-                                <h5 style={{marginTop:'5%'}}>修改价格</h5>
-                                <input style={{height:'25px',margin:'10px 0',border:'1px solid #ccc',borderRadius:'5px',outline:'none'}} ref="partId" type="text"/>
-                                <Button size="small" onClick={()=>{this.setState({changAstate:false})}}>取消</Button>
-                                <Button size="small" onClick={this.sureA}>确定</Button>
-                            </div>
-                        }
-                        {this.state.changBstate&&
-                        <div style={{position:'absolute',top:'30%',left:'40%',textAlign:'center',background:'#fff',width:'20%',height:'120px'}}>
-                            <h5 style={{marginTop:'5%'}}>修改价格</h5>
-                            <input style={{height:'25px',margin:'10px 0',border:'1px solid #ccc',borderRadius:'5px',outline:'none'}} ref="partId1" type="text"/>
-                            <Button size="small" onClick={()=>{this.setState({changBstate:false})}}>取消</Button>
-                            <Button size="small" onClick={this.sureB}>确定</Button>
-                        </div>
-                        }
-                        {this.state.changCstate&&
-                        <div style={{position:'absolute',top:'30%',left:'40%',textAlign:'center',background:'#fff',width:'20%',height:'120px'}}>
-                            <h5 style={{marginTop:'5%'}}>修改价格</h5>
-                            <input style={{height:'25px',margin:'10px 0',border:'1px solid #ccc',borderRadius:'5px',outline:'none'}} ref="partId2" type="text"/>
-                            <Button size="small" onClick={()=>{this.setState({changCstate:false})}}>取消</Button>
-                            <Button size="small" onClick={this.sureC}>确定</Button>
+    <div style={{width:'100%',background:'#fff',border:'1px solid #ccc',padding:'20px 0',position:'relative'}}>
+    <Table
+        columns={columns}
+        dataSource={this.state.listdata}
+        pagination={false}
+        />
+        {this.state.changAstate&&
+        <div style={{position:'absolute',top:'30%',left:'40%',textAlign:'center',background:'#fff',width:'20%',height:'120px'}}>
+        <h5 style={{marginTop:'5%'}}>修改价格</h5>
+        <input style={{height:'25px',margin:'10px 0',border:'1px solid #ccc',borderRadius:'5px',outline:'none'}} ref="partId" type="text"/>
+            <Button size="small" onClick={()=>{this.setState({changAstate:false})}}>取消</Button>
+        <Button size="small" onClick={this.sureA}>确定</Button>
+            </div>
+        }
+        {this.state.changBstate&&
+        <div style={{position:'absolute',top:'30%',left:'40%',textAlign:'center',background:'#fff',width:'20%',height:'120px'}}>
+        <h5 style={{marginTop:'5%'}}>修改价格</h5>
+        <input style={{height:'25px',margin:'10px 0',border:'1px solid #ccc',borderRadius:'5px',outline:'none'}} ref="partId1" type="text"/>
+            <Button size="small" onClick={()=>{this.setState({changBstate:false})}}>取消</Button>
+        <Button size="small" onClick={this.sureB}>确定</Button>
+            </div>
+        }
+        {this.state.changCstate&&
+        <div style={{position:'absolute',top:'30%',left:'40%',textAlign:'center',background:'#fff',width:'20%',height:'120px'}}>
+        <h5 style={{marginTop:'5%'}}>修改价格</h5>
+        <input style={{height:'25px',margin:'10px 0',border:'1px solid #ccc',borderRadius:'5px',outline:'none'}} ref="partId2" type="text"/>
+            <Button size="small" onClick={()=>{this.setState({changCstate:false})}}>取消</Button>
+        <Button size="small" onClick={this.sureC}>确定</Button>
 
-                        </div>
+            </div>
 
-                        }
-                    </div>
-
-
-
-                </div>
+        }
+    </div>
 
 
-        );
+
+        </div>
+
+
+    );
     }
-
 }
