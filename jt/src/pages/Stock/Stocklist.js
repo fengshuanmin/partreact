@@ -126,7 +126,8 @@ export default class Stocklist extends Component{
             type:'post',
             data:{
                 v_id:USER_INFO_GET()&&USER_INFO_GET().companyId||'',
-                is_shared:'0'
+                is_shared:'0',
+                shared_type:'o'
             },
             success:(res)=>{
                 console.log(res)
@@ -143,7 +144,8 @@ export default class Stocklist extends Component{
             type:'post',
             data:{
                 v_id:USER_INFO_GET()&&USER_INFO_GET().companyId||'',
-                is_shared:'1'
+                is_shared:'1',
+                shared_type:'o'
             },
             success:(res)=>{
                 console.log(res)
@@ -207,7 +209,8 @@ export default class Stocklist extends Component{
             data:{
                 v_id:USER_INFO_GET()&&USER_INFO_GET().companyId||'',
                 is_shared:is_shared,
-                part_sku_id:record.id
+                part_sku_id:record.id,
+                shared_type:'o'
             },
             success:(res)=>{
                 console.log(res)
@@ -237,7 +240,8 @@ export default class Stocklist extends Component{
             data:{
                 v_id:USER_INFO_GET()&&USER_INFO_GET().companyId||'',
                 is_shared_pricevisible:is_shared_pricevisible,
-                part_sku_id:record.id
+                part_sku_id:record.id,
+                shared_type:'o',
             },
             success:(res)=>{
                 console.log(res)
@@ -290,7 +294,8 @@ export default class Stocklist extends Component{
             data:{
                 v_id:USER_INFO_GET().companyId||'',
                 page:page,
-                limit:limit
+                limit:limit,
+                shared_type:'o'
             },
             success:(res)=>{
                 // console.log(res)
@@ -374,7 +379,7 @@ export default class Stocklist extends Component{
                         pagination={ false }
                         loading={this.state.loading}
                     />
-                    <Pagination onChange={this.handlepagesize} defaultCurrent={this.state.page} total={this.state.total} />,
+                    <Pagination onChange={this.handlepagesize} current={this.state.page} total={this.state.total} />,
                 </Card>
 
             </div>

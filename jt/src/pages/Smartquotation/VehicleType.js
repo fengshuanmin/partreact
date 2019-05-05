@@ -178,7 +178,7 @@ export default  class VehicleType extends Component {
             console.log(html_canvas)
         })*/
     }
-    componentWillMount(){
+   /* componentWillMount(){
             console.log(this.state)
             console.log(this.props)
             console.log(this.context)
@@ -186,12 +186,14 @@ export default  class VehicleType extends Component {
             var stateList = localStorage.getItem('stateList')
             var stateLists = JSON.parse(stateList)
             this.state = stateLists
+        }else{
+            this.state={}
         }
-    }
-    componentWillUnmount(){
+    }*/
+    /*componentWillUnmount(){
             localStorage.setItem('stateList',JSON.stringify(this.state))
             localStorage.setItem('groupId',this.state.groupId)
-    }
+    }*/
     render(){
         console.log(this.state)
         const props = {

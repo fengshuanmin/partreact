@@ -77,7 +77,11 @@ class Login extends React.Component {
             }
         });
     };
-
+    componentWillUnmount(){
+        localStorage.setItem('stateList','')
+        localStorage.setItem('groupId','')
+        localStorage.setItem('nicknames','')
+    }
     render() {
         const { getFieldDecorator } = this.props.form;
         return (

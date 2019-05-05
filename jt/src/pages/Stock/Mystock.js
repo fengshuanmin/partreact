@@ -97,7 +97,7 @@ export default class Mystock extends Component{
             url:URL_share_for_me,
             type:'post',
             data:{
-                v_id:USER_INFO_GET().companyId||'',
+                c_id:USER_INFO_GET().companyId||'',
                 page:1,
                 limit:this.state.limit,
                 v_oe:lastC,
@@ -125,10 +125,10 @@ export default class Mystock extends Component{
             loading:true
         })
         $.ajax({
-            url:URL_share_for_other,
+            url:URL_share_for_me,
             type:'post',
             data:{
-                v_id:USER_INFO_GET().companyId||'',
+                c_id:USER_INFO_GET().companyId||'',
                 page:val,
                 limit:this.state.limit,
                 v_oe:this.state.partIds,
@@ -163,7 +163,8 @@ export default class Mystock extends Component{
                 c_id:USER_INFO_GET().companyId||'',
                 // c_id:'000fc79e',
                 page:page,
-                limit:limit
+                limit:limit,
+                shared_type:'m'
             },
             success:(res)=>{
                 console.log(res)
