@@ -126,8 +126,11 @@ export default class PricePreview extends Component{
             success:(res)=>{
                 console.log(res)
                 if(res[0]){
+                    localStorage.removeItem('groupId','')
+                    localStorage.removeItem('nicknames','')
                     console.log('a1b2')
-                    var data=res[0].date,arr=[]
+                    var data=res,arr=[]
+                    console.log(data)
                     data.map((item,index)=>{
                         console.log(item)
                         item.messages.map((item1)=>{

@@ -22,7 +22,8 @@ export default class Mystock extends Component{
             flag:false,
             page:1,
             limit:'10',
-            loading:true
+            loading:true,
+            connect:{}
         }
         this.orderdetail = this.orderdetail.bind(this);
     }
@@ -31,8 +32,8 @@ export default class Mystock extends Component{
     }
     pict=(record)=>{
         console.log(record)
-        if(record.picList){
-            var picdat=record.picList
+        if(record.picture){
+            var picdat=record.picture
             var picarray=picdat.split(",")
             console.log(picarray)
             this.setState({
@@ -44,19 +45,32 @@ export default class Mystock extends Component{
         }
     }
     contant=(record)=>{
+        console.log(record)
         const info=Modal.info;
         var self=this
-        info({
-            title: '联系方式',
-            content: (
-                <div>
-                    <p>{record.contact_seller[0].share_named}</p>
-                    <p>地址：{record.contact_seller[0].address}</p>
-                    <p>电话：{record.contact_seller[0].phone}</p>
-                </div>
-            ),
-            onOk() {},
-        });
+        $.ajax({
+            url:URL_share_for_me,
+            type:'post',
+            data:{
+                c_id:USER_INFO_GET().companyId||'',
+                connect_seller:record.connect_seller
+            },
+            success:(res)=>{
+                console.log(res)
+                console.log(res[0].messages)
+                info({
+                    title: '联系方式',
+                    content: (
+                        <div>
+                            <p>{res[0].messages.share_named}</p>
+                            <p>地址：{res[0].messages.address}</p>
+                            <p>电话：{res[0].messages.phone}</p>
+                        </div>
+                    ),
+                    onOk() {},
+                });
+            }
+        })
     }
     onlinepay=(record)=>{
         const info=Modal.info;
@@ -74,22 +88,32 @@ export default class Mystock extends Component{
     query=()=>{
         var lastC=this.refs.partId.value;
         var lastB=this.refs.partname.value;
-        console.log(this.state.lastC)
-        console.log(this.state.lastB)
+        this.setState({
+            loading:true,
+            partIds:lastC,
+            partNames:lastB,
+        })
         $.ajax({
-            url:URL_search_sku,
+            url:URL_share_for_me,
             type:'post',
             data:{
-                v_id:USER_INFO_GET()&&USER_INFO_GET().companyId||'',
+                c_id:USER_INFO_GET().companyId||'',
+                page:1,
+                limit:this.state.limit,
                 v_oe:lastC,
                 v_part_name:lastB,
-                shared_type:'m'
+                s_type:'m'
             },
             success:(res)=>{
                 console.log(res)
+                var {listdata=[]}=this.state
+                listdata=res[0].message
                 if(res[0].code=='1'){
                     this.setState({
-                        listdata:res[0].message
+                        loading:false,
+                        listdata,
+                        total:res[0].num,
+                        page:parseInt(res[0].page),
                     })
                 }
             }
@@ -97,8 +121,70 @@ export default class Mystock extends Component{
         })
     }
     handlepagesize=(val)=>{
-        this.dataajax(val,this.state.limit)
-
+        this.setState({
+            loading:true
+        })
+        console.log(this.state.partIds!=''||this.state.partNames!='')
+        console.log(!this.state.partIds)
+        console.log(!this.state.partNames)
+        if(!this.state.partIds&&!this.state.partNames){
+            console.log('123')
+            $.ajax({
+                url:URL_share_for_me,
+                type:'post',
+                data:{
+                    c_id:USER_INFO_GET().companyId||'',
+                    page:val,
+                    limit:this.state.limit,
+                    v_oe:this.state.partIds,
+                    v_part_name:this.state.partNames
+                },
+                success:(res)=>{
+                    // console.log(res)
+                    // console.log(res.message)
+                    // var {listdata=[]}=this.state
+                    // listdata=res[0].message
+                    if(res[0].code=='1'){
+                        // console.log('list', res[0].message);
+                        this.setState({
+                            loading:false,
+                            listdata: res[0].message || [],
+                            total:res[0].num,
+                            page:parseInt(res[0].page),
+                        })
+                    }
+                }
+            })
+        }else{
+            console.log('abc')
+            $.ajax({
+                url:URL_share_for_me,
+                type:'post',
+                data:{
+                    c_id:USER_INFO_GET().companyId||'',
+                    page:val,
+                    limit:this.state.limit,
+                    v_oe:this.state.partIds,
+                    v_part_name:this.state.partNames,
+                    s_type:'m'
+                },
+                success:(res)=>{
+                    // console.log(res)
+                    // console.log(res.message)
+                    // var {listdata=[]}=this.state
+                    // listdata=res[0].message
+                    if(res[0].code=='1'){
+                        // console.log('list', res[0].message);
+                        this.setState({
+                            loading:false,
+                            listdata: res[0].message || [],
+                            total:res[0].num,
+                            page:parseInt(res[0].page),
+                        })
+                    }
+                }
+            })
+        }
     }
     dataajax=(page,limit)=>{
         this.setState({
@@ -129,6 +215,12 @@ export default class Mystock extends Component{
                     }
                 }
             }
+        })
+    }
+    back=()=>{
+        // window.history.back()
+        this.setState({
+            flag:false
         })
     }
     componentWillMount(){
@@ -188,29 +280,29 @@ export default class Mystock extends Component{
                         <Button type="primary" onClick={this.back}>返回</Button>
                     </div>
                 </div>:<div style={{marginTop:20,minWidth:800,maxWidth:1200}}>
-                        <Card style={{minHeight:300}}>
-                            <div style={{
-                                width: '100%',
-                                display:'inline-block'
-                            }}>
-                                <input className='spaninp' placeholder='请输入零件号' type="text" ref="partId"/>
-                                <input className='spaninp' placeholder='请输入配件名' type="text" ref="partname"/>
-                                <Button type="primary" style={{marginBottom: '20px'}} onClick={this.query}>搜索</Button>
-                                {/*<Button type="primary" style={{marginBottom: '20px',}}>全部禁止共享</Button>
+                    <Card style={{minHeight:300}}>
+                        <div style={{
+                            width: '100%',
+                            display:'inline-block'
+                        }}>
+                            <input className='spaninp' placeholder='请输入零件号' type="text" ref="partId"/>
+                            <input className='spaninp' placeholder='请输入配件名' type="text" ref="partname"/>
+                            <Button type="primary" style={{marginBottom: '20px'}} onClick={this.query}>搜索</Button>
+                            {/*<Button type="primary" style={{marginBottom: '20px',}}>全部禁止共享</Button>
                         <Button type="primary" style={{marginBottom: '20px',}} >全部开启共享</Button>
                         <Button type="primary" style={{marginBottom: '20px',}}>全部隐藏价格</Button>
                         <Button type="primary" style={{marginBottom: '20px',}}>全部开启价格</Button>*/}
-                            </div>
-                            <Table
-                                rowKey="stdnameID"
-                                columns={columns}
-                                dataSource={this.state.listdata}
-                                pagination={ false }
-                                loading={this.state.loading}
-                            />
-                            <Pagination onChange={this.handlepagesize} defaultCurrent={this.state.page} total={this.state.total} />,
-                        </Card>
-                    </div>
+                        </div>
+                        <Table
+                            rowKey="connect_seller"
+                            columns={columns}
+                            dataSource={this.state.listdata}
+                            pagination={ false }
+                            loading={this.state.loading}
+                        />
+                        <Pagination onChange={this.handlepagesize} current={this.state.page} total={this.state.total} />,
+                    </Card>
+                </div>
                 }
             </div>
         )

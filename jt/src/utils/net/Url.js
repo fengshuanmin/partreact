@@ -49,8 +49,12 @@ export const URL_modify_price=url1+'/modify_price'
 export const URL_search_sku =url1+'/search_sku'
 //对外库存共享
 export const URL_share_for_other =url1+'/share_for_other'
+//
+export const URL_share_for_price =url1+'/share_for_price'
 //向我共享
 export const URL_share_for_me =url1+'/share_for_me'
+// //
+// export const URL_share_for_me_connect_seller =url1+'/share_for_meconnect_seller'
 //商品列表
 export const URL_api_parts_sku_list=url+'/api/parts/sku/list'
 //商品列表上下架

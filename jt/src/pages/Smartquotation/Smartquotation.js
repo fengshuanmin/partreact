@@ -31,11 +31,10 @@ export default  class Smartquotation extends Component {
         }else if(this.state.step=='2'&&!localStorage.getItem('nicknames')){
             alert('零件名不存在，请重新填写零件名')
         }else{
+            console.log('移除')
             this.setState({
                 step:this.state.step>=3?1:this.state.step+1
             })
-            localStorage.removeItem('groupId','')
-            localStorage.removeItem('nicknames','')
         }
         /*$.ajax({
             url:URL_test,
