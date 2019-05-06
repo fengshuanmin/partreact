@@ -81,27 +81,27 @@ console.log(this.props)
 
 
                 <div style={{display:'inline-block',textAlign:'right',marginTop:10,width:'100%'}}>
-                    {
-                        step>2
-                        &&(
-                            <Button type="primary" style={{float:'left'}}>TXT文本</Button>
+                    {/*{*/}
+                        {/*step>2*/}
+                        {/*&&(*/}
+                            {/*<Button type="primary" style={{float:'left'}}>TXT文本</Button>*/}
 
-                        )
-                    }
-                    {
-                        step>2
-                        &&(
-                            <Button type="primary" style={{float:'left'}}>JPG图片</Button>
+                        {/*)*/}
+                    {/*}*/}
+                    {/*{*/}
+                        {/*step>2*/}
+                        {/*&&(*/}
+                            {/*<Button type="primary" style={{float:'left'}}>JPG图片</Button>*/}
 
-                        )
-                    }
-                    {
-                        step>2
-                        &&(
-                            <Button type="primary" style={{float:'left'}}>PDF文件</Button>
+                        {/*)*/}
+                    {/*}*/}
+                    {/*{*/}
+                        {/*step>2*/}
+                        {/*&&(*/}
+                            {/*<Button type="primary" style={{float:'left'}}>PDF文件</Button>*/}
 
-                        )
-                    }
+                        {/*)*/}
+                    {/*}*/}
                     {
                         step > 1
                         && (
@@ -111,6 +111,8 @@ console.log(this.props)
                         )
                     }
                     {this.state.step==3?<Button onClick={()=>{
+                            localStorage.removeItem('groupId','')
+                            localStorage.removeItem('nicknames','')
                             this.setState({
                                 step:1
                             })
