@@ -31,11 +31,10 @@ export default  class Smartquotation extends Component {
         }else if(this.state.step=='2'&&!localStorage.getItem('nicknames')){
             alert('零件名不存在，请重新填写零件名')
         }else{
+            console.log('移除')
             this.setState({
                 step:this.state.step>=3?1:this.state.step+1
             })
-            localStorage.removeItem('groupId','')
-            localStorage.removeItem('nicknames','')
         }
         /*$.ajax({
             url:URL_test,
@@ -50,6 +49,8 @@ export default  class Smartquotation extends Component {
         })*/
     }
     prev(){
+
+
         const step = this.state.step - 1;
         this.setState({step})
     };
@@ -80,39 +81,42 @@ console.log(this.props)
 
 
                 <div style={{display:'inline-block',textAlign:'right',marginTop:10,width:'100%'}}>
-                    {
-                        step>2
-                        &&(
-                            <Button type="primary" style={{float:'left'}}>TXT文本</Button>
+                    {/*{*/}
+                        {/*step>2*/}
+                        {/*&&(*/}
+                            {/*<Button type="primary" style={{float:'left'}}>TXT文本</Button>*/}
 
-                        )
-                    }
-                    {
-                        step>2
-                        &&(
-                            <Button type="primary" style={{float:'left'}}>JPG图片</Button>
+                        {/*)*/}
+                    {/*}*/}
+                    {/*{*/}
+                        {/*step>2*/}
+                        {/*&&(*/}
+                            {/*<Button type="primary" style={{float:'left'}}>JPG图片</Button>*/}
 
-                        )
-                    }
-                    {
-                        step>2
-                        &&(
-                            <Button type="primary" style={{float:'left'}}>PDF文件</Button>
+                        {/*)*/}
+                    {/*}*/}
+                    {/*{*/}
+                        {/*step>2*/}
+                        {/*&&(*/}
+                            {/*<Button type="primary" style={{float:'left'}}>PDF文件</Button>*/}
 
-                        )
-                    }
+                        {/*)*/}
+                    {/*}*/}
                     {
                         step > 1
                         && (
-                            <Button style={{ marginLeft: 8 }} type="primary" onClick={() => this.prev()}>
+                            <Button style={{ marginLeft: 8 }}  type="primary" onClick={() => this.prev()}>
                                 上一步
                             </Button>
                         )
                     }
                     {this.state.step==3?<Button onClick={()=>{
+                            localStorage.removeItem('groupId','')
+                            localStorage.removeItem('nicknames','')
                             this.setState({
                                 step:1
                             })
+
                         }} type="primary" style={{float:'right'}}>关闭</Button>:
                         <Button  onClick={this.nextstep} type="primary">下一步</Button>}
 

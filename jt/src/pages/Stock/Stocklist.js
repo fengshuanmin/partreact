@@ -1,7 +1,7 @@
 import React,{Component} from 'react';
 import $ from 'jquery'
 import _ from 'lodash';
-import {Card,Input,Button,Switch,Table,Modal,Pagination} from 'antd';
+import {Card,Input,Button,Switch,Table,Modal,Pagination,Icon,Carousel,} from 'antd';
 import Net from "../../utils/net/Net";
 import {
     URL_api_parts_sku_delete,
@@ -72,8 +72,8 @@ export default class Stocklist extends Component{
     }
     pict=(record)=>{
         console.log(record)
-        if(record.picList){
-            var picdat=record.picList
+        if(record.pic_url){
+            var picdat=record.pic_url
             var picarray=picdat.split(",")
             console.log(picarray)
             this.setState({
@@ -127,7 +127,9 @@ export default class Stocklist extends Component{
             data:{
                 v_id:USER_INFO_GET()&&USER_INFO_GET().companyId||'',
                 is_shared:'0',
-                shared_type:'o'
+                shared_type:'o',
+                v_oe:this.state.partIds,
+                v_part_name:this.state.partNames,
             },
             success:(res)=>{
                 console.log(res)
@@ -145,7 +147,9 @@ export default class Stocklist extends Component{
             data:{
                 v_id:USER_INFO_GET()&&USER_INFO_GET().companyId||'',
                 is_shared:'1',
-                shared_type:'o'
+                shared_type:'o',
+                v_oe:this.state.partIds,
+                v_part_name:this.state.partNames,
             },
             success:(res)=>{
                 console.log(res)
@@ -162,7 +166,9 @@ export default class Stocklist extends Component{
             type:'post',
             data:{
                 v_id:USER_INFO_GET()&&USER_INFO_GET().companyId||'',
-                is_shared_pricevisible:'0'
+                is_shared_pricevisible:'0',
+                v_oe:this.state.partIds,
+                v_part_name:this.state.partNames,
             },
             success:(res)=>{
                 console.log(res)
@@ -179,7 +185,9 @@ export default class Stocklist extends Component{
             type:'post',
             data:{
                 v_id:USER_INFO_GET()&&USER_INFO_GET().companyId||'',
-                is_shared_pricevisible:'1'
+                is_shared_pricevisible:'1',
+                v_oe:this.state.partIds,
+                v_part_name:this.state.partNames,
             },
             success:(res)=>{
                 console.log(res)
@@ -210,6 +218,8 @@ export default class Stocklist extends Component{
                 v_id:USER_INFO_GET()&&USER_INFO_GET().companyId||'',
                 is_shared:is_shared,
                 part_sku_id:record.id,
+                v_oe:this.state.partIds,
+                v_part_name:this.state.partNames,
                 shared_type:'o'
             },
             success:(res)=>{
@@ -241,6 +251,8 @@ export default class Stocklist extends Component{
                 v_id:USER_INFO_GET()&&USER_INFO_GET().companyId||'',
                 is_shared_pricevisible:is_shared_pricevisible,
                 part_sku_id:record.id,
+                v_oe:this.state.partIds,
+                v_part_name:this.state.partNames,
                 shared_type:'o',
             },
             success:(res)=>{
@@ -295,6 +307,8 @@ export default class Stocklist extends Component{
                 v_id:USER_INFO_GET().companyId||'',
                 page:page,
                 limit:limit,
+                v_oe:this.state.partIds,
+                v_part_name:this.state.partNames,
                 shared_type:'o'
             },
             success:(res)=>{
@@ -319,11 +333,21 @@ export default class Stocklist extends Component{
             }
         })
     }
+    back=()=>{
+        // window.history.back()
+        this.setState({
+            flag:false
+        })
+    }
     componentWillMount(){
         this.dataajax(this.state.page,this.state.limit)
     }
     render(){
-
+        const lunboSetting = {
+            dots: true,
+            lazyLoad: true,
+            autoplay:true,
+        };
         const columns = [
             { title: '序号', key: 'text',  align:'center',render:(text,record,index)=>`${index+1}`},
             { title: '配件名称', key: 'vendor_partname',align:'center',render: (text,record,index) =>
@@ -358,6 +382,23 @@ export default class Stocklist extends Component{
             },
         ];
         return(
+            <div>
+                {this.state.flag&&this.state.flag?<div style={{width:'100%',minHeight:500,maxHeight:800,marginTop:'20px',background:'#fff'}}>
+                <div style={{width:'600px',margin:'15px auto 0',position:'relative',paddingTop:'15px'}}>
+                    <Carousel {...lunboSetting} ref={el => (this.slider = el)}>
+                        {this.state.picList&&this.state.picList.map((item,index)=>{
+                            return(
+                                <div key={index}><img src={item}/></div>
+                            )
+                        })}
+                    </Carousel>
+                    <Icon type="arrow-left" onClick={this.prev}/>
+                    <Icon type="arrow-right" onClick={this.next}/>
+                </div>
+                <div style={{width:'600px',margin:'15px auto',textAlign:'right'}}>
+                    <Button type="primary" onClick={this.back}>返回</Button>
+                </div>
+            </div>:
             <div style={{marginTop:20,minWidth:800,maxWidth:1200}}>
                 <Card style={{minHeight:300}}>
                     <div style={{
@@ -383,6 +424,8 @@ export default class Stocklist extends Component{
                 </Card>
 
             </div>
+            }
+        </div>
         )
     }
 }
