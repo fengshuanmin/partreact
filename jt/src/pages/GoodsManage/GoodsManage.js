@@ -199,32 +199,41 @@ export default class  GoodsManage extends Component{
         };
         const columns = [
             { title: '序号',key:'text',render:(text,record,index)=>`${index+1}`,align:'center'},
-            { title: '汽车制造商', dataIndex: 'vendorPartmaker', key: 'vendorPartmaker',align:'center' ,render: (text,record,index) =>
-                    <span key="Partmaker">{(record.vendorPartmaker==''||record.vendorPartmaker==null)?'-':record.vendorPartmaker}</span>
+            { title: '汽车品牌', dataIndex: 'vendorAutobrand', key: 'vendorAutobrand',align:'center' ,render: (text,record,index) =>
+                    <span key="Partmaker">{(record.vendorAutobrand==''||record.vendorAutobrand==null)?'-':record.vendorAutobrand}</span>
             },
-            { title: '配件名称', dataIndex: 'stdname', key: 'stdname',align:'center' ,render: (text,record,index) =>
+            /*{ title: '标准名', dataIndex: 'stdname', key: 'stdname',align:'center' ,render: (text,record,index) =>
                     <span key="pjname">{(record.stdname==''||record.stdname==null)?'-':record.stdname}</span>
             },
-            { title: '零件号', dataIndex: 'vendorOe', key: 'vendorOe',align:'center' ,render: (text,record,index) =>
+            { title: '标准OE号', dataIndex: 'stdOePure', key: 'stdOePure',align:'center' ,render: (text,record,index) =>
+                    <span key="pjnameid">{(record.stdOePure==''||record.stdOePure==null)?'-':record.stdOePure}</span>
+            },*/
+            { title: '配件名称', dataIndex: 'vendorPartname', key: 'vendorPartname',align:'center' ,render: (text,record,index) =>
+                    <span key="pjnames">{(record.vendorPartname==''||record.vendorPartname==null)?'-':record.vendorPartname}</span>
+            },
+            { title: '配件OE号', dataIndex: 'vendorOe', key: 'vendorOe',align:'center' ,render: (text,record,index) =>
                     <span key="partid">{(record.vendorOe==''||record.vendorOe==null)?'-':record.vendorOe}</span>
             },
-            { title: '品质', dataIndex: 'vendorPartquality', key: 'vendorPartquality',align:'center' ,render: (text,record,index) =>
+            { title: '配件品质', dataIndex: 'vendorPartquality', key: 'vendorPartquality',align:'center' ,render: (text,record,index) =>
                     <span key="Partquality">{(record.vendorPartquality==''||record.vendorPartquality==null)?'-':record.vendorPartquality}</span>
             },
-            { title: '品牌', dataIndex: 'vendorAutobrand', key: 'vendorPartbrand',align:'center' ,render: (text,record,index) =>
-                    <span key="autobrand">{(record.vendorAutobrand==''||record.vendorAutobrand==null)?'-':record.vendorAutobrand}</span>
+            { title: '配件品牌', dataIndex: 'vendorPartbrand', key: 'vendorPartbrand',align:'center' ,render: (text,record,index) =>
+                    <span key="autobrand">{(record.vendorPartbrand==''||record.vendorPartbrand==null)?'-':record.vendorPartbrand}</span>
+            },
+            { title: '配件产地', dataIndex: 'vendorPartmaker', key: 'vendorPartmaker',align:'center' ,render: (text,record,index) =>
+                    <span key="automark">{(record.vendorPartmaker==''||record.vendorPartmaker==null)?'-':record.vendorPartmaker}</span>
             },
             // { title: '产地', dataIndex: 'vendorPartmaker', key: 'vendorPartmaker',align:'center' },
-            { title: '质保期限', dataIndex: 'vendorPartwarranty', key: 'vendorPartwarranty',align:'center',render: (text,record,index) =>
+            { title: '配件质保', dataIndex: 'vendorPartwarranty', key: 'vendorPartwarranty',align:'center',render: (text,record,index) =>
                     <span key="Partwarranty">{(record.vendorPartwarranty==''||record.vendorPartwarranty==null)?'-':record.vendorPartwarranty}</span>
             },
-            { title: '最高售价', key: 'retailPricemax',align:'center',render: (text,record,index) =>
+            { title: '最高零售价', key: 'retailPricemax',align:'center',render: (text,record,index) =>
                     <span key="Pricemax">{(record.retailPricemax==''||record.retailPricemax==null)?'-':record.retailPricemax}</span>
             },
-            { title: '中等售价', key: 'retailPricemid',align:'center',render: (text,record,index) =>
+            { title: '中间零售价', key: 'retailPricemid',align:'center',render: (text,record,index) =>
                     <span key="Pricemid">{(record.retailPricemid==''||record.retailPricemid==null)?'-':record.retailPricemid}</span>
             },
-            { title: '最低售价', key: 'retailPricemin',align:'center',render: (text,record,index) =>
+            { title: '最低零售价', key: 'retailPricemin',align:'center',render: (text,record,index) =>
                     <span key="Pricemin">{(record.retailPricemin==''||record.retailPricemin==null)?'-':record.retailPricemin}</span>
             },
             { title: '上下架', key: 'sxj',align:'center', render: (text,record,index) =>
@@ -238,7 +247,7 @@ export default class  GoodsManage extends Component{
             },
         ];
         return(
-            <div>
+            <div className="goodsdiv">
                 {this.state.flag&&this.state.flag?<div style={{width:'100%',minHeight:401,maxHeight:800,marginTop:'20px',background:'#fff'}}>
                     <div style={{width:'600px',margin:'15px auto 0',position:'relative',paddingTop:'15px'}}>
                         <Carousel {...lunboSetting} ref={el => (this.slider = el)}>
