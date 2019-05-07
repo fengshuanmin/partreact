@@ -399,7 +399,7 @@ export default class Stocklist extends Component{
                     <Button type="primary" onClick={this.back}>返回</Button>
                 </div>
             </div>:
-            <div style={{marginTop:20,minWidth:800,maxWidth:1200}}>
+            <div style={{marginTop:20,width:'100%'}}>
                 <Card style={{minHeight:300}}>
                     <div style={{
                         width: '100%',

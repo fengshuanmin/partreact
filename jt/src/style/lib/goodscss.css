@@ -107,3 +107,102 @@
 .YZMtimernone{
     display: none;
 }
+.ant-table-thead > tr > th, .ant-table-tbody > tr > td{
+    padding:10px 5px!important;
+}
+/*.goodsdiv .ant-table-body .ant-table-thead tr{
+    width: 100%;
+}
+.goodsdiv .ant-table-body .ant-table-thead tr th:nth-child(1){
+    width:4%;
+}
+.goodsdiv .ant-table-body .ant-table-thead tr th:nth-child(2){
+    width:5%;
+}
+.goodsdiv .ant-table-body .ant-table-thead tr th:nth-child(3){
+    width:5%;
+}
+.goodsdiv .ant-table-body .ant-table-thead tr th:nth-child(4){
+    width:5%;
+}
+.goodsdiv .ant-table-body .ant-table-thead tr th:nth-child(5){
+    width:6%;
+}
+.goodsdiv .ant-table-body .ant-table-thead tr th:nth-child(6){
+    width:6%;
+}
+.goodsdiv .ant-table-body .ant-table-thead tr th:nth-child(7){
+    width:6%;
+}
+.goodsdiv .ant-table-body .ant-table-thead tr th:nth-child(8){
+    width:6%;
+}
+.goodsdiv .ant-table-body .ant-table-thead tr th:nth-child(9){
+    width:6%;
+}
+.goodsdiv .ant-table-body .ant-table-thead tr th:nth-child(10){
+    width:6%;
+}
+.goodsdiv .ant-table-body .ant-table-thead tr th:nth-child(11){
+    width:7%;
+}
+.goodsdiv .ant-table-body .ant-table-thead tr th:nth-child(12){
+    width:7%;
+}
+.goodsdiv .ant-table-body .ant-table-thead tr th:nth-child(13){
+    width:7%;
+}
+.goodsdiv .ant-table-body .ant-table-thead tr th:nth-child(14){
+    width:6%;
+}
+.goodsdiv .ant-table-body .ant-table-thead tr th:nth-child(15){
+    width:10%;
+}
+.goodsdiv .ant-table-body .ant-table-tbody tr{
+    width: 100%;
+}
+.goodsdiv .ant-table-body .ant-table-tbody tr td:nth-child(1){
+    width:4%;
+}
+.goodsdiv .ant-table-body .ant-table-tbody tr td:nth-child(2){
+    width:5%;
+}
+.goodsdiv .ant-table-body .ant-table-tbody tr td:nth-child(3){
+    width:5%;
+}
+.goodsdiv .ant-table-body .ant-table-tbody tr td:nth-child(4){
+    width:5%;
+}
+.goodsdiv .ant-table-body .ant-table-tbody tr td:nth-child(5){
+    width:6%;
+}
+.goodsdiv .ant-table-body .ant-table-tbody tr td:nth-child(6){
+    width:6%;
+}
+.goodsdiv .ant-table-body .ant-table-tbody tr td:nth-child(7){
+    width:6%;
+}
+.goodsdiv .ant-table-body .ant-table-tbody tr td:nth-child(8){
+    width:6%;
+}
+.goodsdiv .ant-table-body .ant-table-tbody tr td:nth-child(9){
+    width:6%;
+}
+.goodsdiv .ant-table-body .ant-table-tbody tr td:nth-child(10){
+    width:6%;
+}
+.goodsdiv .ant-table-body .ant-table-tbody tr td:nth-child(11){
+    width:7%;
+}
+.goodsdiv .ant-table-body .ant-table-tbody tr td:nth-child(12){
+    width:7%;
+}
+.goodsdiv .ant-table-body .ant-table-tbody tr td:nth-child(13){
+    width:7%;
+}
+.goodsdiv .ant-table-body .ant-table-tbody tr td:nth-child(14){
+    width:6%;
+}
+.goodsdiv .ant-table-body .ant-table-tbody tr td:nth-child(15){
+    width:10%;
+}*/

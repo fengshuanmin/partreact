@@ -59,10 +59,10 @@ class  CompanySetting extends Component{
             },
         ];
         return(
-            <div style={{minWidth:300}}>
+            <div style={{width:'100%'}}>
                 <BreadcrumbCustom first="公司设置"/>
 
-                <div style={{maxWidth:1200}} className='tablebottom'>
+                <div style={{width:'100%'}} className='tablebottom'>
                     <Card >
                         <div style={{width:'100%'}}>
                             <div style={{

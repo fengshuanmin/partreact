@@ -287,11 +287,11 @@ export default class PricePreview extends Component {
                     <span key="Partquality">{(record.quality == '' || record.quality == null) ? '-' : record.quality}</span>
             },
             {
-                title: '产品配件', dataIndex: 'brand', key: 'brand', align: 'center', render: (text, record, index) =>
+                title: '配件品牌', dataIndex: 'brand', key: 'brand', align: 'center', render: (text, record, index) =>
                     <span key="pbrand">{(record.brand == '' || record.brand == null) ? '-' : record.brand}</span>
             },
             {
-                title: '产品产地', dataIndex: 'maker', key: 'maker', align: 'center', render: (text, record, index) =>
+                title: '配件产地', dataIndex: 'maker', key: 'maker', align: 'center', render: (text, record, index) =>
                     <span key="pmaker">{(record.maker == '' || record.maker == null) ? '-' : record.maker}</span>
             },
             /* { title: '图片', dataIndex: 'vendorAutobrand', key: 'vendorPartbrand',align:'center' ,render: (text,record,index) =>

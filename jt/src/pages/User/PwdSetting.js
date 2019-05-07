@@ -152,12 +152,12 @@ class  PwdSetting extends Component{
 
         const {getFieldDecorator} = this.props.form;
         return(
-            <div style={{minWidth:300}}>
+            <div style={{width:'100%'}}>
                 <BreadcrumbCustom first="密码修改"/>
 
-                <div style={{maxWidth:900}}>
+                <div style={{width:'100%'}}>
                     <Card >
-                        <div style={{maxWidth:600}}>
+                        <div style={{width:'100%'}}>
                             <div style={{
                                 width: '75%',
                                 marginLeft: '1%',

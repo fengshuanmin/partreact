@@ -51,12 +51,12 @@ console.log(res)
 
         const {getFieldDecorator} = this.props.form;
         return(
-            <div style={{minWidth:300}}>
+            <div style={{width:'100%'}}>
                 <BreadcrumbCustom first="个人设置"/>
 
-                <div style={{maxWidth:900}}>
+                <div style={{width:'100%'}}>
                     <Card >
-                        <div style={{maxWidth:600}}>
+                        <div style={{width:'100%'}}>
                             <div style={{
                                 width: '80%',
                                 marginLeft: '1%',
