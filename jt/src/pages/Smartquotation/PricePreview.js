@@ -47,7 +47,27 @@ export default class PricePreview extends Component {
             }
         })
         console.log(pa)
-        if (pa.retail_pricemid < lastA) {
+        $.ajax({
+            url: URL_modify_price,
+            type: 'POST',
+            data: {
+                v_id: USER_INFO_GET() && USER_INFO_GET().companyId || '',
+                part_sku_id: reid,
+                price: lastA,
+                p_typed: 'A'
+            },
+            success: (res) => {
+                console.log(res[0].code)
+                if (res[0].code == '1') {
+                    this.setState({
+                        changAstate: false
+                    })
+                    this.dataajax()
+                }
+
+            }
+        })
+        /*if (pa.retail_pricemid < lastA) {
             $.ajax({
                 url: URL_modify_price,
                 type: 'POST',
@@ -71,7 +91,7 @@ export default class PricePreview extends Component {
         } else {
             this.refs.partId.value = ''
             alert('最高零售价不能小于中间零售价')
-        }
+        }*/
     }
     change1 = (record) => {
         console.log(record.checkedboxb)
@@ -103,7 +123,26 @@ export default class PricePreview extends Component {
                 pa = item3
             }
         })
-        if (pa.retail_pricemax > lastB && pa.retail_pricemin < lastB) {
+        $.ajax({
+            url: URL_modify_price,
+            type: 'POST',
+            data: {
+                v_id: USER_INFO_GET() && USER_INFO_GET().companyId || '',
+                part_sku_id: reid,
+                price: lastB,
+                p_typed: 'B'
+            },
+            success: (res) => {
+                if (res[0].code == '1') {
+                    this.setState({
+                        changBstate: false
+                    })
+                    this.dataajax()
+                }
+
+            }
+        })
+        /*if (pa.retail_pricemax > lastB && pa.retail_pricemin < lastB) {
             $.ajax({
                 url: URL_modify_price,
                 type: 'POST',
@@ -126,7 +165,7 @@ export default class PricePreview extends Component {
         } else {
             this.refs.partId1.value = ''
             alert('中间零售价不能大于最高零售价并且不能小于最低零售价')
-        }
+        }*/
     }
     change2 = (record) => {
         if (record.checkedboxc == '0') {
@@ -157,7 +196,26 @@ export default class PricePreview extends Component {
                 pa = item4
             }
         })
-        if (pa.retail_pricemid > lastC) {
+        $.ajax({
+            url: URL_modify_price,
+            type: 'POST',
+            data: {
+                v_id: USER_INFO_GET() && USER_INFO_GET().companyId || '',
+                part_sku_id: reid,
+                price: lastC,
+                p_typed: 'C'
+            },
+            success: (res) => {
+                if (res[0].code == '1') {
+                    this.setState({
+                        changCstate: false
+                    })
+                    this.dataajax()
+                }
+
+            }
+        })
+        /*if (pa.retail_pricemid > lastC) {
             $.ajax({
                 url: URL_modify_price,
                 type: 'POST',
@@ -180,7 +238,7 @@ export default class PricePreview extends Component {
         } else {
             this.refs.partId2.value = ''
             alert('最低零售价不能大于中间零售价')
-        }
+        }*/
     }
     onSelectChange = (selectedRowKeys) => {
         console.log('selectedRowKeys changed: ', selectedRowKeys);
@@ -369,7 +427,7 @@ export default class PricePreview extends Component {
                     />
                     {this.state.changAstate &&
                     <div style={{
-                        position: 'absolute',
+                        position: 'fixed',
                         top: '30%',
                         left: '40%',
                         textAlign: 'center',
@@ -380,10 +438,11 @@ export default class PricePreview extends Component {
                         <h5 style={{marginTop: '5%'}}>修改价格</h5>
                         <input style={{
                             height: '25px',
-                            margin: '10px 0',
+                            margin: '10px auto',
                             border: '1px solid #ccc',
                             borderRadius: '5px',
-                            outline: 'none'
+                            outline: 'none',
+                            display:'block'
                         }} ref="partId" type="text"/>
                         <Button size="small" onClick={() => {
                             this.setState({changAstate: false})
@@ -393,7 +452,7 @@ export default class PricePreview extends Component {
                     }
                     {this.state.changBstate &&
                     <div style={{
-                        position: 'absolute',
+                        position: 'fixed',
                         top: '30%',
                         left: '40%',
                         textAlign: 'center',
@@ -404,10 +463,11 @@ export default class PricePreview extends Component {
                         <h5 style={{marginTop: '5%'}}>修改价格</h5>
                         <input style={{
                             height: '25px',
-                            margin: '10px 0',
+                            margin: '10px auto',
                             border: '1px solid #ccc',
                             borderRadius: '5px',
-                            outline: 'none'
+                            outline: 'none',
+                            display:'block'
                         }} ref="partId1" type="text"/>
                         <Button size="small" onClick={() => {
                             this.setState({changBstate: false})
@@ -417,7 +477,7 @@ export default class PricePreview extends Component {
                     }
                     {this.state.changCstate &&
                     <div style={{
-                        position: 'absolute',
+                        position: 'fixed',
                         top: '30%',
                         left: '40%',
                         textAlign: 'center',
@@ -428,10 +488,11 @@ export default class PricePreview extends Component {
                         <h5 style={{marginTop: '5%'}}>修改价格</h5>
                         <input style={{
                             height: '25px',
-                            margin: '10px 0',
+                            margin: '10px auto',
                             border: '1px solid #ccc',
                             borderRadius: '5px',
-                            outline: 'none'
+                            outline: 'none',
+                            display:'block'
                         }} ref="partId2" type="text"/>
                         <Button size="small" onClick={() => {
                             this.setState({changCstate: false})
