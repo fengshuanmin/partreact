@@ -341,6 +341,12 @@ export default class Stocklist extends Component{
     }
     componentWillMount(){
         this.dataajax(this.state.page,this.state.limit)
+        if(localStorage.getItem('vehistateList')){
+            localStorage.removeItem('groupId','')
+            localStorage.removeItem('nicknames','')
+            localStorage.removeItem('vehistateList','')
+            localStorage.removeItem('partystateList','')
+        }
     }
     render(){
         const lunboSetting = {

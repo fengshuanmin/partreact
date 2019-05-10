@@ -195,35 +195,24 @@ export default  class VehicleType extends Component {
             console.log(html_canvas)
         })*/
     }
-    /*
     componentWillMount(){
 
         console.log(this.state)
         console.log(this.props)
         console.log(this.context)
 
-            console.log(this.state)
-            console.log(this.props)
-            console.log(this.context)
-
-        if(localStorage.getItem('stateList')) {
-            var stateList = localStorage.getItem('stateList')
+        if(localStorage.getItem('vehistateList')) {
+            var stateList = localStorage.getItem('vehistateList')
             var stateLists = JSON.parse(stateList)
             this.state = stateLists
         }
     }
     componentWillUnmount(){
 
-        localStorage.setItem('stateList',JSON.stringify(this.state))
+        localStorage.setItem('vehistateList',JSON.stringify(this.state))
         localStorage.setItem('groupId',this.state.groupId)
 
-
-
-            localStorage.setItem('stateList',JSON.stringify(this.state))
-            localStorage.setItem('groupId',this.state.groupId)
-
     }
-     */
     render(){
         console.log(this.state)
         const props = {

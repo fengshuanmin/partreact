@@ -226,6 +226,12 @@ export default class Mystock extends Component{
     componentWillMount(){
         console.log(USER_INFO_GET())
         this.dataajax(this.state.page,this.state.limit)
+        if(localStorage.getItem('vehistateList')){
+            localStorage.removeItem('groupId','')
+            localStorage.removeItem('nicknames','')
+            localStorage.removeItem('vehistateList','')
+            localStorage.removeItem('partystateList','')
+        }
     }
     render(){
         console.log(this.state)

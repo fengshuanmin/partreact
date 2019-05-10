@@ -46,6 +46,12 @@ console.log(res)
                 }
             }
         })
+        if(localStorage.getItem('vehistateList')){
+            localStorage.removeItem('groupId','')
+            localStorage.removeItem('nicknames','')
+            localStorage.removeItem('vehistateList','')
+            localStorage.removeItem('partystateList','')
+        }
     }
     render(){
 

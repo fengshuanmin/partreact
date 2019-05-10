@@ -50,6 +50,7 @@ class Login extends React.Component {
         this.props.form.validateFields((err, values) => {
             console.log(values)
             if (!err) {
+                console.log('123')
                 var dat={
                     username:values.userName,password:values.password
                 }
@@ -60,10 +61,21 @@ class Login extends React.Component {
                     headers:{"Content-Type":"application/json","appClientType":"VENDOR","appToken":'1'},
                     success:(res)=>{
                         console.log(res)
-                        let {accountId,companyId,appToken} = res;
-                        USER_INFO_SAVE({accountId,companyId,appToken})
-                        console.log(this.props)
-                        this.props.history.push('/app/smartquotation')
+                        if(res.result==true){
+                            let {accountId,companyId,appToken} = res;
+                            USER_INFO_SAVE({accountId,companyId,appToken})
+                            console.log(this.props)
+                            if(localStorage.getItem('vehistateList')){
+                                localStorage.removeItem('groupId','')
+                                localStorage.removeItem('nicknames','')
+                                localStorage.removeItem('vehistateList','')
+                                localStorage.removeItem('partystateList','')
+                            }
+                            this.props.history.push('/app/smartquotation')
+                        }else{
+                            alert(res.msg)
+                        }
+
                     }
                 })
                /* this.setState({

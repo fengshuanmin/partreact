@@ -1,9 +1,16 @@
 
 import React, {Component} from 'react';
-import {Button,Row,Col,message, Input,Form, Icon} from 'antd';
+import $ from 'jquery'
+import {Button,Row,Col,message, Input,Form, Icon,Modal} from 'antd';
 
 import  Net from '../../utils/net/Net';
-import {URL_get_verification_code,URL_reset_password} from '../../utils/net/Url';
+import {
+    URL_api_get_verification_code,
+    URL_api_reset_password,
+    URL_get_verification_code,
+    URL_reset_password
+} from '../../utils/net/Url';
+import {USER_INFO_GET} from "../../utils/storeInfo";
 const FormItem = Form.Item;
 
  class ForgotPassword extends Component{
@@ -49,13 +56,43 @@ const FormItem = Form.Item;
                 if(values.pwd1 !== values.pwd2){
                     message.warn('两次密码不一样!')
                 }else{
-                    Net.post({url:URL_reset_password,params:{
+                    var dat={
+                        username:values.tel,
+                        verifyCode:values.captcha,
+                        password:values.pwd1
+                    }
+                    console.log(this.props)
+                    $.ajax({
+                        url:URL_api_reset_password,
+                        type:'post',
+                        data:JSON.stringify(dat),
+                        headers:{'appClientType':'VENDOR','Content-Type':'application/json'},
+                        success:(res)=>{
+                            console.log(res)
+                            if(res.msg=='修改成功'){
+                                const confirm=Modal.confirm;
+                                var self=this
+                                confirm({
+                                    title: '提示',
+                                    content: '密码修改成功',
+                                    onOk() {
+                                        window.history.back()
+                                    },
+                                    onCancel() {},
+                                });
+                            }
+                        },
+                        error:(err)=>{
+                            message.warn(err.response.data.resultMessage || '请求失败')
+                        }
+                    })
+                   /* Net.post({url:URL_reset_password,params:{
                         username:values.tel,
                         password:values.pwd1,
                         verifyCode:values.captcha}},res=>{
                     },err=>{
                         message.warn(err.response.data.resultMessage || '请求失败')
-                    })
+                    })*/
                 }
             }
         });
@@ -92,12 +129,33 @@ const FormItem = Form.Item;
                                 </Col>
                                 <Col span={12}>
                                     <Button disabled={this.state.isWait || this.state.tel.length !== 11} loading={this.state.btnLoading} onClick={()=>{
-
                                         this.setState({
                                             btnLoading:true
                                         })
-
-                                        Net.get({url:URL_get_verification_code+this.state.tel,headers:{smsServiceType:'RESET_PASS_VERIFY_CODE'}},res=>{
+                                        $.ajax({
+                                            url:URL_api_get_verification_code+'/'+this.state.tel,
+                                            headers:{'smsServiceType':'RESET_PASS_VERIFY_CODE',
+                                                'appClientType':'VENDOR','Content-Type':'application/json'},
+                                            success:(data)=>{
+                                                console.log(data)
+                                                this.setState({
+                                                    btnLoading:false,
+                                                    isWait:true
+                                                },()=>{
+                                                    this.timeChange.bind(this)();
+                                                })
+                                            },
+                                            error:(err)=>{
+                                                this.setState({
+                                                    btnLoading:false,
+                                                    isWait:true
+                                                },()=>{
+                                                    this.timeChange.bind(this)();
+                                                })
+                                            }
+                                        })
+                                       /* Net.get({url:URL_api_get_verification_code+'/'+this.state.tel,headers:{'smsServiceType':'RESET_PASS_VERIFY_CODE',
+                                                'appClientType':'VENDOR','Content-Type':'application/json'}},res=>{
                                             this.setState({
                                                 btnLoading:false,
                                                 isWait:true
@@ -111,7 +169,7 @@ const FormItem = Form.Item;
                                             },()=>{
                                                 this.timeChange.bind(this)();
                                             })
-                                        });
+                                        });*/
                                     }}>{this.state.isWait?this.state.btnInfo:'获取验证码'}</Button>
 
                                 </Col>

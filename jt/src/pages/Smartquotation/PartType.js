@@ -117,24 +117,22 @@ export default class PartType extends Component {
 
     }
 
-    /*
     componentWillMount(){
         console.log(this.state)
         console.log(this.props)
         console.log(this.context)
-        if(localStorage.getItem('stateList')) {
-            var stateList = localStorage.getItem('stateList')
+        if(localStorage.getItem('partystateList')) {
+            var stateList = localStorage.getItem('partystateList')
             var stateLists = JSON.parse(stateList)
             this.state = stateLists
         }
     }
     componentWillUnmount(){
-        localStorage.setItem('stateList',JSON.stringify(this.state))
+        localStorage.setItem('partystateList',JSON.stringify(this.state))
         localStorage.setItem('nickname',this.state.nickname)
 
     }
 
-     */
     render() {
         const uploadButton = (
             <div style={{minHeight: 430, maxHeight: 700, width: "100%"}}>
@@ -194,15 +192,15 @@ export default class PartType extends Component {
 
                                 <p>标准名称</p>
                                 <div style={{border: '1px solid ', minHeight: 446, maxHeight: 700, right: 100}}>
-                                    <ul>
+                                    <ol>
                                         {this.state.nickname && this.state.nickname.map((item, index) => {
                                             return (
                                                 <li key={index}>
-                                                    {item}
+                                                    {index+1}.{item}
                                                 </li>
                                             )
                                         })}
-                                    </ul>
+                                    </ol>
 
                                 </div>
 

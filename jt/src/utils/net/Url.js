@@ -1,10 +1,18 @@
-
+//测试
 //吴松接口的port
 var url='http://139.196.16.229:10000'
 // var url='http://192.168.0.122:10000'
 //陈先虎接口的port
 var url1='http://139.196.16.229:9999'
 var url2='http://139.196.16.229:8989'
+//正式
+// var url='http://148.70.137.178:10000'
+// // var url='http://192.168.0.122:10000'
+// //陈先虎接口的port
+// var url1='http://148.70.137.178:9999'
+// var url2='http://148.70.137.178:8989'
+
+
 export const URL_test = url2+ '/test';
 //登陆
 export const URL_login = url+ '/api/login';

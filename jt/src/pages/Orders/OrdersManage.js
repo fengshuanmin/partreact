@@ -105,6 +105,12 @@ export default class OrdersManage extends Component {
 
     componentWillMount() {
         this.dataajax(this.state.page, this.state.limit)
+        if(localStorage.getItem('vehistateList')){
+            localStorage.removeItem('groupId','')
+            localStorage.removeItem('nicknames','')
+            localStorage.removeItem('vehistateList','')
+            localStorage.removeItem('partystateList','')
+        }
         /*if (this.state.step == 1) {
             // const a_o_id = '1'
             var Ai_order = localStorage.getItem('Ai_order')

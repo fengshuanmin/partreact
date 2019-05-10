@@ -113,6 +113,8 @@ console.log(this.props)
                     {this.state.step==3?<Button onClick={()=>{
                             localStorage.removeItem('groupId','')
                             localStorage.removeItem('nicknames','')
+                            localStorage.removeItem('vehistateList','')
+                            localStorage.removeItem('partystateList','')
                             this.setState({
                                 step:1
                             })

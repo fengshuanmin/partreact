@@ -41,7 +41,8 @@ export default class  Addition extends Component{
         }
     }
     downfile=()=>{
-        window.open('http://139.196.16.229/excel/template_partsku.xlsx');
+        window.open('http://139.196.16.229/excel/template_partsku.xlsx');//测试
+        // window.open('http://148.70.137.178/excel/template_partsku.xlsx');//正式
     }
     onDrop=(file)=>{
         var history = this.context.router.history
@@ -66,7 +67,12 @@ export default class  Addition extends Component{
 
     }
     componentDidMount(){
-
+        if(localStorage.getItem('vehistateList')){
+            localStorage.removeItem('groupId','')
+            localStorage.removeItem('nicknames','')
+            localStorage.removeItem('vehistateList','')
+            localStorage.removeItem('partystateList','')
+        }
     }
     render(){
         const Dragger = Upload.Dragger;

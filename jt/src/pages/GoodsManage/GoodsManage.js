@@ -188,6 +188,12 @@ export default class  GoodsManage extends Component{
     componentDidMount(){
         console.log(this.props)
         console.log(this.state)
+        if(localStorage.getItem('vehistateList')){
+            localStorage.removeItem('groupId','')
+            localStorage.removeItem('nicknames','')
+            localStorage.removeItem('vehistateList','')
+            localStorage.removeItem('partystateList','')
+        }
         this.dataajax(this.state.page,this.state.limit)
     }
     render(){

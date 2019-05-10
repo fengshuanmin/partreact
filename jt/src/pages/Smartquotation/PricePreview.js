@@ -12,29 +12,23 @@ export default class PricePreview extends Component {
         this.state = {
             showChangePrice: false
         }
-
     }
 
-    change = (record) => {
-        console.log(record)
-        if (record.checkedboxa == '0') {
-            record.checkedboxa = '1'
-            record.checkedboxb = '0'
-            record.checkedboxc = '0'
+    change = (item) => {
+        console.log(item)
+        if (item.checkedboxa == '0') {
+            item.checkedboxa = '1'
+            item.checkedboxb = '0'
+            item.checkedboxc = '0'
         } else {
-            record.checkedboxa = '0'
+            item.checkedboxa = '0'
         }
-        // this.setState({
-        //     changAstate: true
-        // })
-        // localStorage.setItem('Aid', record.id)
-        // this.changePrice(record.skuoe,'A')
     }
-    changicona = (record) => {
+    changicona = (item1) => {
         this.setState({
             changAstate: true
         })
-        localStorage.setItem('Aid', record.id)
+        localStorage.setItem('Aid', item1.id)
     }
     sureA = () => {
         var reid = localStorage.getItem('Aid')
@@ -67,51 +61,22 @@ export default class PricePreview extends Component {
 
             }
         })
-        /*if (pa.retail_pricemid < lastA) {
-            $.ajax({
-                url: URL_modify_price,
-                type: 'POST',
-                data: {
-                    v_id: USER_INFO_GET() && USER_INFO_GET().companyId || '',
-                    part_sku_id: reid,
-                    price: lastA,
-                    p_typed: 'A'
-                },
-                success: (res) => {
-                    console.log(res[0].code)
-                    if (res[0].code == '1') {
-                        this.setState({
-                            changAstate: false
-                        })
-                        this.dataajax()
-                    }
-
-                }
-            })
-        } else {
-            this.refs.partId.value = ''
-            alert('最高零售价不能小于中间零售价')
-        }*/
     }
-    change1 = (record) => {
-        console.log(record.checkedboxb)
-        if (record.checkedboxb == '0') {
-            record.checkedboxb = '1'
-            record.checkedboxa = '0'
-            record.checkedboxc = '0'
+    change1 = (item) => {
+        console.log(item.checkedboxb)
+        if (item.checkedboxb == '0') {
+            item.checkedboxb = '1'
+            item.checkedboxa = '0'
+            item.checkedboxc = '0'
         } else {
-            record.checkedboxb = '0'
+            item.checkedboxb = '0'
         }
-        // this.setState({
-        //     changBstate: true
-        // })
-        // localStorage.setItem('Bid', record.id)
     }
-    changiconb = (record) => {
+    changiconb = (item) => {
         this.setState({
             changBstate: true
         })
-        localStorage.setItem('Bid', record.id)
+        localStorage.setItem('Bid', item.id)
     }
     sureB = () => {
         var reid = localStorage.getItem('Bid')
@@ -142,49 +107,21 @@ export default class PricePreview extends Component {
 
             }
         })
-        /*if (pa.retail_pricemax > lastB && pa.retail_pricemin < lastB) {
-            $.ajax({
-                url: URL_modify_price,
-                type: 'POST',
-                data: {
-                    v_id: USER_INFO_GET() && USER_INFO_GET().companyId || '',
-                    part_sku_id: reid,
-                    price: lastB,
-                    p_typed: 'B'
-                },
-                success: (res) => {
-                    if (res[0].code == '1') {
-                        this.setState({
-                            changBstate: false
-                        })
-                        this.dataajax()
-                    }
-
-                }
-            })
-        } else {
-            this.refs.partId1.value = ''
-            alert('中间零售价不能大于最高零售价并且不能小于最低零售价')
-        }*/
     }
-    change2 = (record) => {
-        if (record.checkedboxc == '0') {
-            record.checkedboxc = '1'
-            record.checkedboxa = '0'
-            record.checkedboxb = '0'
+    change2 = (item) => {
+        if (item.checkedboxc == '0') {
+            item.checkedboxc = '1'
+            item.checkedboxa = '0'
+            item.checkedboxb = '0'
         } else {
-            record.checkedboxc = '0'
+            item.checkedboxc = '0'
         }
-        // this.setState({
-        //     changCstate: true
-        // })
-        // localStorage.setItem('Cid', record.id)
     }
-    changiconc = (record) => {
+    changiconc = (item) => {
         this.setState({
             changCstate: true
         })
-        localStorage.setItem('Cid', record.id)
+        localStorage.setItem('Cid', item.id)
     }
     sureC = () => {
         var reid = localStorage.getItem('Cid')
@@ -215,30 +152,6 @@ export default class PricePreview extends Component {
 
             }
         })
-        /*if (pa.retail_pricemid > lastC) {
-            $.ajax({
-                url: URL_modify_price,
-                type: 'POST',
-                data: {
-                    v_id: USER_INFO_GET() && USER_INFO_GET().companyId || '',
-                    part_sku_id: reid,
-                    price: lastC,
-                    p_typed: 'C'
-                },
-                success: (res) => {
-                    if (res[0].code == '1') {
-                        this.setState({
-                            changCstate: false
-                        })
-                        this.dataajax()
-                    }
-
-                }
-            })
-        } else {
-            this.refs.partId2.value = ''
-            alert('最低零售价不能大于中间零售价')
-        }*/
     }
     onSelectChange = (selectedRowKeys) => {
         console.log('selectedRowKeys changed: ', selectedRowKeys);
@@ -275,17 +188,19 @@ export default class PricePreview extends Component {
                     data.map((item, index) => {
                         console.log(item)
                         item.messages.map((item1) => {
-                            arr.push(item1)
+                            item1.checkedboxa = '0'
+                            item1.checkedboxb = '0'
+                            item1.checkedboxc = '0'
                         })
                     })
-                    console.log(arr)
+                    /*console.log(arr)
                     arr.map((item1, index1) => {
                         item1.checkedboxa = '0'
                         item1.checkedboxb = '0'
                         item1.checkedboxc = '0'
-                    })
+                    })*/
                     this.setState({
-                        listdata: arr
+                        listdata: data
                     })
                 }
             }
@@ -298,9 +213,13 @@ export default class PricePreview extends Component {
         })
         var txtarr = []
         this.state.listdata.map((item, index) => {
-            if (item.checkedboxa == '1' || item.checkedboxb == '1' || item.checkedboxc == '1') {
-                txtarr.push(item)
-            }
+            console.log(item)
+            item.messages.map((item1,index1)=>{
+                console.log(item1)
+                if (item1.checkedboxa == '1' || item1.checkedboxb == '1' || item1.checkedboxc == '1') {
+                    txtarr.push(item1)
+                }
+            })
         })
         console.log(txtarr)
         this.setState({
@@ -311,6 +230,92 @@ export default class PricePreview extends Component {
         this.setState({
             txtflag: false
         })
+    }
+
+    renderItem=(item,index)=>{
+        console.log(item)
+        console.log(index)
+        return (
+            <List.Item key={item + ""}>
+                <div style={{width:'100%',display:'block',background:'#D4F0FF'}}>
+                    <p style={{width:'4%',display:'inline-block', textAlign: 'center'}}>{index+1}</p>
+                    <p style={{width:'10%',display:'inline-block', textAlign: 'center'}}>{item.on.stdname}</p>
+                    <p style={{width:'10%',display:'inline-block', textAlign: 'center'}}>{item.on.skuoe}</p>
+                    <p style={{width:'10%',display:'inline-block',  textAlign: 'center'}}>{item.on.description ? item.on.description : '-'}</p>
+                    <p style={{width:'10%',display:'inline-block', textAlign: 'center'}}></p>
+                    <p style={{width:'10%',display:'inline-block', textAlign: 'center'}}></p>
+                    <p style={{width:'10%',display:'inline-block',  textAlign: 'center'}}></p>
+                    <p style={{width:'8%',display:'inline-block',  textAlign: 'center'}}></p>
+                    <p style={{width:'8%',display:'inline-block',  textAlign: 'center'}}></p>
+                    <p style={{width:'8%',display:'inline-block',  textAlign: 'center'}}></p>
+                    <p style={{width:'12%',display:'inline-block', textAlign: 'center'}}></p>
+                </div>
+                {item.messages[0] ? item.messages.map((item1, index1) => {
+                    return (
+                        <div style={{width:'100%',display:'block',borderBottom:'1px solid #efefef' }} key={index1}>
+                            <p style={{width:'4%',display:'inline-block', textAlign: 'center'}}>
+                                {/*<input type="radio" disabled={false} Checked={(item1.checkedboxa==1||item1.checkedboxb==1||item1.checkedboxc==1)? true : false}/>*/}
+                            </p>
+                            <p style={{width:'10%',display:'inline-block',  textAlign: 'center'}}>
+                                {/*<span>{(item1.stdname == '' || item1.stdname == null) ? '-' : item1.stdname}</span>*/}
+                            </p>
+                            <p style={{width:'10%',display:'inline-block', textAlign: 'center'}}>
+                                <span>{(item1.skuoe == '' || item1.skuoe == null) ? '-' : item1.skuoe}</span>
+                            </p>
+                            <p style={{width:'10%',display:'inline-block',  textAlign: 'center'}}>
+                                {/*<span>{(item1.description == '' || item1.description == null) ? '-' : item1.description}</span>*/}
+                            </p>
+                            <p style={{width:'10%',display:'inline-block', textAlign: 'center'}}>
+                                <span>{(item1.quality == '' || item1.quality == null) ? '-' : item1.quality}</span>
+                            </p>
+                            <p style={{width:'10%',display:'inline-block', textAlign: 'center'}}>
+                                <span>{(item1.brand == '' || item1.brand == null) ? '-' : item1.brand}</span>
+                            </p>
+                            <p style={{width:'10%',display:'inline-block', textAlign: 'center'}}>
+                                <span>{(item1.maker == '' || item1.maker == null) ? '-' : item1.maker}</span>
+                            </p>
+                            <p style={{width:'8%',display:'inline-block', textAlign: 'center'}}>
+                                <span style={{width: '100%', display: 'flex'}}>
+                                <span style={{flex: '1', width: '100%'}}>
+                                    <span style={{paddingRight: '10%'}}>{(item1.retail_pricemax == '' || item1.retail_pricemax == null) ? '0' : item1.retail_pricemax}</span>
+                                    <Icon type="edit" onClick={this.changicona.bind(this, item1)}/>
+                                </span>
+                                <input type="radio" name={item1.id} Checked={item1.checkedboxa == '0' ? false : true}
+                                       onChange={this.change.bind(this, item1)}/>
+                                    {/*<Checkbox Checked={record.checkedboxa=='0'?false:true} onChange={this.change.bind(this, record)}></Checkbox>*/}
+                                </span>
+                            </p>
+                            <p style={{width:'8%',display:'inline-block', textAlign: 'center'}}>
+                                <span style={{width: '100%', display: 'flex'}}>
+                                    <span style={{flex: '1', width: '100%'}}>
+                                        <span style={{paddingRight: '10%'}}>{(item1.retail_pricemid == '' || item1.retail_pricemid == null) ? '0' : item1.retail_pricemid}</span>
+                                        <Icon type="edit" onClick={this.changiconb.bind(this, item1)}/>
+                                    </span>
+                                        {/*<Checkbox Checked={record.checkedboxb=='0'?false:true} onChange={this.change1.bind(this, record)}></Checkbox>*/}
+                                    <input type="radio" name={item1.id} Checked={item1.checkedboxb == '0' ? false : true}
+                                        onChange={this.change1.bind(this, item1)}/>
+                                </span>
+                            </p>
+                            <p style={{width:'8%',display:'inline-block' , textAlign: 'center'}}>
+                                <span style={{width: '100%', display: 'flex'}}>
+                                <span style={{flex: '1', width: '100%'}}>
+                                    <span
+                                        style={{paddingRight: '10%'}}>{(item1.retail_pricemin == '' || item1.retail_pricemin == null) ? '0' : item.retail_pricemin}</span>
+                                    <Icon type="edit" onClick={this.changiconc.bind(this, item1)}/>
+                                </span>
+                                <input type="radio" name={item1.id} Checked={item1.checkedboxc == '0' ? false : true}
+                                    onChange={this.change2.bind(this, item1)}/>
+                                    {/*<Checkbox Checked={record.checkedboxc=='0'?false:true} onChange={this.change2.bind(this, record)}></Checkbox>*/}
+                                </span>
+                            </p>
+                            <p style={{width:'12%',display:'inline-block', textAlign: 'center'}}>
+                                <span>{(item1.source == '' || item1.source == null) ? '-' : item1.source}</span>
+                            </p>
+                        </div>
+                    )
+                }):<div style={{textAlign:'center'}}><p>该零件号下暂无维护商品</p></div>}
+            </List.Item>
+        )
     }
 
     componentWillMount() {
@@ -337,12 +342,18 @@ export default class PricePreview extends Component {
                     <span key="partid">{(record.skuoe == '' || record.skuoe == null) ? '-' : record.skuoe}</span>
             },
             {
-                title: '配件特征', dataIndex: 'description', key: 'description', align: 'center', render: (text, record, index) =>
-                    <span key="Partquality">{(record.description == '' || record.description == null) ? '-' : record.description}</span>
+                title: '配件特征',
+                dataIndex: 'description',
+                key: 'description',
+                align: 'center',
+                render: (text, record, index) =>
+                    <span
+                        key="Partdes">{(record.description == '' || record.description == null) ? '-' : record.description}</span>
             },
             {
                 title: '品质', dataIndex: 'quality', key: 'quality', align: 'center', render: (text, record, index) =>
-                    <span key="Partquality">{(record.quality == '' || record.quality == null) ? '-' : record.quality}</span>
+                    <span
+                        key="Partquality">{(record.quality == '' || record.quality == null) ? '-' : record.quality}</span>
             },
             {
                 title: '配件品牌', dataIndex: 'brand', key: 'brand', align: 'center', render: (text, record, index) =>
@@ -358,7 +369,7 @@ export default class PricePreview extends Component {
             // { title: '产地', dataIndex: 'vendorPartmaker', key: 'vendorPartmaker',align:'center' },
             /* { title: '售后', dataIndex: 'vendorPartwarranty', key: 'vendorPartwarranty',align:'center',render: (text,record,index) =>
                      <span key="Partwarranty">{(record.vendorPartwarranty==''||record.vendorPartwarranty==null)?'-':record.vendorPartwarranty}</span>
-             },*/
+             },*/,
             {
                 title: '最高零售价', key: 'retail_pricemax', align: 'center', render: (text, record, index) =>
                     <span style={{width: '100%', display: 'flex'}} key="Pricemax">
@@ -410,7 +421,7 @@ export default class PricePreview extends Component {
             // },
         ];
         return (
-            <div style={{minWidth: 900}}>
+            <div style={{minWidth: 900}} className="priceflex">
                 <div style={{
                     width: '100%',
                     background: '#fff',
@@ -418,13 +429,31 @@ export default class PricePreview extends Component {
                     padding: '20px 0',
                     position: 'relative'
                 }}>
-                    <Table
+                    <div style={{width:'100%',display:'block', }}>
+                        <p style={{width:'4%',display:'inline-block',  textAlign: 'center'}}>序号</p>
+                        <p style={{width:'10%',display:'inline-block',  textAlign: 'center'}}>标准名称</p>
+                        <p style={{width:'10%', display:'inline-block', textAlign: 'center'}}>标准OE号</p>
+                        <p style={{width:'10%',display:'inline-block',  textAlign: 'center'}}>配件特征</p>
+                        <p style={{width:'10%',display:'inline-block',  textAlign: 'center'}}>品质</p>
+                        <p style={{width:'10%',display:'inline-block',  textAlign: 'center'}}>配件品牌</p>
+                        <p style={{width:'10%',display:'inline-block',  textAlign: 'center'}}>配件产地</p>
+                        <p style={{width:'8%',display:'inline-block', textAlign: 'center'}}>最高零售价</p>
+                        <p style={{width:'8%',display:'inline-block',  textAlign: 'center'}}>中间零售价</p>
+                        <p style={{width:'8%',display:'inline-block',  textAlign: 'center'}}>最低零售价</p>
+                        <p style={{width:'12%', display:'inline-block', textAlign: 'center'}}>来源</p>
+                    </div>
+                    <List
+                        dataSource={this.state.listdata}
+                        renderItem={this.renderItem}
+                    >
+                    </List>
+                    {/* <Table
                         rowKey='id'
                         columns={columns}
                         dataSource={this.state.listdata}
                         pagination={false}
                         loading={this.state.loading}
-                    />
+                    />*/}
                     {this.state.changAstate &&
                     <div style={{
                         position: 'fixed',
@@ -442,7 +471,7 @@ export default class PricePreview extends Component {
                             border: '1px solid #ccc',
                             borderRadius: '5px',
                             outline: 'none',
-                            display:'block'
+                            display: 'block'
                         }} ref="partId" type="text"/>
                         <Button size="small" onClick={() => {
                             this.setState({changAstate: false})
@@ -467,7 +496,7 @@ export default class PricePreview extends Component {
                             border: '1px solid #ccc',
                             borderRadius: '5px',
                             outline: 'none',
-                            display:'block'
+                            display: 'block'
                         }} ref="partId1" type="text"/>
                         <Button size="small" onClick={() => {
                             this.setState({changBstate: false})
@@ -492,7 +521,7 @@ export default class PricePreview extends Component {
                             border: '1px solid #ccc',
                             borderRadius: '5px',
                             outline: 'none',
-                            display:'block'
+                            display: 'block'
                         }} ref="partId2" type="text"/>
                         <Button size="small" onClick={() => {
                             this.setState({changCstate: false})
@@ -536,7 +565,7 @@ export default class PricePreview extends Component {
                                         <span style={{marginRight: '20px'}}>{item.description}</span>
                                         <span style={{marginRight: '20px'}}>{item.quality}</span>
                                         <span
-                                            style={{marginRight: '20px'}}>{item.checkedboxa == '1' ? item.retail_pricemax : item.checkedboxb == '1' ? item.retail_pricemid : item.retail_pricemin}</span>
+                                            style={{marginRight: '20px'}}>{item.checkedboxa == '1' ? item.retail_pricemax : item.checkedboxb == '1' ? item.retail_pricemid : item.retail_pricemin}元</span>
                                     </li>
                                 )
                             })}

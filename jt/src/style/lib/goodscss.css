@@ -206,3 +206,10 @@
 .goodsdiv .ant-table-body .ant-table-tbody tr td:nth-child(15){
     width:10%;
 }*/
+.priceflex .ant-list-item{
+    display: block;
+    padding: 0 ;
+}
+.priceflex .ant-list-split .ant-list-item{
+    border-bottom: none;
+}
