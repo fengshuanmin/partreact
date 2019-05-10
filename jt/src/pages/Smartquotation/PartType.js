@@ -119,8 +119,6 @@ export default class PartType extends Component {
 
     componentWillMount(){
         console.log(this.state)
-        console.log(this.props)
-        console.log(this.context)
         if(localStorage.getItem('partystateList')) {
             var stateList = localStorage.getItem('partystateList')
             var stateLists = JSON.parse(stateList)

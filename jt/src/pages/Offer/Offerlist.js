@@ -87,6 +87,12 @@ export default class Offerlist extends Component {
 
     componentWillMount() {
         this.dataajax(this.state.page, this.state.limit)
+        if(localStorage.getItem('vehistateList')){
+            localStorage.removeItem('groupId','')
+            localStorage.removeItem('nicknames','')
+            localStorage.removeItem('vehistateList','')
+            localStorage.removeItem('partystateList','')
+        }
         // const c_id = '595411d4-cf3c-4068-b626-708ccd1fee5'
         // const a_id = '8f3ea920-e44d-4d85-ac81-6a493ad72a74'
         /* $.ajax({

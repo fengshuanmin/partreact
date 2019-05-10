@@ -199,8 +199,10 @@ export default class PricePreview extends Component {
                         item1.checkedboxb = '0'
                         item1.checkedboxc = '0'
                     })*/
+                    var {listdata=[]}=this.state
+                    listdata=data
                     this.setState({
-                        listdata: data
+                        listdata
                     })
                 }
             }
@@ -233,8 +235,6 @@ export default class PricePreview extends Component {
     }
 
     renderItem=(item,index)=>{
-        console.log(item)
-        console.log(index)
         return (
             <List.Item key={item + ""}>
                 <div style={{width:'100%',display:'block',background:'#D4F0FF'}}>
@@ -280,7 +280,7 @@ export default class PricePreview extends Component {
                                     <span style={{paddingRight: '10%'}}>{(item1.retail_pricemax == '' || item1.retail_pricemax == null) ? '0' : item1.retail_pricemax}</span>
                                     <Icon type="edit" onClick={this.changicona.bind(this, item1)}/>
                                 </span>
-                                <input type="radio" name={item1.id} Checked={item1.checkedboxa == '0' ? false : true}
+                                <input type="radio" name={item1.id} Checked={item1.checkedboxa == '1' ? true : false}
                                        onChange={this.change.bind(this, item1)}/>
                                     {/*<Checkbox Checked={record.checkedboxa=='0'?false:true} onChange={this.change.bind(this, record)}></Checkbox>*/}
                                 </span>
@@ -292,7 +292,7 @@ export default class PricePreview extends Component {
                                         <Icon type="edit" onClick={this.changiconb.bind(this, item1)}/>
                                     </span>
                                         {/*<Checkbox Checked={record.checkedboxb=='0'?false:true} onChange={this.change1.bind(this, record)}></Checkbox>*/}
-                                    <input type="radio" name={item1.id} Checked={item1.checkedboxb == '0' ? false : true}
+                                    <input type="radio" name={item1.id} Checked={item1.checkedboxb == '1' ? true : false}
                                         onChange={this.change1.bind(this, item1)}/>
                                 </span>
                             </p>
@@ -303,7 +303,7 @@ export default class PricePreview extends Component {
                                         style={{paddingRight: '10%'}}>{(item1.retail_pricemin == '' || item1.retail_pricemin == null) ? '0' : item.retail_pricemin}</span>
                                     <Icon type="edit" onClick={this.changiconc.bind(this, item1)}/>
                                 </span>
-                                <input type="radio" name={item1.id} Checked={item1.checkedboxc == '0' ? false : true}
+                                <input type="radio" name={item1.id} Checked={item1.checkedboxc == '1' ? true : false}
                                     onChange={this.change2.bind(this, item1)}/>
                                     {/*<Checkbox Checked={record.checkedboxc=='0'?false:true} onChange={this.change2.bind(this, record)}></Checkbox>*/}
                                 </span>
