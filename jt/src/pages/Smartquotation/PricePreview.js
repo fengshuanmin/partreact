@@ -330,12 +330,10 @@ export default class PricePreview extends Component {
             onChange: this.onSelectChange,
         };
         const columns = [
-
             // { dataIndex: 'check', key: 'check',align:'center',render: () =><Checkbox  defaultChecked onChange={this.change} /> },
             {title: '序号', key: 'text', render: (text, record, index) => `${index + 1}`, align: 'center'},
-            {
-                title: '标准名称', dataIndex: 'stdname', key: 'stdname', align: 'center', render: (text, record, index) =>
-                    <span key="pjname">{(record.stdname == '' || record.stdname == null) ? '-' : record.stdname}</span>
+            {title: '标准名称', dataIndex: 'stdname', key: 'stdname', align: 'center', render: (text, record, index) =>
+                 <span key="pjname">{(record.stdname == '' || record.stdname == null) ? '-' : record.stdname}</span>
             },
             {
                 title: '标准OE号', dataIndex: 'skuoe', key: 'skuoe', align: 'center', render: (text, record, index) =>
@@ -347,13 +345,11 @@ export default class PricePreview extends Component {
                 key: 'description',
                 align: 'center',
                 render: (text, record, index) =>
-                    <span
-                        key="Partdes">{(record.description == '' || record.description == null) ? '-' : record.description}</span>
+                    <span key="Partdes">{(record.description == '' || record.description == null) ? '-' : record.description}</span>
             },
             {
                 title: '品质', dataIndex: 'quality', key: 'quality', align: 'center', render: (text, record, index) =>
-                    <span
-                        key="Partquality">{(record.quality == '' || record.quality == null) ? '-' : record.quality}</span>
+                    <span key="Partquality">{(record.quality == '' || record.quality == null) ? '-' : record.quality}</span>
             },
             {
                 title: '配件品牌', dataIndex: 'brand', key: 'brand', align: 'center', render: (text, record, index) =>
@@ -374,8 +370,7 @@ export default class PricePreview extends Component {
                 title: '最高零售价', key: 'retail_pricemax', align: 'center', render: (text, record, index) =>
                     <span style={{width: '100%', display: 'flex'}} key="Pricemax">
                         <span style={{flex: '1', width: '100%'}}>
-                            <span
-                                style={{paddingRight: '10%'}}>{(record.retail_pricemax == '' || record.retail_pricemax == null) ? '0' : record.retail_pricemax}</span>
+                            <span style={{paddingRight: '10%'}}>{(record.retail_pricemax == '' || record.retail_pricemax == null) ? '0' : record.retail_pricemax}</span>
                             <Icon type="edit" onClick={this.changicona.bind(this, record)}/>
                         </span>
                         <input type="radio" name={record.id} Checked={record.checkedboxa == '0' ? false : true}
@@ -387,8 +382,7 @@ export default class PricePreview extends Component {
                 title: '中间零售价', key: 'retail_pricemid', align: 'center', render: (text, record, index) =>
                     <span style={{width: '100%', display: 'flex'}} key="Pricemid">
                         <span style={{flex: '1', width: '100%'}}>
-                            <span
-                                style={{paddingRight: '10%'}}>{(record.retail_pricemid == '' || record.retail_pricemid == null) ? '0' : record.retail_pricemid}</span>
+                            <span style={{paddingRight: '10%'}}>{(record.retail_pricemid == '' || record.retail_pricemid == null) ? '0' : record.retail_pricemid}</span>
                             <Icon type="edit" onClick={this.changiconb.bind(this, record)}/>
                         </span>
                         {/*<Checkbox Checked={record.checkedboxb=='0'?false:true} onChange={this.change1.bind(this, record)}></Checkbox>*/}
@@ -400,8 +394,7 @@ export default class PricePreview extends Component {
                 title: '最低零售价', key: 'retail_pricemin', align: 'center', render: (text, record, index) =>
                     <span style={{width: '100%', display: 'flex'}} key="Pricemin">
                         <span style={{flex: '1', width: '100%'}}>
-                            <span
-                                style={{paddingRight: '10%'}}>{(record.retail_pricemin == '' || record.retail_pricemin == null) ? '0' : record.retail_pricemin}</span>
+                            <span style={{paddingRight: '10%'}}>{(record.retail_pricemin == '' || record.retail_pricemin == null) ? '0' : record.retail_pricemin}</span>
                             <Icon type="edit" onClick={this.changiconc.bind(this, record)}/>
                         </span>
                         <input type="radio" name={record.id} Checked={record.checkedboxc == '0' ? false : true}
