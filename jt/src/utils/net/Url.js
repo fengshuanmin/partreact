@@ -1,12 +1,14 @@
 //测试
 //吴松接口的port
 var url='http://139.196.16.229:10000'
+var url3='http://139.196.16.229'
 // var url='http://192.168.0.122:10000'
 //陈先虎接口的port
 var url1='http://139.196.16.229:9999'
 var url2='http://139.196.16.229:8989'
 //正式
 // var url='http://148.70.137.178:10000'
+// var url3='http://148.70.137.178'
 // // var url='http://192.168.0.122:10000'
 // //陈先虎接口的port
 // var url1='http://148.70.137.178:9999'
@@ -73,6 +75,8 @@ export const URL_api_parts_sku_delete=url+'/api/parts/sku/delete'
 export const URL_api_parts_sku_getMarker=url+'/api/parts/sku/getMarker'
 //商品上传excel
 export const URL_api_parts_sku_importPartSKu=url+'/api/parts/sku/importPartSKu'
+//下载模板
+export const URL_excel_template_partsku=url3+'/excel/template_partsku.xlsx'
 //模糊查询零件
 export const URL_api_parts_sku_getStdNameList=url+'/api/parts/sku/getStdNameList'
 //获取配件品质
@@ -119,3 +123,22 @@ export const URL_0ffer_history = url1+'/offer_history'
 export const URL_Order_list = url1+'/order_list'
 
 export const URL_Order_center = url1+'/order_center'
+
+//汽修地图
+
+export const URL_Auto_repair = url1+'/repair_shop'
+
+export const URL_my_favorite_repair_shop = url1+'/my_favorite_repair_shop'
+
+//查询marker
+export const URL_api_parts_sku_searchMaker=url+'/api/parts/sku/searchMaker'
+//查询model
+export const URL_api_parts_sku_searchModel=url+'/api/parts/sku/searchModel'
+//查询YearRange
+export const URL_api_parts_sku_searchYearRange=url+'/api/parts/sku/searchYearRange'
+//查询Capacity
+export const URL_api_parts_sku_searchCapacity=url+'/api/parts/sku/searchCapacity'
+//手选车型数据
+export const URL_api_parts_sku_searchAutoGroup=url+'/api/parts/sku/searchAutoGroup'
+//搜索车型代码
+export const URL_api_parts_sku_searchModelCode=url+'/api/parts/sku/searchModelCode'

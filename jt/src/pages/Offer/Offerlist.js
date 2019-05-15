@@ -34,7 +34,7 @@ export default class Offerlist extends Component {
             v_code: '',
             pjId: '',
             c_id: '',
-            listtext: [],
+            listdata: [],
             page: 1,
             limit: '10',
             loading: true
@@ -53,6 +53,9 @@ export default class Offerlist extends Component {
         var lastC = this.refs.partId.value;
         // const c_id = 'e5354498-7da9-429c-a66e-3e3f590f3775'
         var that = this
+        this.setState({
+            Name:lastC
+        })
         console.log(this.state.lastC)
         $.ajax({
             url: URL_Offer_record,
@@ -62,14 +65,18 @@ export default class Offerlist extends Component {
                 // v_id:USER_INFO_GET()&&USER_INFO_GET().companyId||'',
                 v_code: lastC,
                 c_id: USER_INFO_GET() && USER_INFO_GET().companyId || '',
+                page:1,
+                limit:this.state.limit
                 // v_part_name:lastB,
                 // shared_type:'o'
             },
             success: (res) => {
                 console.log(res)
-                if (res[0].code == '1') {
+                if (res[0]) {
                     that.setState({
-                        listdata: res[0].messages
+                        listdata:res[0].messages,
+                        page: parseInt(res[0].page),
+                        total: res[0].num,
                     })
                 }
             }
@@ -85,7 +92,7 @@ export default class Offerlist extends Component {
         this.props.history.push('/app/offerdetail')
     }
 
-    componentWillMount() {
+    componentDidMount() {
         this.dataajax(this.state.page, this.state.limit)
         if(localStorage.getItem('vehistateList')){
             localStorage.removeItem('groupId','')
@@ -126,10 +133,46 @@ export default class Offerlist extends Component {
          });*/
     }
 
-    handlepagesize = (val) => {
-        this.dataajax(val, this.state.limit)
+        handlepagesize=(val)=>{
+            this.setState({
+                loading:true
+            })
+            $.ajax({
+                url:URL_Offer_record,
+                type:'post',
+                data:{
+                    page:val,
+                    limit:this.state.limit,
+                    c_id:USER_INFO_GET()&&USER_INFO_GET().companyId||'',
+                    v_code:this.state.Name
+                },
+                success:(res)=>{
+                    console.log(res)
+                    console.log(res.message)
+                    // var {listdata=[]}=this.state
+                    // listdata=res[0].message
+                    if(res[0].code=='1'){
+                        console.log('list', res[0].message);
+                        this.setState({
+                            loading:false,
+                            listdata: res[0].messages || [],
+                            total:res[0].num,
+                            page:parseInt(res[0].page),
+                        }, () => {
+                            const { count } = this.state;
+                            this.setState({
+                                count: count + 1
+                            })
 
-    }
+                        })
+                    }
+
+                    console.log(this.state.listdata);
+                }
+            })
+        }
+
+
     dataajax = (page, limit) => {
         this.setState({
             loading: true
@@ -139,7 +182,7 @@ export default class Offerlist extends Component {
             type: 'post',
             data: {
                 // c_id :USER_INFO_GET()&&USER_INFO_GET().companyId||'',
-                c_id: '595411d4-cf3c-4068-b626-708ccd1fee5f',
+                c_id: USER_INFO_GET()&&USER_INFO_GET().companyId||'',
                 page: page,
                 limit: limit
             },
@@ -174,43 +217,43 @@ export default class Offerlist extends Component {
                 key: 'x',
                 align: 'center',
                 render: (text, record, index) => <div><span onClick={this.orderdetail.bind(this, record)} style={{
-                    padding: '0 3px',
-                    cursor: 'pointer',
-                    color: '#40a9ff'
-                }}>查看</span></div>,
-            },
-            // {
-            //     title: '操作', dataIndex: '', key: 'x',align:'center', render: () =><div><span onClick={this.orderdetail} style={{padding:'0 3px',cursor:'pointer',color:'#40a9ff'}}>查看</span></div>,
-            // },
-        ];
+                padding: '0 3px',
+                cursor: 'pointer',
+                color: '#40a9ff'
+            }}>查看</span></div>,
+    },
+        // {
+        //     title: '操作', dataIndex: '', key: 'x',align:'center', render: () =><div><span onClick={this.orderdetail} style={{padding:'0 3px',cursor:'pointer',color:'#40a9ff'}}>查看</span></div>,
+        // },
+    ];
         return (
             <div style={{marginTop: 20,width:'100%'}}>
-                <Card>
-                    <div>
-                        <div style={{
-                            width: '40%',
-                            marginLeft: '1%',
-                            marginBottom: '20px',
-                            display: 'inline-block'
-                        }}>
-                            <div className="spantotal">
-                                <span className="spanlabel1" onChange={this.pjevent}>按车架号</span>
-                                <input className="spaninput" placeholder='请输入车架号' type="text" ref="partId"/>
-                            </div>
-                        </div>
-                        <Button type="primary" onClick={this.query}>查询</Button>
-                    </div>
-                    <Table
-                        rowKey="id"
-                        columns={columns}
-                        dataSource={this.state.listdata}
-                        pagination={false}
-                        loading={this.state.loading}
-                    />
-                    <Pagination onChange={this.handlepagesize} defaultCurrent={this.state.page}
-                                total={this.state.total}/>
-                </Card>
+    <Card>
+        <div>
+        <div style={{
+            width: '40%',
+                marginLeft: '1%',
+                marginBottom: '20px',
+                display: 'inline-block'
+        }}>
+    <div className="spantotal">
+            <span className="spanlabel1" onChange={this.pjevent}>按车架号</span>
+            <input className="spaninput" placeholder='请输入车架号' type="text" ref="partId"/>
             </div>
-        )
+            </div>
+            <Button type="primary" onClick={this.query}>查询</Button>
+            </div>
+            <Table
+        rowKey="id"
+        columns={columns}
+        dataSource={this.state.listdata}
+        pagination={false}
+        loading={this.state.loading}
+        />
+        <Pagination onChange={this.handlepagesize} defaultCurrent={this.state.page}
+        total={this.state.total}/>
+        </Card>
+        </div>
+    )
     }
 }

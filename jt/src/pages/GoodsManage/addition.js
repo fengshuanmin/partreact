@@ -7,7 +7,8 @@ import InfiniteScroll from 'react-infinite-scroller';
 import CustomInput from '../../components/input/CustomInput';
 import PropTypes from 'prop-types';
 import {
-    URL_api_parts_sku_importPartSKu
+    URL_api_parts_sku_importPartSKu,
+    URL_excel_template_partsku
 } from "../../utils/net/Url";
 import Net from '../../utils/net/Net';
 import {USER_INFO_GET} from '../../utils/storeInfo';
@@ -41,15 +42,22 @@ export default class  Addition extends Component{
         }
     }
     downfile=()=>{
-        window.open('http://139.196.16.229/excel/template_partsku.xlsx');//测试
+        // window.open('http://139.196.16.229/excel/template_partsku.xlsx');//测试
         // window.open('http://148.70.137.178/excel/template_partsku.xlsx');//正式
+        window.open(URL_excel_template_partsku);//正式
     }
     onDrop=(file)=>{
+        this.setState({
+            loading:true
+        })
         var history = this.context.router.history
         let f = new FormData();
         f.append('file',file)
         Net.upload({url:URL_api_parts_sku_importPartSKu,data:f},res=>{
             console.log(res)
+            this.setState({
+                loading:false
+            })
             if(res.code==0){
                 alert('上传成功')
             }else{

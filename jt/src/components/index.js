@@ -56,6 +56,8 @@ import PersonSetting from '../pages/User/PersonSetting';
 import CompanySetting from '../pages/User/CompanySetting';
 import AccountSetting from '../pages/User/AccountSetting';
 
+import MyCollection from "../pages/Autorepairmap/MyCollection";
+import AutoRepairDatabase from "../pages/Autorepairmap/AutoRepairDatabase";
 
 import TEST from '../components/input/CustomInput';
 
@@ -72,7 +74,7 @@ export default {
     Cssmodule, MapUi, QueryParams,
     Smartquotation, GoodsManage,
     PwdSetting,PersonSetting,CompanySetting,AccountSetting,OrdersManage,OrderDetail,
-    AddGoods,Goodupdate,Rotation,Offerlist,Stocklist,Mystock,Offerdetail,Goodsaddition,
+    AddGoods,Goodupdate,Rotation,Offerlist,Stocklist,Mystock,Offerdetail,Goodsaddition,MyCollection,AutoRepairDatabase,
     TEST
 
 }

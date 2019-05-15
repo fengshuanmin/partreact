@@ -8,6 +8,14 @@ export default {
                 {key: '/app/smartquotation', title: '智能报价', component:'Smartquotation'},
             ]
         },
+        {
+            key:'/app/Autorepairmap',title:'汽修地图',icon:'global',
+            subs:[
+                {key:'/app/AutoRepairDatabase',title:'汽修数据库',component:'AutoRepairDatabase'},
+                {key:'/app/MyCollection',title:'我的收藏',component:'MyCollection'},
+                {key:'/app/SummaryStatistics',title:'汇总统计',component:'SummaryStatistics'}
+            ]
+        },
 
         {
             key: '/app/goodsmanage', title: '商品管理', icon: 'bars',
@@ -18,7 +26,7 @@ export default {
 
         },
         {
-            key: '/app/stocklist', title: '库存共享管理', icon: 'bars',
+            key: '/app/stocklist', title: '库存共享', icon: 'bars',
             subs:[
                 {key: '/app/stocklist', title: '对外共享', component:'Stocklist'},
                 {key: '/app/mystock', title: '向我共享', component:'Mystock'},

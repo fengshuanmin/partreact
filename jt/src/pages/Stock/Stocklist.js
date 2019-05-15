@@ -339,7 +339,7 @@ export default class Stocklist extends Component{
             flag:false
         })
     }
-    componentWillMount(){
+    componentDidMount(){
         this.dataajax(this.state.page,this.state.limit)
         if(localStorage.getItem('vehistateList')){
             localStorage.removeItem('groupId','')
@@ -357,36 +357,38 @@ export default class Stocklist extends Component{
         const columns = [
             { title: '序号', key: 'text',  align:'center',render:(text,record,index)=>`${index+1}`},
             { title: '配件名称', key: 'vendor_partname',align:'center',render: (text,record,index) =>
-                    <span key='vendor_partname'>{(record.vendor_partname==''||record.vendor_partname==null)?'-':record.vendor_partname}</span>
+                    <span key='vendor_partnamea'>{(record.vendor_partname==''||record.vendor_partname==null)?'-':record.vendor_partname}</span>
             },
             { title: '零件号', key: 'vendor_oe',align:'center',render: (text,record,index) =>
-                    <span key='vendor_oe'>{(record.vendor_oe==''||record.vendor_oe==null)?'-':record.vendor_oe}</span>
+                    <span key='vendor_oea'>{(record.vendor_oe==''||record.vendor_oe==null)?'-':record.vendor_oe}</span>
             },
             { title: '品质', key: 'vendor_partquality',align:'center',render: (text,record,index) =>
-                    <span key="vendor_partquality">{(record.vendor_partquality==''||record.vendor_partquality==null)?'-':record.vendor_partquality}</span>
+                    <span key="vendor_partqualitya">{(record.vendor_partquality==''||record.vendor_partquality==null)?'-':record.vendor_partquality}</span>
             },
             { title: '品牌/产地', key: 'vendor_partbrand',align:'center',render: (text,record,index) =>
-                    <span key='vendor_partbrand'>{(record.vendor_partbrand==''||record.vendor_partbrand==null)?'-':record.vendor_partbrand}</span>
+                    <span key='vendor_partbranda'>{(record.vendor_partbrand==''||record.vendor_partbrand==null)?'-':record.vendor_partbrand}</span>
             },
             { title: '质保期限', key: 'vendor_partwarranty',align:'center',render: (text,record,index) =>
-                    <span key='vendor_partwarranty'>{(record.vendor_partwarranty==''||record.vendor_partwarranty==null)?'-':record.vendor_partwarranty}</span>
+                    <span key='vendor_partwarrantya'>{(record.vendor_partwarranty==''||record.vendor_partwarranty==null)?'-':record.vendor_partwarranty}</span>
             },
             { title: '调货价格', key: 'shared_pricestd',align:'center',render: (text,record,index) =>
-                    <span key="price">{(record.shared_pricestd==''||record.shared_pricestd==null)?'-':record.shared_pricestd}</span>
+                    <span key="pricea">{(record.shared_pricestd==''||record.shared_pricestd==null)?'-':record.shared_pricestd}</span>
             },
-            { title: '是否共享', dataIndex: 'sxj', key: 'is_shared',align:'center', render: (text,record,index) =>
-                    <Switch key='isShare' checked={record.is_shared=='0'?false:true} onChange={this.change.bind(this,record)} />
+            { title: '是否共享', key: 'is_shared',align:'center', render: (text,record,index) =>
+                    <Switch key='isSharea' checked={record.is_shared=='0'?false:true} onChange={this.change.bind(this,record)} />
             },
-            { title: '是否显示价格', dataIndex: 'sxj1', key: 'sxj1',align:'center',render: (text,record,index) =>
-                    <Switch key="isShowPrice" checked={record.is_shared_pricevisible=='0'?false:true} onChange={this.change1.bind(this,record)} /> },
+            { title: '是否显示价格', key: 'is_shared_pricevisible',align:'center',render: (text,record,index) =>
+                    <Switch key="isShowPricea" checked={record.is_shared_pricevisible=='0'?false:true} onChange={this.change1.bind(this,record)} /> },
             {
-                title: '操作', dataIndex: 'x', key: 'x',align:'center', render: (text,record,index) =><div key="audit">
+                title: '操作', dataIndex: 'x', key: 'x',align:'center', render: (text,record,index) =>
+                <div key="audit">
                     {/*<span onClick={this.updata} style={{padding:'0 3px',cursor:'pointer',color:'#40a9ff'}}>修改</span>*/}
                     <span onClick={this.pict.bind(this,record)} style={{padding:'0 3px',cursor:'pointer',color:'#40a9ff'}}>商品图片</span>
                     <span onClick={this.delect.bind(this,record)} style={{padding:'0 3px',cursor:'pointer',color:'#40a9ff'}}>删除</span>
                 </div>,
             },
         ];
+        console.log(this.state.listdata)
         return(
             <div>
                 {this.state.flag&&this.state.flag?<div style={{width:'100%',minHeight:500,maxHeight:800,marginTop:'20px',background:'#fff'}}>
@@ -420,8 +422,8 @@ export default class Stocklist extends Component{
                         <Button type="primary" style={{marginBottom: '20px',}} onClick={this.allopenprice}>全部开启价格</Button>
                     </div>
                     <Table
-                        columns={columns}
                         rowKey="id"
+                        columns={columns}
                         dataSource={this.state.listdata}
                         pagination={ false }
                         loading={this.state.loading}
