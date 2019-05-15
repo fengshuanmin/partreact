@@ -18,6 +18,7 @@ export default class MyCollection extends Component {
             city:'',
         }
     }
+
     getBase64=(img, callback)=>{
         const reader = new FileReader();
         reader.addEventListener('load', () => callback(reader.result));
@@ -259,7 +260,6 @@ export default class MyCollection extends Component {
                         <Button type="primary" onClick={this.query}> 搜索 </Button>
                     </div>
                     {this.state.listdata && this.state.listdata.map((item, index) => {
-                        console.log(item)
                         return(
 
                             <div key={index}>
@@ -269,34 +269,39 @@ export default class MyCollection extends Component {
                                             <img src={item.picture} alt="暂无图片" style={{height: 150, width: 200,position:"absolute",left: 20,top:20}}/>
                                         </div>
                                         <div>
+
                                             <div style={{width: "70%", display: 'inline-block',maginBotoom:200}}>
                                                 <div style={{width: "100%", textAlign: "right", display: 'inline-block'}}>
                                                     <span onClick={this.Collection.bind(this,item)}  style={{cursor:"pointer"}}> 取消收藏</span>
                                                     <span> | </span>
-                                                    <span> 地图 </span>
+                                                    <span style={{cursor:"pointer"}}> 地图 </span>
                                                 </div>
                                                 <div style={{paddingLeft: 50}}>
                                                     <div >
-                                                        <h1>
+                                                        <h1 id='name' dataIndex='name' key='name'>
                                                             {item.name}
                                                         </h1>
                                                     </div>
 
+
                                                     {item.di_tag!='Null'&&<div>
-                                                        <span>经营范围：{item.di_tag}</span>
+                                                        <span>经营范围:&nbsp;{item.di_tag}</span>
                                                     </div>}
+
+
+
                                                     <span>&nbsp;</span>
                                                     <div>
                                                         <span>地址:&nbsp;</span>
-                                                        <span>{item.Province}</span>
-                                                        <span>{item.city}</span>
-                                                        <span>{item.country}</span>
+                                                        <span >{item.Province}</span>
+                                                        <span id='city' dataIndex='city' key='city'>{item.city}</span>
+                                                        <span>{item.country}-</span>
                                                         <span>{item.adress}</span>
                                                     </div>
                                                     <span>&nbsp;</span>
                                                     <div>
                                                         <span>电话:</span>
-                                                        <span>{item.mobile}</span>
+                                                        {item.di_tag!='Null'&&<span>{item.mobile},</span>}
 
                                                         <span>{item.phone}</span>
                                                     </div>
@@ -305,11 +310,12 @@ export default class MyCollection extends Component {
                                         </div>
                                     </li>
                                 </ul>
+                                <div style={{marginTop:25,width:"100%"}}><hr style={{borderTop:"#555555"}}/></div>
                             </div>
 
                         )
                     })}
-                    <Pagination onChange={this.handlepagesize} current={this.state.page} total={this.state.total}  />
+                    <Pagination onChange={this.handlepagesize} defaultCurrent={this.state.page} total={this.state.total}  />
                 </Card>
             </div>
         )

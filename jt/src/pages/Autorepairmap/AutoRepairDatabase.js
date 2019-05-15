@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {URL_Auto_repair} from '../../utils/net/Url'
 import $ from 'jquery';
-import {Card, Button, Pagination} from "antd";
+import {Card, Button, Pagination,Modal} from "antd";
 import {USER_INFO_GET} from "../../utils/storeInfo";
 
 export default class AutoRepairDatabase extends Component{
@@ -257,80 +257,78 @@ export default class AutoRepairDatabase extends Component{
             })
         }
     }
-    componentDidMount(){
-        console.log(this.props)
-        console.log(this.state)
-        this.dataajax(this.state.page,this.state.limit)
-    }
+
     render() {
         return (
             <div >
-            <Card>
-            <h1 style={{textAlign: "center"}}>汽修数据总库 </h1>
-        <p style={{textAlign: "center"}}>
-        The Coverall Dtabase for china Auto Service Industry </p>
-        <div style={{marginTop: 25}}>
-    <input className="spaninp" type="text" placeholder='省/市/自治区' ref="province"/>
-            <input className="spaninp" type="text" placeholder='城市'ref="cityId"/>
-            <Button
-        type="primary" onClick={this.rect}> 搜索 </Button>
-            <input className="spaninp" type="text" placeholder='修理厂名称'
-        style={{marginLeft: 20, width: 300}} ref="nameId"/>
-            <Button type="primary" onClick={this.query}> 搜索 </Button>
-            </div>
-        {this.state.listdata && this.state.listdata.map((item, index) => {
-            return(
+                <Card>
+                    <h1 style={{textAlign: "center"}}>汽修数据总库 </h1>
+                    <p style={{textAlign: "center"}}>
+                        The Coverall Dtabase for china Auto Service Industry </p>
+                    <div style={{marginTop: 25}}>
+                        <input className="spaninp" type="text" placeholder='省/市/自治区' ref="province"/>
+                        <input className="spaninp" type="text" placeholder='城市'ref="cityId"/>
+                        <Button
+                            type="primary" onClick={this.rect}> 搜索 </Button>
+                        <input className="spaninp" type="text" placeholder='修理厂名称'
+                               style={{marginLeft: 20, width: 300}} ref="nameId"/>
+                        <Button type="primary" onClick={this.query}> 搜索 </Button>
+                    </div>
+                    {this.state.listdata && this.state.listdata.map((item, index) => {
+                        return(
 
-                <div key={index}>
-                <ul>
-                <li style={{position: "relative",paddingLeft: 210}}>
-        <div style={{ display: 'inline-block',left: 20}}>
-        <img src={item.picture} alt="暂无图片" style={{height: 150, width: 200,position:"absolute",left: 20,top:20}}/>
-            </div>
-            <div>
+                            <div key={index}>
+                                <ul>
+                                    <li style={{position: "relative",paddingLeft: 210}}>
+                                        <div style={{ display: 'inline-block',left: 20}}>
+                                            <img src={item.picture} alt="暂无图片" style={{height: 150, width: 200,position:"absolute",left: 20,top:20}}/>
+                                        </div>
+                                        <div>
 
-            <div style={{width: "70%", display: 'inline-block',maginBotoom:200}}>
-        <div style={{width: "100%", textAlign: "right", display: 'inline-block'}}>
-        <span onClick={this.Collection.bind(this,item)}  style={{cursor:"pointer"}}> 收藏</span>
-            <span> | </span>
-            <a> 地图 </a>
-            <span> | </span>
-            <a> 附近 </a>
-            </div>
-            <div style={{paddingLeft: 50}}>
-        <div >
-            <h1 id='name' dataIndex='name' key='name'>
-                {item.name}
-                </h1>
-                </div>
-                <div>
-                <span>{item.di_tag}:</span>
-            <span>{item.opening_hour}</span>
-            </div>
-            <span>&nbsp;</span>
-            <div>
-            <span id='Province' dataIndex='Province' key='Province'>{item.Province}:</span>
-            <span id='city' dataIndex='city' key='city'>{item.city}</span>
-                <span>{item.country}</span>
-                <span>{item.adress}</span>
-                </div>
-                <span>&nbsp;</span>
-            <div>
-            <span>{item.mobile}:</span>
-            <span>{item.phone}</span>
-            </div>
-            </div>
-            </div>
-            </div>
-            </li>
-            </ul>
-            </div>
+                                            <div style={{width: "70%", display: 'inline-block',maginBotoom:200}}>
+                                                <div style={{width: "100%", textAlign: "right", display: 'inline-block'}}>
+                                                    <span onClick={this.Collection.bind(this,item)}  style={{cursor:"pointer"}}> 收藏</span>
+                                                    <span> | </span>
+                                                    <span  onClick={this.showModal} style={{cursor:"pointer"}}> 地图 </span>
 
+                                                </div>
+                                                <div style={{paddingLeft: 50}}>
+                                                    <div >
+                                                        <h1 id='name' dataIndex='name' key='name'>
+                                                            {item.name}
+                                                        </h1>
+                                                    </div>
+                                                    {item.di_tag!='Null'&&<div>
+                                                        <span>经营范围:&nbsp;{item.di_tag}</span>
+                                                    </div>}
+                                                    <span>&nbsp;</span>
+                                                    <div>
+                                                        <span>地址:&nbsp;</span>
+                                                        <span >{item.Province}</span>
+                                                        <span id='city' dataIndex='city' key='city'>{item.city}</span>
+                                                        <span>{item.country}-</span>
+                                                        <span>{item.adress}</span>
+                                                    </div>
+                                                    <span>&nbsp;</span>
+                                                    <div>
+                                                        <span>电话:</span>
+                                                        {item.di_tag!='Null'&&<span>{item.mobile},</span>}
+                                                        <span>{item.phone}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </li>
+                                </ul>
+                                <div style={{marginTop:25,width:"100%"}}><hr style={{borderTop:"#555555"}}/></div>
+                            </div>
+
+                        )
+                    })}
+                    <Pagination onChange={this.handlepagesize} defaultCurrent={this.state.page} total={this.state.total}  />
+                </Card>
+            </div>
         )
-        })}
-    <Pagination onChange={this.handlepagesize} defaultCurrent={this.state.page} total={this.state.total}  />
-        </Card>
-        </div>
-    )
     }
 }
